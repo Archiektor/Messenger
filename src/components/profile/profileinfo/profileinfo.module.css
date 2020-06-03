@@ -1,0 +1,26 @@
+.bgImg {
+    width: 100%;
+    height: 350px;
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+.profImg {
+    width: 150px;
+    height: 150px;
+    padding: 5px   ;
+}
+
+.mainInfo {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+}
+
+.item {
+    color: #417cba;
+    font-size: 1.2rem;
+}
+
+.active {
+    color: #b1691c;
+}
