@@ -1,0 +1,14 @@
+.item {
+    color: #417cba;
+    font-size: 1.2rem;
+}
+
+.active {
+    color: #9853d9;
+}
+
+.avatar {
+    border-radius: 100%;
+    width: 60px;
+    height: 60px;
+}
