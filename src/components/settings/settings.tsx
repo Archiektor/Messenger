@@ -1,11 +1,9 @@
 import React from "react";
 
-import css from "./news.module.css";
-
-const News = () => {
+const Settings = () => {
     return (
-        <div>News</div>
+        <div>Settings</div>
     )
 }
 
-export default News;
+export default Settings;

@@ -1,28 +1,21 @@
 import React from "react";
 
-import "./profile.css";
+import Myposts from "./myposts";
+import ProfileInfo from "./profileinfo";
+import {PostType} from "../../redux/state";
 
-const Profile = () => {
+type ProfileType = {
+    posts: Array<PostType>,
+    addPost: () => void,
+    newPostText: string,
+    updateNewPostText: (newText: string) => void,
+}
+
+const Profile: React.FC<ProfileType> = ({posts, addPost, newPostText, updateNewPostText}) => {
     return (
-        <div className="content">
-            <div>
-                <img
-                    src="https://cdn57.androidauthority.net/wp-content/uploads/2015/11/00-best-backgrounds-and-wallpaper-apps-for-android.jpg"
-                    alt="attract photo"/>
-            </div>
-            <div>
-                ava + description
-                <img src="https://cs11.pikabu.ru/post_img/2020/05/06/11/158879081415286768.jpg" alt=""/>
-            </div>
-            <div>
-                my posts
-                <div>new post</div>
-            </div>
-            <div>
-                div for posts
-                <div>post1</div>
-                <div>post2</div>
-            </div>
+        <div>
+            <ProfileInfo/>
+            <Myposts updateNewPostText={updateNewPostText} addPost={addPost} posts={posts} newPostText={newPostText}/>
         </div>
     )
 }

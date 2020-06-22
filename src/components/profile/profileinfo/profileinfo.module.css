@@ -1,26 +1,45 @@
 .bgImg {
     width: 100%;
-    height: 350px;
-    padding: 5px;
+    height: 200px;
     box-sizing: border-box;
+    box-shadow: -3px 3px 4px #343030;
 }
 
 .profImg {
     width: 150px;
     height: 150px;
-    padding: 5px   ;
+    border-radius: 75%;
 }
 
 .mainInfo {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
+    display: flex;
+    flex-flow: nowrap row;
+    padding: 15px 30px 25px 30px;
+    border-bottom: 1px gray solid;
+    width: 90%;
+    margin: 0 auto;
 }
 
-.item {
-    color: #417cba;
-    font-size: 1.2rem;
+.userInfo {
+    margin-left: 20px;
 }
 
-.active {
-    color: #b1691c;
+.userInfo > h2 {
+    font: 400 2.5rem 'Slabo 27px', 'Palatino Linotype', 'Times New Roman', serif;
+    color: #009d69;
+    margin: 0;
+    padding-top: 10px;
 }
+
+.userInfo > p {
+    font: 400 1.2rem 'Slabo 27px', 'Palatino Linotype', 'Times New Roman', serif;
+    color: #009d69;
+    margin: 0;
+}
+
+p:nth-child(odd) {
+    padding-top: 5px;
+    color: whitesmoke;
+}
+
+

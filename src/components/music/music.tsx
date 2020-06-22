@@ -1,11 +1,9 @@
 import React from "react";
 
-import css from "./news.module.css";
-
-const News = () => {
+const Music = () => {
     return (
-        <div>News</div>
+        <div>Music</div>
     )
 }
 
-export default News;
+export default Music;

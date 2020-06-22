@@ -1,3 +1,3 @@
-import News from "./news";
+import Settings from "./settings";
 
-export default News;
+export default Settings;

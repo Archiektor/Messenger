@@ -1,0 +1,82 @@
+.dialogs {
+    display: grid;
+    grid-template-columns: 2fr 10fr;
+    grid-template-rows: auto;
+}
+
+.ava {
+    background-image: url("https://lh3.googleusercontent.com/proxy/qq7NmJ85v6FCnel22Nl74kTG6ushnNA3e82FW2AbfTJbu_wxqLNJQEDRXVW0mWbvPoC1g6CDfB89peCXIrVeBge7wuI4YPp-zxgH3ekG8a-DU-Te_CnxbFWklLZhXscyvj8");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 25px;
+    height: 25px;
+    border-radius: 75%;
+}
+
+.msgWrapper {
+    display: grid;
+    grid-template-columns: 20px 1fr;
+    align-items: center;
+}
+
+/*
+ASK QUESTION
+*/
+.msgWrapper:nth-child(even) {
+    color: blue;
+    justify-self: right;
+}
+
+.round {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #9dbfb8;
+}
+
+/*
+ASK QUESTION
+*/
+/*.round:nth-child(even) {
+    background-color: #ad79b8
+;
+}*/
+
+.link {
+    padding-left: 5px;
+}
+
+.dialogsItems {
+    padding: 10px;
+}
+
+.dialogsItems .active {
+    color: #7b601d;
+}
+
+.dialog {
+    padding: 5px;
+}
+
+.messages {
+    padding: 10px;
+}
+
+.message {
+    font-size: 1.2rem;
+    font-style: italic;
+    margin-left: 10px;
+}
+
+.addMsg {
+    width: 200px;
+    margin-top: 10px;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    justify-content: center;
+    align-items: center;
+}
+
+
+

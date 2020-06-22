@@ -1,15 +1,39 @@
 import React from "react";
 
-import "./navbar.css";
+import cssClasses from "./navbar.module.css";
+import {NavLink} from "react-router-dom";
+import Friends from "../friends";
+import {FriendType} from "../../redux/state";
 
-const Navbar = () => {
+export type NavbarType = {
+    data: DataType
+}
+
+export type DataType = {
+    friends: Array<FriendType>
+}
+
+const Navbar: React.FC<NavbarType> = ({data}) => {
     return (
-        <nav className="nav">
-            <div><a href="#">Profile</a></div>
-            <div><a href="#">Messages</a></div>
-            <div><a href="#">News</a></div>
-            <div><a href="#">Music</a></div>
+
+        <nav className={cssClasses.nav}>
+            <div className={cssClasses.item}><NavLink activeClassName={cssClasses.activeLink}
+                                                      to="/profile">Profile</NavLink></div>
+            <div className={cssClasses.item}><NavLink activeClassName={cssClasses.activeLink}
+                                                      to="/dialogs">Messages</NavLink></div>
+            <div className={cssClasses.item}><NavLink activeClassName={cssClasses.activeLink}
+                                                      to="/news">News</NavLink>
+            </div>
+            <div className={cssClasses.item}><NavLink activeClassName={cssClasses.activeLink}
+                                                      to="/music">Music</NavLink></div>
+            <div className={cssClasses.item}><NavLink activeClassName={cssClasses.activeLink}
+                                                      to="/settings">Settings</NavLink></div>
+            <div className={cssClasses.item}><NavLink activeClassName={cssClasses.activeLink}
+                                                      to="/friends">Friends</NavLink></div>
+            <Friends data={data}/>
+
         </nav>
+
     )
 }
 

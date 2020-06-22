@@ -1,8 +1,21 @@
 .header {
     grid-area: header;
-    background-color: #8579c4;
+    display: flex;
+    align-items: center;
+    flex-flow: row nowrap;
 }
 
 .header > img {
-    max-height: 55px;
+    display: inline-block;
+    max-height: 50px;
+    padding: 5px 5px 5px 20px;
+}
+
+.header h2 {
+    /*font: font-style font-variant font-weight font-size ine-height font-family*/
+    font: 500 1.8rem 'Titillium Web', 'Helvetica', 'Arial', sans-serif;
+    color: #3E8988;
+    text-shadow: 2px 2px 5px rgba(0,0,0,1);
+    /*letter-spacing: 0.1rem;*/
+    /*font-family: 'Slabo 27px', 'Palatino Linotype', 'Times New Roman', serif;*/
 }

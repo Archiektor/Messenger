@@ -1,12 +1,29 @@
 .nav {
     grid-area: nav;
-    background-color: #79c483;
+    background-color: rgba(70, 72, 82, 0.89);
+    padding: 10px;
 }
 
 .item {
+    font: 400 1.1rem 'Slabo 27px', 'Palatino Linotype', 'Times New Roman', serif;
     color: white;
+    line-height: 25px;
+    padding: 1px 3px;
+    box-sizing: border-box;
+    border-bottom: 3px rgba(0, 0, 0, 0.56) solid;
+    margin-bottom: 8px;
+}
+.item:hover {
+    cursor: pointer;
 }
 
 a {
+    color: whitesmoke;
     text-decoration: none;
+    font-size: 1.2rem;
+}
+
+
+.activeLink {
+    color: goldenrod;
 }

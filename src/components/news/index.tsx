@@ -1,3 +1,3 @@
-import Dialogs from "./dialogs";
+import News from "./news";
 
-export default Dialogs;
+export default News;

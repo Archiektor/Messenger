@@ -1,3 +1,3 @@
-import News from "./news";
+import Music from "./music";
 
-export default News;
+export default Music;

@@ -1,0 +1,32 @@
+
+.friendsWrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-content: space-between;
+    margin-top: 15px;
+    /*border: 2px solid darkviolet;*/
+}
+
+.oneFriendWrapper {
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    padding: 3px;
+}
+
+.oneFriendPicture {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: url("../icons/person.png") no-repeat center/cover;
+}
+
+.oneFriendPicture {
+    background-color: #009D69;
+}
+
+.oneFriendName {
+    color: wheat;
+    font: 400 1.0rem 'Slabo 27px', 'Palatino Linotype', 'Times New Roman', serif;
+
+}

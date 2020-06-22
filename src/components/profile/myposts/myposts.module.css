@@ -1,14 +1,21 @@
-.item {
-    color: #417cba;
-    font-size: 1.2rem;
+.postsBlock {
+    padding: 10px;
 }
 
-.active {
-    color: #9853d9;
+.posts {
+    margin-top: 10px;
 }
 
-.avatar {
-    border-radius: 100%;
-    width: 60px;
-    height: 60px;
+.addPostBlock {
+    width: 95%;
+    margin: 0 auto;
+    border-bottom: 1px gray solid;
+    padding: 0 15px 25px 15px;
 }
+
+.addPostBlock>h3 {
+    margin: 0;
+    padding: 3px;
+}
+
+
