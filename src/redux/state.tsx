@@ -1,5 +1,17 @@
 import {v1} from "uuid";
-import {rerenderEntireTree} from "../render";
+import {AppType} from "../index";
+
+let rerenderEntireTree = (state: AppType) => {
+    console.log("State changed");
+}
+
+type SubscribeType = {
+    subscribe: () => void
+}
+
+export const subscribe = (observer: (state: AppType) => void) => {
+    rerenderEntireTree = observer;
+}
 
 export type DialogType = {
     key: string,
