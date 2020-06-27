@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/Archiektor/Messenger/static/css/main.8b0b94f4.chunk.css",
+    "main.js": "/Archiektor/Messenger/static/js/main.4f6d0913.chunk.js",
+    "main.js.map": "/Archiektor/Messenger/static/js/main.4f6d0913.chunk.js.map",
+    "runtime-main.js": "/Archiektor/Messenger/static/js/runtime-main.999b4ec0.js",
+    "runtime-main.js.map": "/Archiektor/Messenger/static/js/runtime-main.999b4ec0.js.map",
+    "static/js/2.6fcfcbf0.chunk.js": "/Archiektor/Messenger/static/js/2.6fcfcbf0.chunk.js",
+    "static/js/2.6fcfcbf0.chunk.js.map": "/Archiektor/Messenger/static/js/2.6fcfcbf0.chunk.js.map",
+    "index.html": "/Archiektor/Messenger/index.html",
+    "precache-manifest.48083cebf8aceec7f6152ffa6387f07f.js": "/Archiektor/Messenger/precache-manifest.48083cebf8aceec7f6152ffa6387f07f.js",
+    "service-worker.js": "/Archiektor/Messenger/service-worker.js",
+    "static/css/main.8b0b94f4.chunk.css.map": "/Archiektor/Messenger/static/css/main.8b0b94f4.chunk.css.map",
+    "static/js/2.6fcfcbf0.chunk.js.LICENSE.txt": "/Archiektor/Messenger/static/js/2.6fcfcbf0.chunk.js.LICENSE.txt",
+    "static/media/friends.module.css": "/Archiektor/Messenger/static/media/person.f215c6c7.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.999b4ec0.js",
+    "static/js/2.6fcfcbf0.chunk.js",
+    "static/css/main.8b0b94f4.chunk.css",
+    "static/js/main.4f6d0913.chunk.js"
+  ]
+}
