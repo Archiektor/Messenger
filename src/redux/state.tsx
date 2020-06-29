@@ -29,17 +29,13 @@ export type FriendType = {
 export type ActionType = {
     type: string,
     newText?: string,
+    newMsg?: string,
 }
 
 type StoreType = {
     _state: AppType,
     getState: () => AppType,
     _callSubsriber: (state: AppType) => void,
-    // addPost: () => void,
-    // updateNewPostText: (str: string) => void,
-    addMessage: () => void,
-    updateNewMessageText: (str: string) => void,
-    // subscribe: (observer: (state: AppType)) => void
     subscribe: (observer: any) => void,
     dispatch: (action: ActionType) => void,
 }
@@ -96,58 +92,43 @@ let store: StoreType = {
         // debugger;
     },
 
-/*    addPost() {
-        let modPosts;
-        modPosts = [...this._state.profilePage.posts, {
-            id: v1(),
-            message: this._state.profilePage.newPostText,
-            likesCount: 0
-        }]
-        this._state.profilePage.posts = modPosts;
-        this._state.profilePage.newPostText = "";
-        this._callSubsriber(this._state);
-    },
-    updateNewPostText(newText: string) {
-        this._state.profilePage.newPostText = newText;
-        this._callSubsriber(this._state);
-    },*/
-    addMessage() {
-        let modMessages;
-        modMessages = [...this._state.messagesPage.messages, {
-            id: v1(),
-            text: this._state.messagesPage.newMessageText
-        }]
-        this._state.messagesPage.messages = modMessages;
-        this._state.messagesPage.newMessageText = "";
-        this._callSubsriber(this._state)
-    },
-    updateNewMessageText(newMsg: string) {
-        this._state.messagesPage.newMessageText = newMsg;
-        this._callSubsriber(this._state);
-    },
     dispatch(action) {
         // dispatch => send Object {type: "ADD-POST"}
         // switch case or assoative array
-        if(action.type === "ADD-POST"){
-            let modPosts;
-            modPosts = [...this._state.profilePage.posts, {
-                id: v1(),
-                message: this._state.profilePage.newPostText,
-                likesCount: 0
-            }]
-            this._state.profilePage.posts = modPosts;
-            this._state.profilePage.newPostText = "";
-            this._callSubsriber(this._state);
+        switch (action.type) {
+            case "ADD-POST":
+                let modPosts;
+                modPosts = [...this._state.profilePage.posts, {
+                    id: v1(),
+                    message: this._state.profilePage.newPostText,
+                    likesCount: 0
+                }]
+                this._state.profilePage.posts = modPosts;
+                this._state.profilePage.newPostText = "";
+                this._callSubsriber(this._state);
+                break;
+            case "UPDATE-NEW-POST-TEXT":
+                if (action.newText != null) {
+                    this._state.profilePage.newPostText = action.newText;
+                }
+                this._callSubsriber(this._state);
+                break;
+            case "ADD-MESSAGE":
+                let modMessages;
+                modMessages = [...this._state.messagesPage.messages, {
+                    id: v1(),
+                    text: this._state.messagesPage.newMessageText,
+                }]
+                this._state.messagesPage.messages = modMessages;
+                this._state.messagesPage.newMessageText = "";
+                this._callSubsriber(this._state);
+                break;
+            case "Update-New-Message-Text":
+                if (action.newMsg != null) {
+                    this._state.messagesPage.newMessageText = action.newMsg;
+                }
+                this._callSubsriber(this._state);
         }
-        if(action.type === "UPDATE-NEW-POST-TEXT"){
-            //enclose
-            if (action.newText != null) {
-                this._state.profilePage.newPostText = action.newText;
-            }
-            this._callSubsriber(this._state);
-        }
-
-
     }
 }
 

@@ -3,7 +3,7 @@ import React, {ChangeEvent} from "react";
 import css from "./dialogs.module.css";
 import DialogItem from "./dialogitem/dialogitem";
 import Message from "./message/message";
-import {DialogType, MessageType} from "../../redux/state";
+import {ActionType, DialogType, MessageType} from "../../redux/state";
 
 type PropsType = {
     data: {
@@ -11,11 +11,12 @@ type PropsType = {
         messages: Array<MessageType>,
         newMessageText: string,
     },
-    updateNewMessageText: (text: string) => void,
-    addMessage: () => void,
+    dispatch: (action: ActionType) => void,
+    // updateNewMessageText: (text: string) => void,
+    // addMessage: () => void,
 }
 
-const Dialogs: React.FC<PropsType> = ({data, addMessage, updateNewMessageText}) => {
+const Dialogs: React.FC<PropsType> = ({data, dispatch}) => {
 
     let dialogsElements = data.dialogs.map((dialog) => {
         const {key, name, id} = dialog;
@@ -31,13 +32,14 @@ const Dialogs: React.FC<PropsType> = ({data, addMessage, updateNewMessageText}) 
 
 
     const addMessageHandler = () => {
-        addMessage();
+        // addMessage();
+        dispatch({type: "ADD-MESSAGE"})
     }
 
     const modifyMessageHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
         let message = e.currentTarget.value;
-        // console.log(message);
-        updateNewMessageText(message);
+        // updateNewMessageText(message);
+        dispatch({type: "Update-New-Message-Text", newMsg: message})
     }
 
     return (

@@ -34,32 +34,35 @@ export type AppType = {
     // addPost: () => void,
     // updateNewPostText: (newText: string) => void,
     dispatch: (action: ActionType) => void,
-    addMessage: () => void,
-    updateNewMessageText: (text: string) => void,
+    // addMessage: () => void,
+    // updateNewMessageText: (text: string) => void,
 }
 
 const App: React.FC<AppType> = (props) => {
     const {profilePage, messagesPage, friendsPage} = props.state;
 
     return (
-            <div className="app-wrapper">
-                <Header/>
-                <Navbar data={friendsPage}/>
-                <div className="app-wrapper-content">
-                    <Route path='/profile' render={() => <Profile
-                        dispatch={props.dispatch}
-                        // updateNewPostText={props.updateNewPostText}
-                        newPostText={profilePage.newPostText}
-                        posts={profilePage.posts}/>}/>
+        <div className="app-wrapper">
+            <Header/>
+            <Navbar data={friendsPage}/>
+            <div className="app-wrapper-content">
+                <Route path='/profile' render={() => <Profile
+                    dispatch={props.dispatch}
+                    // updateNewPostText={props.updateNewPostText}
+                    newPostText={profilePage.newPostText}
+                    posts={profilePage.posts}/>}/>
 
-                    <Route path='/dialogs' render={() => <Dialogs
-                        data={messagesPage} addMessage={props.addMessage}
-                        updateNewMessageText={props.updateNewMessageText}/>}/>
-                    <Route path='/news' render={() => <News/>}/>
-                    <Route path='/music' render={() => <Music/>}/>
-                    <Route path='/settings' render={() => <Settings/>}/>
-                </div>
+                <Route path='/dialogs' render={() => <Dialogs
+                    data={messagesPage}
+                    dispatch={props.dispatch}
+                    // addMessage={props.addMessage}
+                    // updateNewMessageText={props.updateNewMessageText}
+                />}/>
+                <Route path='/news' render={() => <News/>}/>
+                <Route path='/music' render={() => <Music/>}/>
+                <Route path='/settings' render={() => <Settings/>}/>
             </div>
+        </div>
     )
 }
 
