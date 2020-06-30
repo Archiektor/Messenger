@@ -92,7 +92,6 @@ let store: StoreType = {
     },
 
     dispatch(action) {
-        // dispatch => send Object {type: "ADD-POST"}
         this._state.profilePage = profileReducer(this._state.profilePage, action);
         this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action);
         this._state.friendsPage = friendsReducer(this._state.friendsPage, action);

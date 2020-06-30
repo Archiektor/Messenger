@@ -33,13 +33,11 @@ const profileReducer = (partOfState: ProfilePage = initialState, action: ActionT
             }]
             partOfState.posts = modPosts;
             partOfState.newPostText = "";
-            // this._callSubsriber(this._state);
             return partOfState;
         case UPDATE_NEW_POST_TEXT:
-            if (action.newText != null) {
+            if (action.newText) {
                 partOfState.newPostText = action.newText;
             }
-            // this._callSubsriber(this._state);
             return partOfState;
         default:
             return partOfState;

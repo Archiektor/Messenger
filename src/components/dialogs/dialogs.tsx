@@ -3,12 +3,7 @@ import React, {ChangeEvent} from "react";
 import css from "./dialogs.module.css";
 import DialogItem from "./dialogitem/dialogitem";
 import Message from "./message/message";
-import {
-    ActionType,
-    DialogType,
-    MessageType,
-} from "../../redux/store";
-import {AddMessageActionCreator, UpdatenewMessageTextActionCreator} from "../../redux/dialogs-reducer";
+import {DialogType, MessageType,} from "../../redux/store";
 
 type PropsType = {
     data: {
@@ -16,10 +11,10 @@ type PropsType = {
         messages: Array<MessageType>,
         newMessageText: string,
     },
-    dispatch: (action: ActionType) => void,
+    addMessage: () => void,
+    updateNewMessageText: (str: string) => void,
 }
-
-const Dialogs: React.FC<PropsType> = ({data, dispatch}) => {
+const Dialogs: React.FC<PropsType> = ({data, addMessage, updateNewMessageText}) => {
 
     let dialogsElements = data.dialogs.map((dialog) => {
         const {key, name, id} = dialog;
@@ -35,14 +30,12 @@ const Dialogs: React.FC<PropsType> = ({data, dispatch}) => {
 
 
     const addMessageHandler = () => {
-        // addMessage();
-        dispatch(AddMessageActionCreator())
+        addMessage();
     }
 
     const modifyMessageHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
         let message = e.currentTarget.value;
-        // updateNewMessageText(message);
-        dispatch(UpdatenewMessageTextActionCreator(message))
+        updateNewMessageText(message);
     }
 
     return (
@@ -53,7 +46,8 @@ const Dialogs: React.FC<PropsType> = ({data, dispatch}) => {
             <div className={css.messages}>
                 {messageElements}
                 <div className={css.addMsg}>
-                    <textarea placeholder={`Enter your message`} value={data.newMessageText} onChange={modifyMessageHandler}/>
+                    <textarea placeholder={`Enter your message`} value={data.newMessageText}
+                              onChange={modifyMessageHandler}/>
                     <button onClick={addMessageHandler}>add message</button>
                 </div>
             </div>
@@ -62,3 +56,4 @@ const Dialogs: React.FC<PropsType> = ({data, dispatch}) => {
 }
 
 export default Dialogs;
+

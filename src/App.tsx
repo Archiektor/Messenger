@@ -4,13 +4,14 @@ import {Route} from "react-router-dom"
 import "./app.css";
 import Header from "./components/header";
 import Navbar from "./components/navbar";
-import Dialogs from "./components/dialogs";
 import Profile from "./components/profile";
 import News from "./components/news";
 import Music from "./components/music";
 import Settings from "./components/settings";
 import {ActionType, DialogType, FriendType, MessageType, PostType} from "./redux/store"
-import {AppStateType, AppStateType2} from "./redux/redux-store";
+import {AppStateType} from "./redux/redux-store";
+import DialogsContainer from "./components/dialogs/dialogsContainer";
+import {Store} from "redux";
 
 export type ProfilePage = {
     posts: Array<PostType>,
@@ -26,12 +27,14 @@ export type FriendsPage = {
 }
 
 type PropsType = {
-    state: AppStateType2,
+    state: AppStateType,
     dispatch: (action: ActionType) => void,
+    store: Store,
 }
 
 const App: React.FC<PropsType> = (props) => {
-    const {profilePage, dialogsPage, friendsPage} = props.state;
+    // debugger;
+    const {friendsPage} = props.state;
 
     return (
         <div className="app-wrapper">
@@ -39,13 +42,11 @@ const App: React.FC<PropsType> = (props) => {
             <Navbar data={friendsPage}/>
             <div className="app-wrapper-content">
                 <Route path='/profile' render={() => <Profile
-                    dispatch={props.dispatch}
-                    newPostText={profilePage.newPostText}
-                    posts={profilePage.posts}/>}/>
+                    store={props.store}
+                />}/>
 
-                <Route path='/dialogs' render={() => <Dialogs
-                    data={dialogsPage}
-                    dispatch={props.dispatch}
+                <Route path='/dialogs' render={() => <DialogsContainer
+                    store={props.store}
                 />}/>
                 <Route path='/news' render={() => <News/>}/>
                 <Route path='/music' render={() => <Music/>}/>
