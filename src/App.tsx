@@ -9,7 +9,8 @@ import Profile from "./components/profile";
 import News from "./components/news";
 import Music from "./components/music";
 import Settings from "./components/settings";
-import {ActionType, DialogType, FriendType, MessageType, PostType} from  "./redux/store"
+import {ActionType, DialogType, FriendType, MessageType, PostType} from "./redux/store"
+import {AppStateType, AppStateType2} from "./redux/redux-store";
 
 export type ProfilePage = {
     posts: Array<PostType>,
@@ -20,21 +21,16 @@ export type DialogsPage = {
     dialogs: Array<DialogType>,
     newMessageText: string,
 }
-
 export type FriendsPage = {
     friends: Array<FriendType>
 }
 
-export type AppType = {
-    state: {
-        profilePage: ProfilePage,
-        dialogsPage: DialogsPage,
-        friendsPage: FriendsPage
-    },
+type PropsType = {
+    state: AppStateType2,
     dispatch: (action: ActionType) => void,
 }
 
-const App: React.FC<AppType> = (props) => {
+const App: React.FC<PropsType> = (props) => {
     const {profilePage, dialogsPage, friendsPage} = props.state;
 
     return (

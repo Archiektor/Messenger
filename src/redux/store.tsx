@@ -1,12 +1,9 @@
 import {v1} from "uuid";
-import {StateType} from "../index";
+// import {StateType} from "../index";
 import profileReducer from "./profile-reducer";
 import dialogsReducer from "./dialogs-reducer";
 import friendsReducer from "./friends-reducer";
-
-/*type SubscribeType = {
-    subscribe: () => void
-}*/
+import {AppStateType, AppStateType2} from "./redux-store";
 
 export type DialogType = {
     key: string,
@@ -36,9 +33,9 @@ export type ActionType = {
 }
 
 type StoreType = {
-    _state: StateType,
-    getState: () => StateType,
-    _callSubsriber: (state: StateType) => void,
+    _state: AppStateType2,
+    getState: () => AppStateType2,
+    _callSubsriber: (state: AppStateType2) => void,
     subscribe: (observer: any) => void,
     dispatch: (action: ActionType) => void,
 }
@@ -83,20 +80,19 @@ let store: StoreType = {
                 {id: v1(), name: "Agnes", age: 15, picture: "#"}],
         }
     },
-    _callSubsriber(state: StateType) {
+    _callSubsriber(state: AppStateType2) {
         console.log("State changed");
     },
 
     getState() {
         return this._state;
     },
-    subscribe(observer: (state: StateType) => void) {
+    subscribe(observer: (state: AppStateType2) => void) {
         this._callSubsriber = observer;
     },
 
     dispatch(action) {
         // dispatch => send Object {type: "ADD-POST"}
-        // switch case or assoative array
         this._state.profilePage = profileReducer(this._state.profilePage, action);
         this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action);
         this._state.friendsPage = friendsReducer(this._state.friendsPage, action);
