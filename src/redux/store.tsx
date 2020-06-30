@@ -1,5 +1,8 @@
 import {v1} from "uuid";
-import {AppType} from "../index";
+import {StateType} from "../index";
+import profileReducer from "./profile-reducer";
+import dialogsReducer from "./dialogs-reducer";
+import friendsReducer from "./friends-reducer";
 
 /*type SubscribeType = {
     subscribe: () => void
@@ -33,9 +36,9 @@ export type ActionType = {
 }
 
 type StoreType = {
-    _state: AppType,
-    getState: () => AppType,
-    _callSubsriber: (state: AppType) => void,
+    _state: StateType,
+    getState: () => StateType,
+    _callSubsriber: (state: StateType) => void,
     subscribe: (observer: any) => void,
     dispatch: (action: ActionType) => void,
 }
@@ -45,19 +48,19 @@ let store: StoreType = {
         profilePage: {
             posts: [
                 {id: v1(), message: `Hi, how are you ?`, likesCount: 12},
-                {id: v1(), message: `Ccom man, wtf ?`, likesCount: 5},
-                {id: v1(), message: `I'm a little pussy`, likesCount: 4},
-                {id: v1(), message: `post#4`, likesCount: 13},
-                {id: v1(), message: `post#5`, likesCount: 0},
+                {id: v1(), message: `Coffin dance ?`, likesCount: 5},
+                {id: v1(), message: `I'm too bored`, likesCount: 2},
+                {id: v1(), message: `Goint to night fish`, likesCount: 13},
+                {id: v1(), message: `Courage`, likesCount: 0},
             ],
             newPostText: "",
         },
-        messagesPage: {
+        dialogsPage: {
             messages: [
                 {id: v1(), text: "Hello"},
                 {id: v1(), text: `WTF i'm doing here...`},
                 {id: v1(), text: `Alahabara`},
-                {id: v1(), text: `For courage`},
+                {id: v1(), text: `For glory`},
                 {id: v1(), text: `Soft kitty`},
             ],
             dialogs: [
@@ -80,58 +83,27 @@ let store: StoreType = {
                 {id: v1(), name: "Agnes", age: 15, picture: "#"}],
         }
     },
-    _callSubsriber(state: AppType) {
+    _callSubsriber(state: StateType) {
         console.log("State changed");
     },
 
     getState() {
         return this._state;
     },
-    subscribe(observer: (state: AppType) => void) {
+    subscribe(observer: (state: StateType) => void) {
         this._callSubsriber = observer;
-        // debugger;
     },
 
     dispatch(action) {
         // dispatch => send Object {type: "ADD-POST"}
         // switch case or assoative array
-        switch (action.type) {
-            case "ADD-POST":
-                let modPosts;
-                modPosts = [...this._state.profilePage.posts, {
-                    id: v1(),
-                    message: this._state.profilePage.newPostText,
-                    likesCount: 0
-                }]
-                this._state.profilePage.posts = modPosts;
-                this._state.profilePage.newPostText = "";
-                this._callSubsriber(this._state);
-                break;
-            case "UPDATE-NEW-POST-TEXT":
-                if (action.newText != null) {
-                    this._state.profilePage.newPostText = action.newText;
-                }
-                this._callSubsriber(this._state);
-                break;
-            case "ADD-MESSAGE":
-                let modMessages;
-                modMessages = [...this._state.messagesPage.messages, {
-                    id: v1(),
-                    text: this._state.messagesPage.newMessageText,
-                }]
-                this._state.messagesPage.messages = modMessages;
-                this._state.messagesPage.newMessageText = "";
-                this._callSubsriber(this._state);
-                break;
-            case "Update-New-Message-Text":
-                if (action.newMsg != null) {
-                    this._state.messagesPage.newMessageText = action.newMsg;
-                }
-                this._callSubsriber(this._state);
-        }
+        this._state.profilePage = profileReducer(this._state.profilePage, action);
+        this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action);
+        this._state.friendsPage = friendsReducer(this._state.friendsPage, action);
+
+        this._callSubsriber(this._state);
     }
 }
-
 
 export default store;
 // !!! window.store = store;

@@ -1,9 +1,8 @@
 import React from "react";
 
 import css from "./friends.module.css";
-import {FriendType} from "../../redux/state";
+import {FriendType} from "../../redux/store";
 import {NavbarType} from "../navbar/navbar";
-import avatar from "../icons/person.png";
 
 const renderFriends = (arr: Array<FriendType>) => {
     return arr.map(friend => {

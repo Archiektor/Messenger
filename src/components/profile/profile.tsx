@@ -2,7 +2,7 @@ import React from "react";
 
 import Myposts from "./myposts";
 import ProfileInfo from "./profileinfo";
-import {ActionType, PostType} from "../../redux/state";
+import {ActionType, PostType} from "../../redux/store";
 
 type ProfileType = {
     posts: Array<PostType>,
@@ -17,7 +17,6 @@ const Profile: React.FC<ProfileType> = ({posts, dispatch, newPostText}) => {
     return (
         <div>
             <ProfileInfo/>
-            {/*<Myposts updateNewPostText={updateNewPostText} addPost={addPost} posts={posts} newPostText={newPostText}/>*/}
             <Myposts dispatch={dispatch} posts={posts} newPostText={newPostText}/>
         </div>
     )

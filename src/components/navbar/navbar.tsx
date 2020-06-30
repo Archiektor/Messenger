@@ -3,7 +3,7 @@ import React from "react";
 import cssClasses from "./navbar.module.css";
 import {NavLink} from "react-router-dom";
 import Friends from "../friends";
-import {FriendType} from "../../redux/state";
+import {FriendType} from "../../redux/store";
 
 export type NavbarType = {
     data: DataType

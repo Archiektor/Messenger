@@ -3,7 +3,12 @@ import React, {ChangeEvent} from "react";
 import css from "./dialogs.module.css";
 import DialogItem from "./dialogitem/dialogitem";
 import Message from "./message/message";
-import {ActionType, DialogType, MessageType} from "../../redux/state";
+import {
+    ActionType,
+    DialogType,
+    MessageType,
+} from "../../redux/store";
+import {AddMessageActionCreator, UpdatenewMessageTextActionCreator} from "../../redux/dialogs-reducer";
 
 type PropsType = {
     data: {
@@ -12,8 +17,6 @@ type PropsType = {
         newMessageText: string,
     },
     dispatch: (action: ActionType) => void,
-    // updateNewMessageText: (text: string) => void,
-    // addMessage: () => void,
 }
 
 const Dialogs: React.FC<PropsType> = ({data, dispatch}) => {
@@ -33,13 +36,13 @@ const Dialogs: React.FC<PropsType> = ({data, dispatch}) => {
 
     const addMessageHandler = () => {
         // addMessage();
-        dispatch({type: "ADD-MESSAGE"})
+        dispatch(AddMessageActionCreator())
     }
 
     const modifyMessageHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
         let message = e.currentTarget.value;
         // updateNewMessageText(message);
-        dispatch({type: "Update-New-Message-Text", newMsg: message})
+        dispatch(UpdatenewMessageTextActionCreator(message))
     }
 
     return (
@@ -50,7 +53,7 @@ const Dialogs: React.FC<PropsType> = ({data, dispatch}) => {
             <div className={css.messages}>
                 {messageElements}
                 <div className={css.addMsg}>
-                    <textarea value={data.newMessageText} onChange={modifyMessageHandler}/>
+                    <textarea placeholder={`Enter your message`} value={data.newMessageText} onChange={modifyMessageHandler}/>
                     <button onClick={addMessageHandler}>add message</button>
                 </div>
             </div>
