@@ -1,14 +1,15 @@
 import React from "react";
 import {AddMessageActionCreator, UpdatenewMessageTextActionCreator} from "../../redux/dialogs-reducer";
 import Dialogs from "./dialogs";
-import {Store} from "redux";
+import StoreContext from "../../StoreContext";
 
 type PropsType = {
-    store: Store,
 }
 
 const DialogsContainer: React.FC<PropsType> = (props) => {
-    const {dispatch, getState} = props.store;
+    const store = React.useContext(StoreContext);
+
+    const {dispatch, getState} = store;
     const state = getState();
     const data = {
         dialogs: state.dialogsPage.dialogs,
