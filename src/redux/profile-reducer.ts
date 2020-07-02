@@ -23,22 +23,27 @@ let initialState = {
 }
 
 const profileReducer = (partOfState: ProfilePage = initialState, action: ActionType): ProfilePage => {
+    let partOfStateCopy: ProfilePage;
     switch (action.type) {
-        case ADD_POST:
-            let modPosts;
-            modPosts = [...partOfState.posts, {
-                id: v1(),
-                message: partOfState.newPostText,
-                likesCount: 0
-            }]
-            partOfState.posts = modPosts;
-            partOfState.newPostText = "";
-            return partOfState;
-        case UPDATE_NEW_POST_TEXT:
+        case ADD_POST: {
+            partOfStateCopy = {...partOfState, posts: [...partOfState.posts],};
+            /*            let modPosts;
+                        modPosts = [...partOfState.posts, {
+                            id: v1(),
+                            message: partOfStateCopy.newPostText,
+                            likesCount: 0
+                        }]*/
+            partOfStateCopy.posts = [...partOfStateCopy.posts, {id: v1(), message: partOfStateCopy.newPostText, likesCount: 0}];
+            partOfStateCopy.newPostText = "";
+            return partOfStateCopy;
+        }
+        case UPDATE_NEW_POST_TEXT: {
+            partOfStateCopy = {...partOfState};
             if (action.newText) {
-                partOfState.newPostText = action.newText;
+                partOfStateCopy.newPostText = action.newText;
             }
-            return partOfState;
+            return partOfStateCopy;
+        }
         default:
             return partOfState;
     }

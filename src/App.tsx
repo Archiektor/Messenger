@@ -9,7 +9,7 @@ import News from "./components/news";
 import Music from "./components/music";
 import Settings from "./components/settings";
 import {DialogType, FriendType, MessageType, PostType} from "./redux/store"
-import {AppStateType} from "./redux/redux-store";
+import store, {AppStateType} from "./redux/redux-store";
 import DialogsContainer from "./components/dialogs/dialogsContainer";
 
 export type ProfilePage = {
@@ -26,12 +26,12 @@ export type FriendsPage = {
 }
 
 type PropsType = {
-    state: AppStateType,
+    // state: AppStateType,
 }
 
 const App: React.FC<PropsType> = (props) => {
     // debugger;
-    const {friendsPage} = props.state;
+    const {friendsPage} = store.getState();
 
     return (
         <div className="app-wrapper">

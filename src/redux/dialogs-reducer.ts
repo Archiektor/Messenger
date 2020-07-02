@@ -32,23 +32,23 @@ let initialState = {
 }
 
 const dialogsReducer = (partOfState: DialogsPage = initialState, action: ActionType): DialogsPage => {
+    let partOfStateCopy: DialogsPage;
     switch (action.type) {
-        case ADD_MESSAGE:
-            let modMessages;
-            modMessages = [...partOfState.messages, {
-                id: v1(),
-                text: partOfState.newMessageText,
-            }]
-            partOfState.messages = modMessages;
-            partOfState.newMessageText = "";
+        case ADD_MESSAGE: {
+            partOfStateCopy = {...partOfState, messages: [...partOfState.messages],};
+            partOfStateCopy.messages = [...partOfStateCopy.messages, {id: v1(), text: partOfStateCopy.newMessageText,}];
+            partOfStateCopy.newMessageText = "";
             // this._callSubsriber(this._state);
-            return partOfState;
-        case UPDATE_NEW_MESSAGE_TEXT:
-            if (action.newMsg != null) {
-                partOfState.newMessageText = action.newMsg;
+            return partOfStateCopy;
+        }
+        case UPDATE_NEW_MESSAGE_TEXT: {
+            partOfStateCopy = {...partOfState,}
+            if (action.newMsg) {
+                partOfStateCopy.newMessageText = action.newMsg;
             }
             // this._callSubsriber(this._state);
-            return partOfState;
+            return partOfStateCopy;
+        }
         default:
             return partOfState;
     }

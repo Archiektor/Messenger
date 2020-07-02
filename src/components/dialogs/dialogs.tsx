@@ -4,24 +4,28 @@ import css from "./dialogs.module.css";
 import DialogItem from "./dialogitem/dialogitem";
 import Message from "./message/message";
 import {DialogType, MessageType,} from "../../redux/store";
+import {DialogsPage} from "../../App";
 
 type PropsType = {
-    data: {
-        dialogs: Array<DialogType>,
-        messages: Array<MessageType>,
-        newMessageText: string,
-    },
+    dialogsPage: DialogsPage,
+    /*    data: {
+            dialogs: Array<DialogType>,
+            messages: Array<MessageType>,
+            newMessageText: string,
+        },*/
     addMessage: () => void,
     updateNewMessageText: (str: string) => void,
 }
-const Dialogs: React.FC<PropsType> = ({data, addMessage, updateNewMessageText}) => {
+const Dialogs: React.FC<PropsType> = ({dialogsPage, addMessage, updateNewMessageText}) => {
+    // debugger;
 
-    let dialogsElements = data.dialogs.map((dialog) => {
+
+    let dialogsElements = dialogsPage.dialogs.map((dialog) => {
         const {key, name, id} = dialog;
         return (<DialogItem name={name} id={id} key={key}/>)
     })
 
-    let messageElements = data.messages.map((message) => {
+    let messageElements = dialogsPage.messages.map((message) => {
         const {text, id: key} = message;
         return (
             <Message text={text} key={key}/>
@@ -35,6 +39,7 @@ const Dialogs: React.FC<PropsType> = ({data, addMessage, updateNewMessageText}) 
 
     const modifyMessageHandler = (e: ChangeEvent<HTMLTextAreaElement>) => {
         let message = e.currentTarget.value;
+        // debugger;
         updateNewMessageText(message);
     }
 
@@ -46,7 +51,7 @@ const Dialogs: React.FC<PropsType> = ({data, addMessage, updateNewMessageText}) 
             <div className={css.messages}>
                 {messageElements}
                 <div className={css.addMsg}>
-                    <textarea placeholder={`Enter your message`} value={data.newMessageText}
+                    <textarea placeholder={`Enter your message`} value={dialogsPage.newMessageText}
                               onChange={modifyMessageHandler}/>
                     <button onClick={addMessageHandler}>add message</button>
                 </div>

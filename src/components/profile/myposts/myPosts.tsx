@@ -3,15 +3,18 @@ import React, {ChangeEvent} from "react";
 import css from "./myposts.module.css";
 import Post from "../post";
 import {PostType} from "../../../redux/store";
+import {ProfilePage} from "../../../App";
 
 type MyPostsType = {
+    // profilePage: ProfilePage,
     posts: Array<PostType>,
+    newPostText: string,
     addPost: () => void,
     updateNewPostText: (str: string) => void,
-    newPostText: string,
 }
 
 const MyPosts: React.FC<MyPostsType> = ({posts, addPost, updateNewPostText, newPostText}) => {
+    console.log()
     let postElements = posts.map((post) => {
         return (
             <Post message={post.message} likesCount={post.likesCount} key={post.id}/>
