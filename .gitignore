@@ -6,6 +6,7 @@
 /.pnp
 .pnp.js
 
+
 # testing
 /coverage
 /test
@@ -27,3 +28,5 @@ yarn-error.log*
 
 package-lock.json
 jest.config.js
+./src/assets
+

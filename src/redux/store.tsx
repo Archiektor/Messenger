@@ -4,6 +4,7 @@ import profileReducer from "./profile-reducer";
 import dialogsReducer from "./dialogs-reducer";
 import friendsReducer from "./friends-reducer";
 import {AppStateType, AppStateType2} from "./redux-store";
+import {UserType} from "./users-reducer";
 
 export type DialogType = {
     key: string,
@@ -30,6 +31,8 @@ export type ActionType = {
     type: string,
     newText?: string,
     newMsg?: string,
+    userId?: string,
+    users?: Array<UserType>,
 }
 
 type StoreType = {

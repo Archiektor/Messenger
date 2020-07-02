@@ -9,8 +9,9 @@ import News from "./components/news";
 import Music from "./components/music";
 import Settings from "./components/settings";
 import {DialogType, FriendType, MessageType, PostType} from "./redux/store"
-import store, {AppStateType} from "./redux/redux-store";
+import store from "./redux/redux-store";
 import DialogsContainer from "./components/dialogs/dialogsContainer";
+import UsersContainer from "./components/users/UsersContainer";
 
 export type ProfilePage = {
     posts: Array<PostType>,
@@ -26,10 +27,9 @@ export type FriendsPage = {
 }
 
 type PropsType = {
-    // state: AppStateType,
 }
 
-const App: React.FC<PropsType> = (props) => {
+const App: React.FC<PropsType> = () => {
     // debugger;
     const {friendsPage} = store.getState();
 
@@ -41,6 +41,9 @@ const App: React.FC<PropsType> = (props) => {
                 <Route path='/profile' render={() => <Profile/>}/>
 
                 <Route path='/dialogs' render={() => <DialogsContainer/>}/>
+
+                <Route path='/users' render={() => <UsersContainer/>}/>
+
                 <Route path='/news' render={() => <News/>}/>
                 <Route path='/music' render={() => <Music/>}/>
                 <Route path='/settings' render={() => <Settings/>}/>

@@ -4,7 +4,6 @@ import Dialogs from "./dialogs";
 import {connect} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
 import {Dispatch} from "redux";
-import {ActionType} from "../../redux/store";
 
 /*const DialogsContainer: React.FC<PropsType> = (props) => {
     const store = React.useContext(StoreContext);

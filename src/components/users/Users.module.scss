@@ -1,0 +1,64 @@
+@import "./src/sass/variables/variables";
+
+.wrapper {
+  display: grid;
+  grid-template-columns: 1fr 6fr;
+  grid-column-gap: 10px;
+  background-color: #f3bd9c;
+  width: 95%;
+  margin: 10px auto;
+  align-items: center;
+  border: 2px black solid;
+  clip-path: polygon(0% 0%, 100% 0, 100% 50%, 93% 100%, 0% 100%);
+}
+
+.avaBlock {
+  //border: black 4px solid;
+  @include flexDirection(column);
+  align-items: center;
+  height: 120px;
+
+  img {
+    width: 80px;
+    height: 80px;
+    border-radius: 15px;
+  }
+
+  button {
+    margin-top: 5px;
+    width: 120px;
+    height: 30px;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    font-weight: getWeight(bold);
+    color: $violetcolor;
+    background-color: #e1f37a;
+    cursor: pointer;
+  }
+
+}
+
+.userBlock {
+  position: relative;
+  //border: #6f1313 4px solid;
+  height: 120px;
+  @include flexDirection(row);
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 10px;
+
+  &__name {
+    color: black;
+    font-size: 1.4rem;
+  }
+
+  &__location {
+    @extend .userBlock__name;
+  }
+
+  &__status {
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
+  }
+}
