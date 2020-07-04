@@ -8,28 +8,12 @@ import Profile from "./components/profile";
 import News from "./components/news";
 import Music from "./components/music";
 import Settings from "./components/settings";
-import {DialogType, FriendType, MessageType, PostType} from "./redux/store"
 import store from "./redux/redux-store";
 import DialogsContainer from "./components/dialogs/dialogsContainer";
 import UsersContainer from "./components/users/UsersContainer";
 
-export type ProfilePage = {
-    posts: Array<PostType>,
-    newPostText: string,
-}
-export type DialogsPage = {
-    messages: Array<MessageType>,
-    dialogs: Array<DialogType>,
-    newMessageText: string,
-}
-export type FriendsPage = {
-    friends: Array<FriendType>
-}
 
-type PropsType = {
-}
-
-const App: React.FC<PropsType> = () => {
+const App = () => {
     // debugger;
     const {friendsPage} = store.getState();
 

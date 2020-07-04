@@ -1,5 +1,4 @@
-import React from "react";
-import {AddMessageActionCreator, UpdatenewMessageTextActionCreator} from "../../redux/dialogs-reducer";
+import {AddMessageAC, UpdatenewMessageTextAC} from "../../redux/dialogs-reducer";
 import Dialogs from "./dialogs";
 import {connect} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
@@ -17,11 +16,11 @@ import {Dispatch} from "redux";
     }
 
     const addMessage = () => {
-        dispatch(AddMessageActionCreator())
+        dispatch(AddMessageAC())
     }
 
     const updateNewMessageText = (message: string) => {
-        dispatch(UpdatenewMessageTextActionCreator(message))
+        dispatch(UpdatenewMessageTextAC(message))
     }
 
     return (
@@ -40,10 +39,10 @@ let mapStateToProps = (state: AppStateType) => {
 let mapDispatchToProps = (dispatch: Dispatch) => {
     return {
         addMessage: () => {
-            dispatch(AddMessageActionCreator())
+            dispatch(AddMessageAC())
         },
         updateNewMessageText: (message: string) => {
-            dispatch(UpdatenewMessageTextActionCreator(message))
+            dispatch(UpdatenewMessageTextAC(message))
         },
     }
 }

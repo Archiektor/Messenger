@@ -1,3 +1,4 @@
+/*
 import {v1} from "uuid";
 // import {StateType} from "../index";
 import profileReducer from "./profile-reducer";
@@ -28,7 +29,7 @@ export type FriendType = {
 }
 
 export type ActionType = {
-    type: string,
+    type: string,string
     newText?: string,
     newMsg?: string,
     userId?: string,
@@ -106,10 +107,5 @@ let store: StoreType = {
 export default store;
 // !!! window.store = store;
 
-
-
-
-
-
-
-
+*/
+export default 1;

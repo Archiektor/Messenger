@@ -2,8 +2,7 @@ import React, {ChangeEvent} from "react";
 
 import css from "./myposts.module.css";
 import Post from "../post";
-import {PostType} from "../../../redux/store";
-import {ProfilePage} from "../../../App";
+import {PostType} from "../../../redux/profile-reducer";
 
 type MyPostsType = {
     // profilePage: ProfilePage,
@@ -13,8 +12,8 @@ type MyPostsType = {
     updateNewPostText: (str: string) => void,
 }
 
+
 const MyPosts: React.FC<MyPostsType> = ({posts, addPost, updateNewPostText, newPostText}) => {
-    console.log()
     let postElements = posts.map((post) => {
         return (
             <Post message={post.message} likesCount={post.likesCount} key={post.id}/>

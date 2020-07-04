@@ -1,8 +1,8 @@
 import React from "react";
 
 import css from "./friends.module.css";
-import {FriendType} from "../../redux/store";
 import {NavbarType} from "../navbar/navbar";
+import {FriendType} from "../../redux/friends-reducer";
 
 const renderFriends = (arr: Array<FriendType>) => {
     return arr.map(friend => {

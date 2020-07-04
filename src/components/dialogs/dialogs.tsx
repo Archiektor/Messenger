@@ -3,8 +3,7 @@ import React, {ChangeEvent} from "react";
 import css from "./dialogs.module.css";
 import DialogItem from "./dialogitem/dialogitem";
 import Message from "./message/message";
-import {DialogType, MessageType,} from "../../redux/store";
-import {DialogsPage} from "../../App";
+import {DialogsPage} from "../../redux/dialogs-reducer";
 
 type PropsType = {
     dialogsPage: DialogsPage,
@@ -31,7 +30,6 @@ const Dialogs: React.FC<PropsType> = ({dialogsPage, addMessage, updateNewMessage
             <Message text={text} key={key}/>
         )
     })
-
 
     const addMessageHandler = () => {
         addMessage();

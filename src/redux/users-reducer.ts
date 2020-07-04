@@ -1,15 +1,20 @@
-import {v1} from "uuid";
-import {ActionType} from "./store";
-
 const FOLLOW = "FOLLOW";
 const UNFOLLOW = "UNFOLLOW";
 const SET_USERS = "SET_USERS";
 
-export const followAC = (userId: string): ActionType => ({type: FOLLOW, userId: userId});
-export const unfollowAC = (userId: string): ActionType => ({type: UNFOLLOW, userId: userId});
-export const setUsersAC = (users : Array<UserType>): ActionType => ({type: SET_USERS, users: users});
-
-
+type FollowACType = {
+    type: typeof FOLLOW,
+    userId: string,
+};
+type UnFollowACType = {
+    type: typeof UNFOLLOW,
+    userId: string,
+};
+type SetUsersACType = {
+    type: typeof SET_USERS,
+    users: Array<UserType>,
+};
+type UsersReducerActionType = FollowACType | UnFollowACType | SetUsersACType;
 export type UserType = {
     id: string,
     photoUrl: string,
@@ -21,53 +26,56 @@ export type UserType = {
         city: string
     }
 }
-
 export type UsersPage = {
     users: Array<UserType>,
 }
 
+export const followAC = (userId: string): FollowACType => ({type: FOLLOW, userId: userId});
+export const unfollowAC = (userId: string): UnFollowACType => ({type: UNFOLLOW, userId: userId});
+export const setUsersAC = (users: Array<UserType>): SetUsersACType => ({type: SET_USERS, users: users});
+
 let initialState = {
 
     users: [],
-/*
-    users: [
-        {
-            id: v1(),
-            photoUrl: "",
-            followed: false,
-            fullName: "Nikki Odd",
-            location: {country: "Poland", city: "Szczecin"},
-            status: "I'm looking for job now..."
-        },
-        {
-            id: v1(),
-            photoUrl: "",
-            followed: false,
-            fullName: "Anna Po-po",
-            location: {country: "Poland", city: "Warsaw"},
-            status: "I'm so pretty"
-        },
-        {
-            id: v1(),
-            photoUrl: "",
-            followed: true,
-            fullName: "Dima Ho",
-            location: {country: "Belarus", city: "Minsk"},
-            status: "When this learning ends ?"
-        },
-        {
-            id: v1(),
-            photoUrl: "",
-            followed: true,
-            fullName: "Ala Pu",
-            location: {country: "United States", city: "Chicago"},
-            status: "Make some party !"
-        },
-    ],
-*/
+    /*
+        users: [
+            {
+                id: v1(),
+                photoUrl: "",
+                followed: false,
+                fullName: "Nikki Odd",
+                location: {country: "Poland", city: "Szczecin"},
+                status: "I'm looking for job now..."
+            },
+            {
+                id: v1(),
+                photoUrl: "",
+                followed: false,
+                fullName: "Anna Po-po",
+                location: {country: "Poland", city: "Warsaw"},
+                status: "I'm so pretty"
+            },
+            {
+                id: v1(),
+                photoUrl: "",
+                followed: true,
+                fullName: "Dima Ho",
+                location: {country: "Belarus", city: "Minsk"},
+                status: "When this learning ends ?"
+            },
+            {
+                id: v1(),
+                photoUrl: "",
+                followed: true,
+                fullName: "Ala Pu",
+                location: {country: "United States", city: "Chicago"},
+                status: "Make some party !"
+            },
+        ],
+    */
 }
 
-const usersReducer = (partOfState: UsersPage = initialState, action: ActionType): UsersPage => {
+const usersReducer = (partOfState: UsersPage = initialState, action: UsersReducerActionType): UsersPage => {
     switch (action.type) {
         case FOLLOW: {
             let partOfStateCopy = {

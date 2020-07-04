@@ -1,13 +1,35 @@
-import {ActionType} from "./store";
 import {v1} from "uuid";
-import {DialogsPage} from "../App";
 
 const ADD_MESSAGE = "ADD-MESSAGE";
 const UPDATE_NEW_MESSAGE_TEXT = "Update-New-Message-Text";
 
+type AddMessageAC = {
+    type: typeof ADD_MESSAGE,
+};
+type UpdatenewMessageTextAC = {
+    type: typeof UPDATE_NEW_MESSAGE_TEXT,
+    newMsg: string,
+};
+type DialogsReducerActionType = AddMessageAC | UpdatenewMessageTextAC;
 
-export const AddMessageActionCreator = (): ActionType => ({type: ADD_MESSAGE});
-export const UpdatenewMessageTextActionCreator = (message: string): ActionType => ({
+export type MessageType = {
+    id: string,
+    text: string,
+}
+export type DialogType = {
+    key: string,
+    id: number,
+    name: string,
+}
+
+export type DialogsPage = {
+    messages: Array<MessageType>,
+    dialogs: Array<DialogType>,
+    newMessageText: string,
+}
+
+export const AddMessageAC = (): AddMessageAC => ({type: ADD_MESSAGE});
+export const UpdatenewMessageTextAC = (message: string): UpdatenewMessageTextAC => ({
     type: UPDATE_NEW_MESSAGE_TEXT,
     newMsg: message
 });
@@ -31,14 +53,13 @@ let initialState = {
     newMessageText: "",
 }
 
-const dialogsReducer = (partOfState: DialogsPage = initialState, action: ActionType): DialogsPage => {
+const dialogsReducer = (partOfState: DialogsPage = initialState, action: DialogsReducerActionType): DialogsPage => {
     let partOfStateCopy: DialogsPage;
     switch (action.type) {
         case ADD_MESSAGE: {
             partOfStateCopy = {...partOfState, messages: [...partOfState.messages],};
             partOfStateCopy.messages = [...partOfStateCopy.messages, {id: v1(), text: partOfStateCopy.newMessageText,}];
             partOfStateCopy.newMessageText = "";
-            // this._callSubsriber(this._state);
             return partOfStateCopy;
         }
         case UPDATE_NEW_MESSAGE_TEXT: {
@@ -46,7 +67,6 @@ const dialogsReducer = (partOfState: DialogsPage = initialState, action: ActionT
             if (action.newMsg) {
                 partOfStateCopy.newMessageText = action.newMsg;
             }
-            // this._callSubsriber(this._state);
             return partOfStateCopy;
         }
         default:

@@ -1,12 +1,28 @@
-import {ActionType} from "./store";
 import {v1} from "uuid";
-import {ProfilePage} from "../App";
 
 const ADD_POST = "ADD-POST";
 const UPDATE_NEW_POST_TEXT = "UPDATE-NEW-POST-TEXT";
 
-export const addPostActionCreator = (): ActionType => ({type: ADD_POST});
-export const updateNewPostTextActionCreator = (modifiedText: string): ActionType => ({
+type addPostACType = {
+    type: typeof ADD_POST,
+}
+type updateNewPostTextACType = {
+    type: typeof UPDATE_NEW_POST_TEXT,
+    newText: string,
+}
+export type PostType = {
+    id: string,
+    message: string,
+    likesCount: number
+}
+export type ProfilePage = {
+    posts: Array<PostType>,
+    newPostText: string,
+}
+type ProfileReducerActionType = addPostACType | updateNewPostTextACType;
+
+export const addPostAC = (): addPostACType => ({type: ADD_POST});
+export const updateNewPostTextAC = (modifiedText: string): updateNewPostTextACType => ({
     type: UPDATE_NEW_POST_TEXT,
     newText: modifiedText
 });
@@ -22,17 +38,11 @@ let initialState = {
     newPostText: "",
 }
 
-const profileReducer = (partOfState: ProfilePage = initialState, action: ActionType): ProfilePage => {
+const profileReducer = (partOfState: ProfilePage = initialState, action: ProfileReducerActionType): ProfilePage => {
     let partOfStateCopy: ProfilePage;
     switch (action.type) {
         case ADD_POST: {
             partOfStateCopy = {...partOfState, posts: [...partOfState.posts],};
-            /*            let modPosts;
-                        modPosts = [...partOfState.posts, {
-                            id: v1(),
-                            message: partOfStateCopy.newPostText,
-                            likesCount: 0
-                        }]*/
             partOfStateCopy.posts = [...partOfStateCopy.posts, {id: v1(), message: partOfStateCopy.newPostText, likesCount: 0}];
             partOfStateCopy.newPostText = "";
             return partOfStateCopy;

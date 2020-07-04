@@ -3,7 +3,7 @@ import React from "react";
 import cssClasses from "./navbar.module.css";
 import {NavLink} from "react-router-dom";
 import Friends from "../friends";
-import {FriendType} from "../../redux/store";
+import {FriendType} from "../../redux/friends-reducer";
 
 export type NavbarType = {
     data: DataType
@@ -21,6 +21,8 @@ const Navbar: React.FC<NavbarType> = ({data}) => {
                                                       to="/profile">Profile</NavLink></div>
             <div className={cssClasses.item}><NavLink activeClassName={cssClasses.activeLink}
                                                       to="/dialogs">Messages</NavLink></div>
+            <div className={cssClasses.item}><NavLink activeClassName={cssClasses.activeLink}
+                                                      to="/users">Users</NavLink></div>
             <div className={cssClasses.item}><NavLink activeClassName={cssClasses.activeLink}
                                                       to="/news">News</NavLink>
             </div>
