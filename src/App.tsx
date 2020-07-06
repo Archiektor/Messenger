@@ -12,6 +12,8 @@ import store from "./redux/redux-store";
 import DialogsContainer from "./components/dialogs/dialogsContainer";
 import UsersContainer from "./components/users/UsersContainer";
 
+export const BASE_URL = "https://social-network.samuraijs.com/api/1.0";
+
 
 const App = () => {
     // debugger;

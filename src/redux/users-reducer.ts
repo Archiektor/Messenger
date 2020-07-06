@@ -17,9 +17,12 @@ type SetUsersACType = {
 type UsersReducerActionType = FollowACType | UnFollowACType | SetUsersACType;
 export type UserType = {
     id: string,
-    photoUrl: string,
+    photos: {
+        small: string,
+        large: string
+    },
     followed: boolean,
-    fullName: string,
+    name: string,
     status: string,
     location: {
         country: string,
@@ -41,33 +44,33 @@ let initialState = {
         users: [
             {
                 id: v1(),
-                photoUrl: "",
+                photos: "",
                 followed: false,
-                fullName: "Nikki Odd",
+                name: "Nikki Odd",
                 location: {country: "Poland", city: "Szczecin"},
                 status: "I'm looking for job now..."
             },
             {
                 id: v1(),
-                photoUrl: "",
+                photos: "",
                 followed: false,
-                fullName: "Anna Po-po",
+                name: "Anna Po-po",
                 location: {country: "Poland", city: "Warsaw"},
                 status: "I'm so pretty"
             },
             {
                 id: v1(),
-                photoUrl: "",
+                photos: "",
                 followed: true,
-                fullName: "Dima Ho",
+                name: "Dima Ho",
                 location: {country: "Belarus", city: "Minsk"},
                 status: "When this learning ends ?"
             },
             {
                 id: v1(),
-                photoUrl: "",
+                photos: "",
                 followed: true,
-                fullName: "Ala Pu",
+                name: "Ala Pu",
                 location: {country: "United States", city: "Chicago"},
                 status: "Make some party !"
             },
