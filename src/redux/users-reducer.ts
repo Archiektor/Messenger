@@ -1,6 +1,8 @@
 const FOLLOW = "FOLLOW";
 const UNFOLLOW = "UNFOLLOW";
 const SET_USERS = "SET_USERS";
+const SET_TOTAL_USERS_COUNT = "SET_TOTAL_USERS_COUNT";
+const SET_CURRENT_PAGE = "SET_CURRENT_PAGE";
 
 type FollowACType = {
     type: typeof FOLLOW,
@@ -14,7 +16,17 @@ type SetUsersACType = {
     type: typeof SET_USERS,
     users: Array<UserType>,
 };
-type UsersReducerActionType = FollowACType | UnFollowACType | SetUsersACType;
+type SetTotalUsersCountACType = {
+    type: typeof SET_TOTAL_USERS_COUNT,
+    totalUsersCount: number,
+};
+type SetCurrentPageACType = {
+    type: typeof SET_CURRENT_PAGE,
+    currentPage: number,
+}
+
+type UsersReducerActionType = FollowACType | UnFollowACType | SetUsersACType | SetTotalUsersCountACType | SetCurrentPageACType;
+
 export type UserType = {
     id: string,
     photos: {
@@ -29,53 +41,28 @@ export type UserType = {
         city: string
     }
 }
+
 export type UsersPage = {
     users: Array<UserType>,
+    pageSize: number,
+    totalUsersCount: number,
+    currentPage: number,
 }
 
 export const followAC = (userId: string): FollowACType => ({type: FOLLOW, userId: userId});
 export const unfollowAC = (userId: string): UnFollowACType => ({type: UNFOLLOW, userId: userId});
 export const setUsersAC = (users: Array<UserType>): SetUsersACType => ({type: SET_USERS, users: users});
+export const setTotalUsersCountAC = (totalUsersCount: number): SetTotalUsersCountACType => ({
+    type: SET_TOTAL_USERS_COUNT,
+    totalUsersCount: totalUsersCount
+});
+export const setCurrentPageAC = (currentPage: number) : SetCurrentPageACType => ({type: SET_CURRENT_PAGE, currentPage: currentPage});
 
 let initialState = {
-
     users: [],
-    /*
-        users: [
-            {
-                id: v1(),
-                photos: "",
-                followed: false,
-                name: "Nikki Odd",
-                location: {country: "Poland", city: "Szczecin"},
-                status: "I'm looking for job now..."
-            },
-            {
-                id: v1(),
-                photos: "",
-                followed: false,
-                name: "Anna Po-po",
-                location: {country: "Poland", city: "Warsaw"},
-                status: "I'm so pretty"
-            },
-            {
-                id: v1(),
-                photos: "",
-                followed: true,
-                name: "Dima Ho",
-                location: {country: "Belarus", city: "Minsk"},
-                status: "When this learning ends ?"
-            },
-            {
-                id: v1(),
-                photos: "",
-                followed: true,
-                name: "Ala Pu",
-                location: {country: "United States", city: "Chicago"},
-                status: "Make some party !"
-            },
-        ],
-    */
+    pageSize: 5,
+    totalUsersCount: 0,
+    currentPage: 1,
 }
 
 const usersReducer = (partOfState: UsersPage = initialState, action: UsersReducerActionType): UsersPage => {
@@ -105,7 +92,15 @@ const usersReducer = (partOfState: UsersPage = initialState, action: UsersReduce
             return partOfStateCopy;
         }
         case SET_USERS: {
-            return {...partOfState, users: [...partOfState.users, ...action.users!]}
+            return {...partOfState, users: action.users!}
+        }
+        case SET_TOTAL_USERS_COUNT: {
+            // debugger;
+            return {...partOfState, totalUsersCount: action.totalUsersCount}
+        }
+        case SET_CURRENT_PAGE: {
+            // debugger;
+            return {...partOfState, currentPage: action.currentPage}
         }
         default:
             return partOfState;
