@@ -37,6 +37,18 @@
     margin: 0;
 }
 
+.textWrapper {
+    margin-top: 10px;
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.textWrapper > span {
+    font: 400 1.1rem 'Slabo 27px', 'Palatino Linotype', 'Times New Roman', serif;
+    color: wheat;
+    margin: 0;
+}
+
 p:nth-child(odd) {
     padding-top: 5px;
     color: whitesmoke;

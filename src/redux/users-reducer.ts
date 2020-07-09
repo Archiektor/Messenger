@@ -3,6 +3,7 @@ const UNFOLLOW = "UNFOLLOW";
 const SET_USERS = "SET_USERS";
 const SET_TOTAL_USERS_COUNT = "SET_TOTAL_USERS_COUNT";
 const SET_CURRENT_PAGE = "SET_CURRENT_PAGE";
+const SWITCH_IS_FETCHING = "SWITCH_IS_FETCHING";
 
 type FollowACType = {
     type: typeof FOLLOW,
@@ -24,8 +25,12 @@ type SetCurrentPageACType = {
     type: typeof SET_CURRENT_PAGE,
     currentPage: number,
 }
+type SwitchIsFetchingACType = {
+    type: typeof SWITCH_IS_FETCHING,
+    isFetching: boolean,
+}
 
-type UsersReducerActionType = FollowACType | UnFollowACType | SetUsersACType | SetTotalUsersCountACType | SetCurrentPageACType;
+type UsersReducerActionType = FollowACType | UnFollowACType | SetUsersACType | SetTotalUsersCountACType | SetCurrentPageACType | SwitchIsFetchingACType;
 
 export type UserType = {
     id: string,
@@ -47,22 +52,26 @@ export type UsersPage = {
     pageSize: number,
     totalUsersCount: number,
     currentPage: number,
+    isFetching: boolean,
 }
 
-export const followAC = (userId: string): FollowACType => ({type: FOLLOW, userId: userId});
-export const unfollowAC = (userId: string): UnFollowACType => ({type: UNFOLLOW, userId: userId});
-export const setUsersAC = (users: Array<UserType>): SetUsersACType => ({type: SET_USERS, users: users});
-export const setTotalUsersCountAC = (totalUsersCount: number): SetTotalUsersCountACType => ({
+// Action Creator's
+export const follow = (userId: string): FollowACType => ({type: FOLLOW, userId: userId});
+export const unfollow = (userId: string): UnFollowACType => ({type: UNFOLLOW, userId: userId});
+export const setUsers = (users: Array<UserType>): SetUsersACType => ({type: SET_USERS, users: users});
+export const setTotalUsersCount = (totalUsersCount: number): SetTotalUsersCountACType => ({
     type: SET_TOTAL_USERS_COUNT,
     totalUsersCount: totalUsersCount
 });
-export const setCurrentPageAC = (currentPage: number) : SetCurrentPageACType => ({type: SET_CURRENT_PAGE, currentPage: currentPage});
+export const setCurrentPage = (currentPage: number) : SetCurrentPageACType => ({type: SET_CURRENT_PAGE, currentPage: currentPage});
+export const switchIsFetching = (isFetch: boolean) : SwitchIsFetchingACType => ({type: SWITCH_IS_FETCHING, isFetching: isFetch});
 
-let initialState = {
+let initialState: UsersPage = {
     users: [],
     pageSize: 5,
     totalUsersCount: 0,
     currentPage: 1,
+    isFetching: false,
 }
 
 const usersReducer = (partOfState: UsersPage = initialState, action: UsersReducerActionType): UsersPage => {
@@ -102,6 +111,11 @@ const usersReducer = (partOfState: UsersPage = initialState, action: UsersReduce
             // debugger;
             return {...partOfState, currentPage: action.currentPage}
         }
+        case SWITCH_IS_FETCHING: {
+            // debugger;
+            return {...partOfState, isFetching: action.isFetching}
+        }
+
         default:
             return partOfState;
     }
