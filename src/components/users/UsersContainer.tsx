@@ -10,10 +10,9 @@ import {
     UserType
 } from "../../redux/users-reducer";
 import React, {Component} from "react";
-import axios from "axios";
-import {BASE_URL} from "../../App";
 import {Users} from "./Users";
 import {Preloader} from "../common/Preloader/Preloader";
+import {UserApi} from "../api/api";
 
 
 type UserPropsType = {
@@ -34,27 +33,28 @@ type UserPropsType = {
 class UsersContainer extends Component<UserPropsType, {}> {
 
     componentDidMount() {
-        // console.log("did mount started");
         this.props.switchIsFetching(true);
-        axios.get(`${BASE_URL}/users?page=${this.props.currentPage}&count=${this.props.pageSize}`)
+        UserApi.getUsers(this.props.currentPage, this.props.pageSize)
             .then(response => {
                 // debugger;
                 this.props.switchIsFetching(false);
-                this.props.setUsers(response.data.items);
-                this.props.setTotalUsersCount(response.data.totalCount)
+                this.props.setUsers(response.items);
+                this.props.setTotalUsersCount(response.totalCount)
             })
+            .catch(console.log);
     }
 
     onClickHandler = (pageNumber: number) => {
         // debugger;
         this.props.switchIsFetching(true);
         this.props.setCurrentPage(pageNumber);
-        axios.get(`${BASE_URL}/users?page=${pageNumber}&count=${this.props.pageSize}`)
+        UserApi.getUsers(pageNumber, this.props.pageSize)
             .then(response => {
                 // debugger;
                 this.props.switchIsFetching(false);
-                this.props.setUsers(response.data.items);
+                this.props.setUsers(response.items);
             })
+            .catch(console.log);
     }
 
     render() {

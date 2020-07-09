@@ -1,11 +1,10 @@
 import React, {Component} from "react";
 import Profile from "./profile";
-import axios from "axios";
-import {BASE_URL} from "../../App";
 import {connect} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
 import {setUserProfile, UserProfileType} from "../../redux/profile-reducer";
-import { withRouter, RouteComponentProps } from "react-router-dom";
+import {RouteComponentProps, withRouter} from "react-router-dom";
+import {UserApi} from "../api/api";
 
 type TParams = {
     userId: string,
@@ -20,11 +19,12 @@ class ProfileContainer extends Component<ProfileContainerType, {}> {
 
     componentDidMount() {
         // debugger;
-        axios.get(`${BASE_URL}/profile/${this.props.match.params.userId? this.props.match.params.userId : "2"}`)
-            .then(response => {
+        UserApi.showProfile(this.props.match.params.userId)
+            .then(data => {
                 // debugger;
-                this.props.setUserProfile(response.data);
+                this.props.setUserProfile(data);
             })
+            .catch(console.log);
     }
 
     render() {
@@ -35,7 +35,7 @@ class ProfileContainer extends Component<ProfileContainerType, {}> {
 }
 
 // get state => throw state to props
-let mapStateToProps = (state: AppStateType) : {profile: UserProfileType} => {
+let mapStateToProps = (state: AppStateType): { profile: UserProfileType } => {
     // debugger;
     return {
         profile: state.profilePage.profile,

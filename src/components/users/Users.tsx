@@ -3,6 +3,7 @@ import s from "./Users.module.scss";
 import saitama from "../../assets/images/saitama.png";
 import {UserType} from "../../redux/users-reducer";
 import {NavLink} from "react-router-dom";
+import {UserApi} from "../api/api";
 
 type UsersType = {
     users: Array<UserType>,
@@ -42,8 +43,25 @@ export const Users: React.FC<UsersType> = ({users, currentPage, followUser, unfo
                                 <img src={user.photos.small ? user.photos.small : saitama} alt="userAvatar"/>
                             </NavLink>
                             {user.followed ?
-                                <button onClick={() => unfollowUser(user.id)}>{`Unfollow`}</button> :
-                                <button onClick={() => followUser(user.id)}>{`Follow`}</button>}
+                                <button onClick={() => {
+                                    UserApi.unfollowUser(user.id)
+                                        .then(data => {
+                                            if (data.resultCode === 0) {
+                                                unfollowUser(user.id);
+                                            }
+                                        })
+                                        .catch(console.log);
+                                }}>{`Unfollow`}</button> :
+
+                                <button onClick={() => {
+                                    UserApi.followUser(user.id)
+                                        .then(data => {
+                                            if (data.resultCode === 0) {
+                                                followUser(user.id);
+                                            }
+                                        })
+                                        .catch(console.log);
+                                }}>{`Follow`}</button>}
                         </div>
                         <div className={s.userBlock}>
                             <span className={s.userBlock__name}>{user.name}</span>

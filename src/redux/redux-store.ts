@@ -3,6 +3,7 @@ import dialogsReducer from "./dialogs-reducer";
 import profileReducer from "./profile-reducer";
 import friendsReducer from "./friends-reducer";
 import usersReducer from "./users-reducer";
+import authReducer from "./auth-reducer";
 
 // наш reducers это фактически state = {profilePage: [data], dialogsPage: [data], friendsPage: [data]}
 let reducers = combineReducers({
@@ -11,6 +12,7 @@ let reducers = combineReducers({
     dialogsPage: dialogsReducer,
     usersPage: usersReducer,
     friendsPage: friendsReducer,
+    auth: authReducer,
 });
 
 export type AppStateType = ReturnType<typeof reducers>
