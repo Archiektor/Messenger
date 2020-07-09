@@ -5,7 +5,7 @@ import {
     setCurrentPage,
     setTotalUsersCount,
     setUsers,
-    switchIsFetching,
+    switchIsFetching, switchIsLoading,
     unfollow,
     UserType
 } from "../../redux/users-reducer";
@@ -27,12 +27,16 @@ type UserPropsType = {
     setTotalUsersCount: (totalCount: number) => void,
     setCurrentPage: (currP: number) => void,
     switchIsFetching: (isFetch: boolean) => void,
+    switchIsLoading: (isLoading: boolean, userId : string) => void,
+    isLoading: boolean,
+    disabledUsers: Array<string>,
 
 }
 
 class UsersContainer extends Component<UserPropsType, {}> {
 
     componentDidMount() {
+        debugger;
         this.props.switchIsFetching(true);
         UserApi.getUsers(this.props.currentPage, this.props.pageSize)
             .then(response => {
@@ -58,7 +62,8 @@ class UsersContainer extends Component<UserPropsType, {}> {
     }
 
     render() {
-        const {users, follow, unfollow, currentPage, isFetching} = this.props;
+        // debugger;
+        const {users, follow, unfollow, currentPage, isFetching, isLoading, switchIsLoading, disabledUsers} = this.props;
 
         return (
             <React.Fragment>
@@ -67,6 +72,9 @@ class UsersContainer extends Component<UserPropsType, {}> {
                                        followUser={follow}
                                        unfollowUser={unfollow}
                                        currentPage={currentPage}
+                                       isLoading={isLoading}
+                                       switchIsLoading={switchIsLoading}
+                                       disabledUsers={disabledUsers}
                                        onClickHandler={this.onClickHandler}/>}
             </React.Fragment>
         )
@@ -82,22 +90,13 @@ let mapStateToProps = (state: AppStateType) => {
         totalUsersCount: state.usersPage.totalUsersCount,
         currentPage: state.usersPage.currentPage,
         isFetching: state.usersPage.isFetching,
+        isLoading: state.usersPage.isLoading,
+        disabledUsers: state.usersPage.disabledUsers,
     }
 }
-// dispatch => do something with state
-/*let mapDispatchToProps = (dispatch: Dispatch) => {
-    return {
-        followUser: (userId: string) => {
-            dispatch(followAC(userId))
-        },
-        switchIsFetching: (isFetching: boolean) => {
-            dispatch(switchIsFetchingAC(isFetching));
-        },
-    }
-}*/
 
 export default connect(mapStateToProps,
     {
         follow, unfollow, setUsers, setTotalUsersCount,
-        setCurrentPage, switchIsFetching,
+        setCurrentPage, switchIsFetching, switchIsLoading
     })(UsersContainer);

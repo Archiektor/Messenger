@@ -11,9 +11,15 @@ type UsersType = {
     followUser: (id: string) => void,
     unfollowUser: (id: string) => void,
     onClickHandler: (pageNumber: number) => void,
+    switchIsLoading: (isLoading: boolean, userId: string) => void,
+    isLoading: boolean,
+    disabledUsers: Array<string>,
 }
 
-export const Users: React.FC<UsersType> = ({users, currentPage, followUser, unfollowUser, onClickHandler}) => {
+export const Users: React.FC<UsersType> = ({
+                                               users, currentPage, followUser, unfollowUser,
+                                               onClickHandler, isLoading, switchIsLoading, disabledUsers
+                                           }) => {
     // let pagesCount = Math.ceil(totalUsersCount / pageSize);
 
     let pages = [];
@@ -43,9 +49,11 @@ export const Users: React.FC<UsersType> = ({users, currentPage, followUser, unfo
                                 <img src={user.photos.small ? user.photos.small : saitama} alt="userAvatar"/>
                             </NavLink>
                             {user.followed ?
-                                <button onClick={() => {
+                                <button disabled={disabledUsers.some(id => id === user.id)} onClick={() => {
+                                    switchIsLoading(true, user.id);
                                     UserApi.unfollowUser(user.id)
                                         .then(data => {
+                                            switchIsLoading(false, user.id);
                                             if (data.resultCode === 0) {
                                                 unfollowUser(user.id);
                                             }
@@ -53,9 +61,11 @@ export const Users: React.FC<UsersType> = ({users, currentPage, followUser, unfo
                                         .catch(console.log);
                                 }}>{`Unfollow`}</button> :
 
-                                <button onClick={() => {
+                                <button disabled={disabledUsers.some(id => id === user.id)} onClick={() => {
+                                    switchIsLoading(true, user.id);
                                     UserApi.followUser(user.id)
                                         .then(data => {
+                                            switchIsLoading(false, user.id);
                                             if (data.resultCode === 0) {
                                                 followUser(user.id);
                                             }

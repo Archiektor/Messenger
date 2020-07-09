@@ -4,6 +4,7 @@ const SET_USERS = "SET_USERS";
 const SET_TOTAL_USERS_COUNT = "SET_TOTAL_USERS_COUNT";
 const SET_CURRENT_PAGE = "SET_CURRENT_PAGE";
 const SWITCH_IS_FETCHING = "SWITCH_IS_FETCHING";
+const SWITCH_IS_LOADING = "SWITCH_IS_LOADING";
 
 type FollowACType = {
     type: typeof FOLLOW,
@@ -29,8 +30,14 @@ type SwitchIsFetchingACType = {
     type: typeof SWITCH_IS_FETCHING,
     isFetching: boolean,
 }
+type SwitchIsLoadingACType = {
+    type: typeof SWITCH_IS_LOADING,
+    isLoading: boolean,
+    userId: string,
+}
 
-type UsersReducerActionType = FollowACType | UnFollowACType | SetUsersACType | SetTotalUsersCountACType | SetCurrentPageACType | SwitchIsFetchingACType;
+type UsersReducerActionType = FollowACType | UnFollowACType | SetUsersACType | SetTotalUsersCountACType |
+    SetCurrentPageACType | SwitchIsFetchingACType | SwitchIsLoadingACType;
 
 export type UserType = {
     id: string,
@@ -53,6 +60,8 @@ export type UsersPage = {
     totalUsersCount: number,
     currentPage: number,
     isFetching: boolean,
+    isLoading: boolean,
+    disabledUsers: Array<string>,
 }
 
 // Action Creator's
@@ -63,8 +72,12 @@ export const setTotalUsersCount = (totalUsersCount: number): SetTotalUsersCountA
     type: SET_TOTAL_USERS_COUNT,
     totalUsersCount: totalUsersCount
 });
-export const setCurrentPage = (currentPage: number) : SetCurrentPageACType => ({type: SET_CURRENT_PAGE, currentPage: currentPage});
-export const switchIsFetching = (isFetch: boolean) : SwitchIsFetchingACType => ({type: SWITCH_IS_FETCHING, isFetching: isFetch});
+export const setCurrentPage = (currentPage: number): SetCurrentPageACType => ({type: SET_CURRENT_PAGE, currentPage});
+export const switchIsFetching = (isFetching: boolean): SwitchIsFetchingACType => ({
+    type: SWITCH_IS_FETCHING,
+    isFetching
+});
+export const switchIsLoading = (isLoading: boolean, userId : string): SwitchIsLoadingACType => ({type: SWITCH_IS_LOADING, isLoading, userId});
 
 let initialState: UsersPage = {
     users: [],
@@ -72,6 +85,8 @@ let initialState: UsersPage = {
     totalUsersCount: 0,
     currentPage: 1,
     isFetching: false,
+    isLoading: false,
+    disabledUsers: [],
 }
 
 const usersReducer = (partOfState: UsersPage = initialState, action: UsersReducerActionType): UsersPage => {
@@ -114,6 +129,13 @@ const usersReducer = (partOfState: UsersPage = initialState, action: UsersReduce
         case SWITCH_IS_FETCHING: {
             // debugger;
             return {...partOfState, isFetching: action.isFetching}
+        }
+        case SWITCH_IS_LOADING: {
+            // debugger;
+            return {...partOfState,
+                disabledUsers: action.isLoading ?
+                    [...partOfState.disabledUsers, action.userId] :
+                    partOfState.disabledUsers.filter(id => id !== action.userId)}
         }
 
         default:
