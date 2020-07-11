@@ -3,6 +3,7 @@ import Dialogs from "./dialogs";
 import {connect} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
 import {Dispatch} from "redux";
+import {withRedirect} from "../hoc/withRedirect";
 
 /*const DialogsContainer: React.FC<PropsType> = (props) => {
     const store = React.useContext(StoreContext);
@@ -28,10 +29,10 @@ import {Dispatch} from "redux";
     )
 }*/
 
-// data={data} addMessage={addMessage} updateNewMessageText={updateNewMessageText}   => !!! props.attribute
 let mapStateToProps = (state: AppStateType) => {
     return {
-            dialogsPage: state.dialogsPage,
+        dialogsPage: state.dialogsPage,
+        isAuth: state.auth.isAuth,
     }
 }
 
@@ -47,6 +48,16 @@ let mapDispatchToProps = (dispatch: Dispatch) => {
     }
 }
 
-const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(Dialogs)
+/*
+let mapStateToPropsForRedirect = (state: AppStateType): { isAuth: boolean } => {
+    return {
+        isAuth: state.auth.isAuth,
+    }
+}
+
+let RedirectComponent = withRedirect(Dialogs);
+RedirectComponent = connect(mapStateToPropsForRedirect)(RedirectComponent);*/
+
+const DialogsContainer = connect(mapStateToProps, mapDispatchToProps)(withRedirect(Dialogs))
 
 export default DialogsContainer;

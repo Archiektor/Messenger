@@ -11,6 +11,7 @@ import store from "./redux/redux-store";
 import DialogsContainer from "./components/dialogs/dialogsContainer";
 import UsersContainer from "./components/users/UsersContainer";
 import ProfileContainer from "./components/profile/ProfileContainer";
+import Login from "./components/login/login";
 
 const App = () => {
     // debugger;
@@ -26,6 +27,7 @@ const App = () => {
                 <Route path='/dialogs' render={() => <DialogsContainer/>}/>
 
                 <Route path='/users' render={() => <UsersContainer/>}/>
+                <Route path='/login' render={() => <Login/>}/>
 
                 <Route path='/news' render={() => <News/>}/>
                 <Route path='/music' render={() => <Music/>}/>

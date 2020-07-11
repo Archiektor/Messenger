@@ -4,18 +4,15 @@ import css from "./dialogs.module.css";
 import DialogItem from "./dialogitem/dialogitem";
 import Message from "./message/message";
 import {DialogsPage} from "../../redux/dialogs-reducer";
+import {Redirect} from "react-router-dom";
 
 type PropsType = {
     dialogsPage: DialogsPage,
-    /*    data: {
-            dialogs: Array<DialogType>,
-            messages: Array<MessageType>,
-            newMessageText: string,
-        },*/
     addMessage: () => void,
     updateNewMessageText: (str: string) => void,
+    isAuth: boolean,
 }
-const Dialogs: React.FC<PropsType> = ({dialogsPage, addMessage, updateNewMessageText}) => {
+const Dialogs: React.FC<PropsType> = ({dialogsPage, addMessage, updateNewMessageText, isAuth}) => {
     // debugger;
 
 

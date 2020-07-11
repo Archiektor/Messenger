@@ -48,23 +48,9 @@ export const Users: React.FC<UsersType> = ({
                             </NavLink>
                             {user.followed ?
                                 <button disabled={disabledUsers.some(id => id === user.id)}
-                                        onClick={() => {
-                                            unfollowUserThunkCreator(user.id);
-                                            /*                                    switchIsLoading(true, user.id);
-                                                                                UserApi.unfollowUser(user.id)
-                                                                                    .then(data => {
-                                                                                        switchIsLoading(false, user.id);
-                                                                                        if (data.resultCode === 0) {
-                                                                                            unfollowUser(user.id);
-                                                                                        }
-                                                                                    })
-                                                                                    .catch(console.log);*/
-                                        }}>{`Unfollow`}</button> :
+                                        onClick={() => unfollowUserThunkCreator(user.id)}>{`Unfollow`}</button> :
                                 <button disabled={disabledUsers.some(id => id === user.id)}
-                                        onClick={() => {
-                                            // debugger;
-                                            followUserThunkCreator(user.id);
-                                        }}>{`Follow`}</button>}
+                                        onClick={() => followUserThunkCreator(user.id)}>{`Follow`}</button>}
                         </div>
                         <div className={s.userBlock}>
                             <span className={s.userBlock__name}>{user.name}</span>
