@@ -3,22 +3,20 @@ import s from "./Users.module.scss";
 import saitama from "../../assets/images/saitama.png";
 import {UserType} from "../../redux/users-reducer";
 import {NavLink} from "react-router-dom";
-import {UserApi} from "../api/api";
 
 type UsersType = {
     users: Array<UserType>,
     currentPage: number,
-    followUser: (id: string) => void,
-    unfollowUser: (id: string) => void,
     onClickHandler: (pageNumber: number) => void,
-    switchIsLoading: (isLoading: boolean, userId: string) => void,
     isLoading: boolean,
     disabledUsers: Array<string>,
+    followUserThunkCreator: (userId: string) => void,
+    unfollowUserThunkCreator: (userId: string) => void,
 }
 
 export const Users: React.FC<UsersType> = ({
-                                               users, currentPage, followUser, unfollowUser,
-                                               onClickHandler, isLoading, switchIsLoading, disabledUsers
+                                               users, currentPage,
+                                               onClickHandler, disabledUsers, followUserThunkCreator, unfollowUserThunkCreator
                                            }) => {
     // let pagesCount = Math.ceil(totalUsersCount / pageSize);
 
@@ -49,29 +47,24 @@ export const Users: React.FC<UsersType> = ({
                                 <img src={user.photos.small ? user.photos.small : saitama} alt="userAvatar"/>
                             </NavLink>
                             {user.followed ?
-                                <button disabled={disabledUsers.some(id => id === user.id)} onClick={() => {
-                                    switchIsLoading(true, user.id);
-                                    UserApi.unfollowUser(user.id)
-                                        .then(data => {
-                                            switchIsLoading(false, user.id);
-                                            if (data.resultCode === 0) {
-                                                unfollowUser(user.id);
-                                            }
-                                        })
-                                        .catch(console.log);
-                                }}>{`Unfollow`}</button> :
-
-                                <button disabled={disabledUsers.some(id => id === user.id)} onClick={() => {
-                                    switchIsLoading(true, user.id);
-                                    UserApi.followUser(user.id)
-                                        .then(data => {
-                                            switchIsLoading(false, user.id);
-                                            if (data.resultCode === 0) {
-                                                followUser(user.id);
-                                            }
-                                        })
-                                        .catch(console.log);
-                                }}>{`Follow`}</button>}
+                                <button disabled={disabledUsers.some(id => id === user.id)}
+                                        onClick={() => {
+                                            unfollowUserThunkCreator(user.id);
+                                            /*                                    switchIsLoading(true, user.id);
+                                                                                UserApi.unfollowUser(user.id)
+                                                                                    .then(data => {
+                                                                                        switchIsLoading(false, user.id);
+                                                                                        if (data.resultCode === 0) {
+                                                                                            unfollowUser(user.id);
+                                                                                        }
+                                                                                    })
+                                                                                    .catch(console.log);*/
+                                        }}>{`Unfollow`}</button> :
+                                <button disabled={disabledUsers.some(id => id === user.id)}
+                                        onClick={() => {
+                                            // debugger;
+                                            followUserThunkCreator(user.id);
+                                        }}>{`Follow`}</button>}
                         </div>
                         <div className={s.userBlock}>
                             <span className={s.userBlock__name}>{user.name}</span>

@@ -1,4 +1,7 @@
 import {v1} from "uuid";
+import {ThunkAction} from "redux-thunk";
+import {AppStateType} from "./redux-store";
+import {UserApi} from "../components/api/api";
 
 const ADD_POST = "ADD-POST";
 const UPDATE_NEW_POST_TEXT = "UPDATE-NEW-POST-TEXT";
@@ -96,6 +99,15 @@ const profileReducer = (partOfState: ProfilePage = initialState, action: Profile
         }
         default:
             return partOfState;
+    }
+}
+
+type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ProfileReducerActionType>;
+
+export const showProfileThunkCreator = (userId: string): ThunkType => {
+    return async (dispatch) => {
+        let data = await UserApi.showProfile(userId)
+        dispatch(setUserProfile(data));
     }
 }
 

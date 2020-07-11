@@ -50,17 +50,9 @@ export const UserApi = {
         }
     },
     followUser: async (userId: string): Promise<FollowUserType> => {
+        debugger;
         try {
             const {data} = await instance.post(`follow/${userId}`, {});
-            // debugger;
-            return data;
-        } catch (e) {
-            throw new Error(e);
-        }
-    },
-    authMe: async (): Promise<AuthMeType> => {
-        try {
-            const {data} = await instance.get(`auth/me`);
             // debugger;
             return data;
         } catch (e) {
@@ -76,6 +68,18 @@ export const UserApi = {
             throw new Error(e);
         }
     }
+}
+
+export const AuthAPI = {
+    authMe: async (): Promise<AuthMeType> => {
+        try {
+            const {data} = await instance.get(`auth/me`);
+            // debugger;
+            return data;
+        } catch (e) {
+            throw new Error(e);
+        }
+    },
 }
 
 

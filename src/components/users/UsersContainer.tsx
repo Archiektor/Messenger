@@ -1,18 +1,15 @@
 import {AppStateType} from "../../redux/redux-store";
 import {connect} from "react-redux";
 import {
-    follow,
+    followUserThunkCreator,
+    getUsersThunkCreator,
     setCurrentPage,
-    setTotalUsersCount,
-    setUsers,
-    switchIsFetching, switchIsLoading,
-    unfollow,
+    unfollowUserThunkCreator,
     UserType
 } from "../../redux/users-reducer";
 import React, {Component} from "react";
 import {Users} from "./Users";
 import {Preloader} from "../common/Preloader/Preloader";
-import {UserApi} from "../api/api";
 
 
 type UserPropsType = {
@@ -21,59 +18,48 @@ type UserPropsType = {
     totalUsersCount: number,
     currentPage: number,
     isFetching: boolean,
-    follow: (id: string) => void,
-    unfollow: (id: string) => void,
-    setUsers: (users: Array<UserType>) => void,
-    setTotalUsersCount: (totalCount: number) => void,
     setCurrentPage: (currP: number) => void,
-    switchIsFetching: (isFetch: boolean) => void,
-    switchIsLoading: (isLoading: boolean, userId : string) => void,
     isLoading: boolean,
     disabledUsers: Array<string>,
+    getUsersThunkCreator: (currentPage: number, pageSize: number) => void,
+    followUserThunkCreator: (userId: string) => void,
+    unfollowUserThunkCreator: (userId: string) => void,
 
 }
 
 class UsersContainer extends Component<UserPropsType, {}> {
 
     componentDidMount() {
-        debugger;
-        this.props.switchIsFetching(true);
-        UserApi.getUsers(this.props.currentPage, this.props.pageSize)
-            .then(response => {
-                // debugger;
-                this.props.switchIsFetching(false);
-                this.props.setUsers(response.items);
-                this.props.setTotalUsersCount(response.totalCount)
-            })
-            .catch(console.log);
+        // debugger;
+        this.props.getUsersThunkCreator(this.props.currentPage, this.props.pageSize);
+        /*        this.props.switchIsFetching(true);
+                UserApi.getUsers(this.props.currentPage, this.props.pageSize)
+                    .then(response => {
+                        // debugger;
+                        this.props.switchIsFetching(false);
+                        this.props.setUsers(response.items);
+                        this.props.setTotalUsersCount(response.totalCount)
+                    })
+                    .catch(console.log);*/
     }
 
     onClickHandler = (pageNumber: number) => {
-        // debugger;
-        this.props.switchIsFetching(true);
         this.props.setCurrentPage(pageNumber);
-        UserApi.getUsers(pageNumber, this.props.pageSize)
-            .then(response => {
-                // debugger;
-                this.props.switchIsFetching(false);
-                this.props.setUsers(response.items);
-            })
-            .catch(console.log);
+        this.props.getUsersThunkCreator(pageNumber, this.props.pageSize);
     }
 
     render() {
         // debugger;
-        const {users, follow, unfollow, currentPage, isFetching, isLoading, switchIsLoading, disabledUsers} = this.props;
+        const {users, currentPage, isFetching, isLoading, disabledUsers} = this.props;
 
         return (
             <React.Fragment>
                 {isFetching && <Preloader/>}
                 {!isFetching && <Users users={users}
-                                       followUser={follow}
-                                       unfollowUser={unfollow}
+                                       followUserThunkCreator={this.props.followUserThunkCreator}
+                                       unfollowUserThunkCreator={this.props.unfollowUserThunkCreator}
                                        currentPage={currentPage}
                                        isLoading={isLoading}
-                                       switchIsLoading={switchIsLoading}
                                        disabledUsers={disabledUsers}
                                        onClickHandler={this.onClickHandler}/>}
             </React.Fragment>
@@ -97,6 +83,7 @@ let mapStateToProps = (state: AppStateType) => {
 
 export default connect(mapStateToProps,
     {
-        follow, unfollow, setUsers, setTotalUsersCount,
-        setCurrentPage, switchIsFetching, switchIsLoading
+        // that's all calback's
+        setCurrentPage,
+        getUsersThunkCreator, unfollowUserThunkCreator, followUserThunkCreator
     })(UsersContainer);

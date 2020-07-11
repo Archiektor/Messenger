@@ -1,3 +1,8 @@
+import {UserApi} from "../components/api/api";
+import {Action, Dispatch} from "redux";
+import {AppStateType} from "./redux-store";
+import {ThunkAction} from "redux-thunk";
+
 const FOLLOW = "FOLLOW";
 const UNFOLLOW = "UNFOLLOW";
 const SET_USERS = "SET_USERS";
@@ -36,7 +41,7 @@ type SwitchIsLoadingACType = {
     userId: string,
 }
 
-type UsersReducerActionType = FollowACType | UnFollowACType | SetUsersACType | SetTotalUsersCountACType |
+type UsersReducerActionsType = FollowACType | UnFollowACType | SetUsersACType | SetTotalUsersCountACType |
     SetCurrentPageACType | SwitchIsFetchingACType | SwitchIsLoadingACType;
 
 export type UserType = {
@@ -65,8 +70,8 @@ export type UsersPage = {
 }
 
 // Action Creator's
-export const follow = (userId: string): FollowACType => ({type: FOLLOW, userId: userId});
-export const unfollow = (userId: string): UnFollowACType => ({type: UNFOLLOW, userId: userId});
+export const followSuccess = (userId: string): FollowACType => ({type: FOLLOW, userId: userId});
+export const unfollowSuccess = (userId: string): UnFollowACType => ({type: UNFOLLOW, userId: userId});
 export const setUsers = (users: Array<UserType>): SetUsersACType => ({type: SET_USERS, users: users});
 export const setTotalUsersCount = (totalUsersCount: number): SetTotalUsersCountACType => ({
     type: SET_TOTAL_USERS_COUNT,
@@ -77,7 +82,11 @@ export const switchIsFetching = (isFetching: boolean): SwitchIsFetchingACType =>
     type: SWITCH_IS_FETCHING,
     isFetching
 });
-export const switchIsLoading = (isLoading: boolean, userId : string): SwitchIsLoadingACType => ({type: SWITCH_IS_LOADING, isLoading, userId});
+export const switchIsLoading = (isLoading: boolean, userId: string): SwitchIsLoadingACType => ({
+    type: SWITCH_IS_LOADING,
+    isLoading,
+    userId
+});
 
 let initialState: UsersPage = {
     users: [],
@@ -89,7 +98,7 @@ let initialState: UsersPage = {
     disabledUsers: [],
 }
 
-const usersReducer = (partOfState: UsersPage = initialState, action: UsersReducerActionType): UsersPage => {
+const usersReducer = (partOfState: UsersPage = initialState, action: UsersReducerActionsType): UsersPage => {
     switch (action.type) {
         case FOLLOW: {
             let partOfStateCopy = {
@@ -132,14 +141,56 @@ const usersReducer = (partOfState: UsersPage = initialState, action: UsersReduce
         }
         case SWITCH_IS_LOADING: {
             // debugger;
-            return {...partOfState,
+            return {
+                ...partOfState,
                 disabledUsers: action.isLoading ?
                     [...partOfState.disabledUsers, action.userId] :
-                    partOfState.disabledUsers.filter(id => id !== action.userId)}
+                    partOfState.disabledUsers.filter(id => id !== action.userId)
+            }
         }
 
         default:
             return partOfState;
+    }
+}
+
+// type GetStateType = () => AppStateType;
+type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, UsersReducerActionsType>;
+
+export const getUsersThunkCreator = (currentPage: number, pageSize: number): ThunkType => {
+    return async (dispatch) => { // getUsersThunk
+        dispatch(switchIsFetching(true));
+        let data = await UserApi.getUsers(currentPage, pageSize);
+        // debugger;
+        dispatch(switchIsFetching(false));
+        dispatch(setUsers(data.items));
+        dispatch(setTotalUsersCount(data.totalCount))
+    }
+}
+
+export const unfollowUserThunkCreator = (userId: string): ThunkType => {
+    // debugger;
+    return async (dispatch) => {
+        dispatch(switchIsLoading(true, userId));
+        let data = await UserApi.unfollowUser(userId)
+        // debugger;
+        dispatch(switchIsLoading(false, userId));
+        if (data.resultCode === 0) {
+            dispatch(unfollowSuccess(userId));
+        }
+    }
+}
+
+export const followUserThunkCreator = (userId: string): ThunkType => {
+    // debugger;
+    return async (dispatch) => { // getFollowUserThunk
+        dispatch(switchIsLoading(true, userId));
+        debugger;
+        let data = await UserApi.followUser(userId);
+        dispatch(switchIsLoading(false, userId));
+        if (data.resultCode === 0) {
+            dispatch(followSuccess(userId));
+        }
     }
 }
 

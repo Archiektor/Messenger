@@ -3,12 +3,14 @@ import React from "react";
 import css from "./profileinfo.module.css";
 import {UserProfileType} from "../../../redux/profile-reducer";
 import {Preloader} from "../../common/Preloader/Preloader";
+import saitama from "../../../assets/images/saitama.png";
 
 type ProfileInfoType = {
     profile: UserProfileType,
 }
 
 const ProfileInfo: React.FC<ProfileInfoType> = (props) => {
+    // debugger;
     if (!props.profile) {
         return <Preloader/>
     } else {
@@ -21,7 +23,7 @@ const ProfileInfo: React.FC<ProfileInfoType> = (props) => {
                 </div>
                 <div className={css.mainInfo}>
                     <img className={css.profImg}
-                         src={props.profile.photos ? props.profile.photos.small : "https://static.zerochan.net/Saitama.%28One.Punch.Man%29.full.1947184.jpg"}
+                         src={props.profile.photos === null ? "https://c7.hotpng.com/preview/483/187/617/one-punch-man-youtube-saitama-desktop-wallpaper-one-punch-man.jpg" : props.profile.photos.small}
                          alt={""}/>
                     <div className={css.userInfo}>
                         <h2>{props.profile.fullName}</h2>
