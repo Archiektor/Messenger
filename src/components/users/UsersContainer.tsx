@@ -32,15 +32,6 @@ class UsersContainer extends Component<UserPropsType, {}> {
     componentDidMount() {
         // debugger;
         this.props.getUsersThunkCreator(this.props.currentPage, this.props.pageSize);
-        /*        this.props.switchIsFetching(true);
-                UserApi.getUsers(this.props.currentPage, this.props.pageSize)
-                    .then(response => {
-                        // debugger;
-                        this.props.switchIsFetching(false);
-                        this.props.setUsers(response.items);
-                        this.props.setTotalUsersCount(response.totalCount)
-                    })
-                    .catch(console.log);*/
     }
 
     onClickHandler = (pageNumber: number) => {
@@ -81,9 +72,11 @@ let mapStateToProps = (state: AppStateType) => {
     }
 }
 
+// export default compose(
+//     withRedirect,
+//     connect(mapStateToProps,
+//         {setCurrentPage, getUsersThunkCreator, unfollowUserThunkCreator, followUserThunkCreator})
+// )(UsersContainer)
+
 export default connect(mapStateToProps,
-    {
-        // that's all calback's
-        setCurrentPage,
-        getUsersThunkCreator, unfollowUserThunkCreator, followUserThunkCreator
-    })(UsersContainer);
+    {setCurrentPage, getUsersThunkCreator, unfollowUserThunkCreator, followUserThunkCreator})(UsersContainer);

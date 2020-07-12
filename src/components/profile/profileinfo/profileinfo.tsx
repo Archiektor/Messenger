@@ -3,7 +3,7 @@ import React from "react";
 import css from "./profileinfo.module.css";
 import {UserProfileType} from "../../../redux/profile-reducer";
 import {Preloader} from "../../common/Preloader/Preloader";
-import saitama from "../../../assets/images/saitama.png";
+import ProfileStatus from "./ProfileStatus";
 
 type ProfileInfoType = {
     profile: UserProfileType,
@@ -27,6 +27,7 @@ const ProfileInfo: React.FC<ProfileInfoType> = (props) => {
                          alt={""}/>
                     <div className={css.userInfo}>
                         <h2>{props.profile.fullName}</h2>
+                        <ProfileStatus status={"Want to drink coffe"}/>
                         <p>{props.profile.lookingForAJobDescription}</p>
                         <p>{props.profile.aboutMe ? props.profile.aboutMe : 'null'}</p>
                         <hr/>

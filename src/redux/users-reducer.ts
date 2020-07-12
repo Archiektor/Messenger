@@ -1,5 +1,4 @@
 import {UserApi} from "../components/api/api";
-import {Action, Dispatch} from "redux";
 import {AppStateType} from "./redux-store";
 import {ThunkAction} from "redux-thunk";
 
@@ -128,19 +127,15 @@ const usersReducer = (partOfState: UsersPage = initialState, action: UsersReduce
             return {...partOfState, users: action.users!}
         }
         case SET_TOTAL_USERS_COUNT: {
-            // debugger;
             return {...partOfState, totalUsersCount: action.totalUsersCount}
         }
         case SET_CURRENT_PAGE: {
-            // debugger;
             return {...partOfState, currentPage: action.currentPage}
         }
         case SWITCH_IS_FETCHING: {
-            // debugger;
             return {...partOfState, isFetching: action.isFetching}
         }
         case SWITCH_IS_LOADING: {
-            // debugger;
             return {
                 ...partOfState,
                 disabledUsers: action.isLoading ?
@@ -169,11 +164,9 @@ export const getUsersThunkCreator = (currentPage: number, pageSize: number): Thu
 }
 
 export const unfollowUserThunkCreator = (userId: string): ThunkType => {
-    // debugger;
     return async (dispatch) => {
         dispatch(switchIsLoading(true, userId));
         let data = await UserApi.unfollowUser(userId)
-        // debugger;
         dispatch(switchIsLoading(false, userId));
         if (data.resultCode === 0) {
             dispatch(unfollowSuccess(userId));
@@ -182,10 +175,8 @@ export const unfollowUserThunkCreator = (userId: string): ThunkType => {
 }
 
 export const followUserThunkCreator = (userId: string): ThunkType => {
-    // debugger;
     return async (dispatch) => { // getFollowUserThunk
         dispatch(switchIsLoading(true, userId));
-        debugger;
         let data = await UserApi.followUser(userId);
         dispatch(switchIsLoading(false, userId));
         if (data.resultCode === 0) {

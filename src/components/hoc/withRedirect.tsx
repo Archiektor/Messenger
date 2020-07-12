@@ -6,17 +6,14 @@ type WithSomeProps = {
 }
 
 export const withRedirect = <P extends object>(Component: React.ComponentType<P>) => {
-    const RedirectComponent: React.FC<P & WithSomeProps> = (props) => {
+    return (props: P & WithSomeProps) => {
         if (!props.isAuth) return <Redirect to={"/login"}/>
         return <Component {...props}/>
     }
-
-/*    let mapStateToPropsForRedirect = (state: AppStateType): { isAuth: boolean } => {
-        return {
-            isAuth: state.auth.isAuth,
+    /*    let mapStateToPropsForRedirect = (state: AppStateType): { isAuth: boolean } => {
+            return {
+                isAuth: state.auth.isAuth,
+            }
         }
-    }
-    let ConnectedRedirectComponent = connect(mapStateToPropsForRedirect)(RedirectComponent)*/
-
-    return RedirectComponent;
+        let ConnectedRedirectComponent = connect(mapStateToPropsForRedirect)(RedirectComponent)*/
 }

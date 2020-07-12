@@ -4,7 +4,6 @@ import css from "./dialogs.module.css";
 import DialogItem from "./dialogitem/dialogitem";
 import Message from "./message/message";
 import {DialogsPage} from "../../redux/dialogs-reducer";
-import {Redirect} from "react-router-dom";
 
 type PropsType = {
     dialogsPage: DialogsPage,
