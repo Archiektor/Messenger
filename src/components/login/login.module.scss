@@ -1,0 +1,15 @@
+@import "src/sass/variables/variables";
+
+.wrapper {
+  @include makeWH(500px, 300px);
+  @include flexDirection(column);
+  background-color: #e5e5e5;
+  margin: 25px 50px;
+}
+
+.form {
+  font: 400 0.9rem/1.6 "Century Gothic";
+  div {
+    margin: 5px;
+  }
+}

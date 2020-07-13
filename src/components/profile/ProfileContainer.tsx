@@ -2,7 +2,12 @@ import React, {Component} from "react";
 import Profile from "./profile";
 import {connect} from "react-redux";
 import {AppStateType} from "../../redux/redux-store";
-import {showProfileThunkCreator, UserProfileType} from "../../redux/profile-reducer";
+import {
+    getStatusThunkCreator,
+    showProfileThunkCreator,
+    updateStatusThunkCreator,
+    UserProfileType
+} from "../../redux/profile-reducer";
 import {RouteComponentProps, withRouter} from "react-router-dom";
 
 type TParams = {
@@ -11,31 +16,40 @@ type TParams = {
 
 type ProfileContainerType = RouteComponentProps<TParams> & {
     profile: UserProfileType,
-    showProfileThunkCreator: (userId: string) => void,
     isAuth: boolean,
+    status: string,
+    showProfileThunkCreator: (userId: string) => void,
+    getStatusThunkCreator: (userId: string) => void,
+    updateStatusThunkCreator: (status: string) => void,
 };
 
 class ProfileContainer extends Component<ProfileContainerType, {}> {
     componentDidMount() {
-        this.props.showProfileThunkCreator(this.props.match.params.userId)
+        let userId = this.props.match.params.userId;
+        if(!userId){
+            userId = "9187";
+        }
+        this.props.showProfileThunkCreator(userId);
+        this.props.getStatusThunkCreator(userId);
     }
 
     render() {
         return (
-            <Profile {...this.props} profile={this.props.profile}/>
+            <Profile {...this.props} profile={this.props.profile} status={this.props.status} updateStatusThunkCreator={this.props.updateStatusThunkCreator}/>
         )
     }
 }
 
 // get state => throw state to props
-let mapStateToProps = (state: AppStateType): { profile: UserProfileType, isAuth: boolean } => {
+let mapStateToProps = (state: AppStateType): { profile: UserProfileType, isAuth: boolean, status: string } => {
     return {
         profile: state.profilePage.profile,
-        isAuth: state.auth.isAuth
+        isAuth: state.auth.isAuth,
+        status: state.profilePage.status,
     }
 }
 
 // return component with RoutePath
 let withUrlDataContainerComponent = withRouter(ProfileContainer); // withRedirect()
 
-export default connect(mapStateToProps, {showProfileThunkCreator})(withUrlDataContainerComponent);
+export default connect(mapStateToProps, {showProfileThunkCreator, getStatusThunkCreator, updateStatusThunkCreator})(withUrlDataContainerComponent);

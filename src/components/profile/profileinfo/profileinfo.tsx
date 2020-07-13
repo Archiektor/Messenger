@@ -7,6 +7,8 @@ import ProfileStatus from "./ProfileStatus";
 
 type ProfileInfoType = {
     profile: UserProfileType,
+    status: string,
+    updateStatusThunkCreator: (status: string) => void,
 }
 
 const ProfileInfo: React.FC<ProfileInfoType> = (props) => {
@@ -27,7 +29,7 @@ const ProfileInfo: React.FC<ProfileInfoType> = (props) => {
                          alt={""}/>
                     <div className={css.userInfo}>
                         <h2>{props.profile.fullName}</h2>
-                        <ProfileStatus status={"Want to drink coffe"}/>
+                        <ProfileStatus status={props.status} updateStatus={props.updateStatusThunkCreator}/>
                         <p>{props.profile.lookingForAJobDescription}</p>
                         <p>{props.profile.aboutMe ? props.profile.aboutMe : 'null'}</p>
                         <hr/>

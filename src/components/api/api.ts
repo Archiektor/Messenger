@@ -82,6 +82,34 @@ export const AuthAPI = {
     },
 }
 
+export const ProfileApi = {
+    showProfile: async (userId: string): Promise<UserProfileType> => {
+        try {
+            const {data} = await instance.get(`profile/${userId ? userId : "9187"}`);
+            // debugger;
+            return data;
+        } catch (e) {
+            throw new Error(e);
+        }
+    },
+    getStatus: async (userId: string): Promise<string> => {
+        try {
+            const {data} = await instance.get(`profile/status/${userId}`);
+            return data;
+        } catch (e) {
+            throw new Error(e);
+        }
+    },
+    updateStatus: async (status: string) => {
+        try {
+            const {data} = await instance.put(`profile/status`, {status: status});
+            return data;
+        }catch (e) {
+            throw new Error(e);
+        }
+    }
+}
+
 
 
 

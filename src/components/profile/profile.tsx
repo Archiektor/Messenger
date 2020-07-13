@@ -5,12 +5,14 @@ import {UserProfileType} from "../../redux/profile-reducer";
 
 type ProfileType = {
     profile: UserProfileType,
+    status: string,
+    updateStatusThunkCreator: (status: string) => void,
 }
 
-const Profile: React.FC<ProfileType> = ({profile}) => {
+const Profile: React.FC<ProfileType> = ({profile, status, updateStatusThunkCreator}) => {
     return (
         <div>
-            <ProfileInfo profile={profile}/>
+            <ProfileInfo profile={profile} status={status} updateStatusThunkCreator = {updateStatusThunkCreator}/>
             <MyPostsContainer/>
         </div>
     )
