@@ -1,0 +1,27 @@
+.textarea {
+
+  &__span {
+    color: darkred;
+    display: block;
+    margin-left: 30px;
+    font-size: 1.1rem;
+  }
+  &_error {
+    border: 2px darkred solid;
+  }
+}
+
+.input {
+
+  &__span {
+    color: darkred;
+    display: block;
+    margin-left: 30px;
+    font-size: 1.1rem;
+  }
+  &_error {
+    border: 2px darkred solid;
+  }
+}
+
+

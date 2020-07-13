@@ -4,6 +4,8 @@ import s from "./login.module.scss";
 import {Field, InjectedFormProps, reduxForm} from 'redux-form'
 import {AuthAPI} from "../api/api";
 import {AppStateType} from "../../redux/redux-store";
+import {CustomInput} from "../common/FormsControl/FormsControl";
+import {maxLengthCreator, required} from "../utils/validators/validators";
 
 type FormData = {
     login: string,
@@ -16,7 +18,6 @@ type LoginFormType = {
 }
 
 const Login = () => {
-
     const onSubmitHandler = (formData: FormData) => {
         console.log(formData);
         AuthAPI.unloginMe()
@@ -41,17 +42,21 @@ const Login = () => {
     )
 }
 
+const maxLength30 = maxLengthCreator(30);
+
 const LoginForm: React.FC<InjectedFormProps<FormData, LoginFormType> & LoginFormType> = (props) => {
     return (
         <form onSubmit={props.handleSubmit} className={s.form}>
             <div>
-                <Field name={"login"} type="text" placeholder={`Login:`} component={"input"}/>
+                <Field name={"login"} type="text" placeholder={`Login:`} component={CustomInput}
+                       validate={[required, maxLength30]}/>
             </div>
             <div>
-                <Field name={"password"} type="password" placeholder={`Password:`} component={"input"}/>
+                <Field name={"password"} type="password" placeholder={`Password:`} component={CustomInput}
+                       validate={[required, maxLength30]}/>
             </div>
             <div>
-                <Field name={"rememberMe"} component={"input"} type="checkbox"/> remember me
+                <Field name={"rememberMe"} component={CustomInput} type="checkbox"/> remember me
             </div>
             <div>
                 <button>Login</button>
@@ -66,6 +71,8 @@ const LoginReduxForm = reduxForm<FormData, LoginFormType>({
     form: 'login'
 })(LoginForm)
 
-let mapStateToProps = (state: AppStateType) => ({});
+type MapStateToProps = {}
+
+let mapStateToProps = (state: AppStateType): MapStateToProps => ({});
 
 export default Login;
