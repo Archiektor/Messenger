@@ -74,7 +74,27 @@ export const AuthAPI = {
     authMe: async (): Promise<AuthMeType> => {
         try {
             const {data} = await instance.get(`auth/me`);
-            // debugger;
+            return data;
+        } catch (e) {
+            throw new Error(e);
+        }
+    },
+    loginMe: async (email: string, password: string, rememberMe?: boolean, captcha?: boolean) => {
+        try {
+            const {data} = await instance.post(`auth/login`, {
+                email: email,
+                password: password,
+                remeberMe: rememberMe ? rememberMe : false,
+                captcha: captcha ? captcha : false,
+            });
+            return data;
+        } catch (e) {
+            throw new Error(e);
+        }
+    },
+    unloginMe: async () => {
+        try {
+            const {data} = await instance.delete(`auth/login`);
             return data;
         } catch (e) {
             throw new Error(e);
@@ -104,7 +124,7 @@ export const ProfileApi = {
         try {
             const {data} = await instance.put(`profile/status`, {status: status});
             return data;
-        }catch (e) {
+        } catch (e) {
             throw new Error(e);
         }
     }

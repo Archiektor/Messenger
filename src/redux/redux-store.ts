@@ -5,6 +5,7 @@ import friendsReducer from "./friends-reducer";
 import usersReducer from "./users-reducer";
 import authReducer from "./auth-reducer";
 import thunkMiddleware from "redux-thunk";
+import { reducer as formReducer } from 'redux-form'
 
 // наш reducers это фактически state = {profilePage: [data], dialogsPage: [data], friendsPage: [data]}
 let reducers = combineReducers({
@@ -14,6 +15,7 @@ let reducers = combineReducers({
     usersPage: usersReducer,
     friendsPage: friendsReducer,
     auth: authReducer,
+    form: formReducer,
 });
 
 export type AppStateType = ReturnType<typeof reducers>

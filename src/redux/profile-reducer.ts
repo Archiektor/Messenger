@@ -1,19 +1,15 @@
 import {v1} from "uuid";
 import {ThunkAction} from "redux-thunk";
 import {AppStateType} from "./redux-store";
-import {ProfileApi, UserApi} from "../components/api/api";
+import {ProfileApi} from "../components/api/api";
 
 const ADD_POST = "ADD-POST";
-const UPDATE_NEW_POST_TEXT = "UPDATE-NEW-POST-TEXT";
 const SET_USER_PROFILE = "SET_USER_PROFILE";
 const SET_STATUS = "SET_STATUS";
 
 type addPostACType = {
     type: typeof ADD_POST,
-}
-type updateNewPostTextACType = {
-    type: typeof UPDATE_NEW_POST_TEXT,
-    newText: string,
+    newPostBody: string,
 }
 type setUserProfileACType = {
     type: typeof SET_USER_PROFILE,
@@ -23,7 +19,7 @@ type setStatusACType = {
     type: typeof SET_STATUS,
     status: string,
 }
-type ProfileReducerActionType = addPostACType | updateNewPostTextACType | setUserProfileACType | setStatusACType;
+type ProfileReducerActionType = addPostACType | setUserProfileACType | setStatusACType;
 
 export type PostType = {
     id: string,
@@ -58,11 +54,7 @@ export type UserProfileType = null | {
     }
 }
 
-export const addPostAC = (): addPostACType => ({type: ADD_POST});
-export const updateNewPostTextAC = (modifiedText: string): updateNewPostTextACType => ({
-    type: UPDATE_NEW_POST_TEXT,
-    newText: modifiedText
-});
+export const addPostAC = (text: string): addPostACType => ({type: ADD_POST, newPostBody: text});
 export const setUserProfile = (profile: UserProfileType): setUserProfileACType => ({
     type: SET_USER_PROFILE,
     profile: profile,
@@ -92,17 +84,9 @@ const profileReducer = (partOfState: ProfilePage = initialState, action: Profile
             partOfStateCopy = {...partOfState, posts: [...partOfState.posts],};
             partOfStateCopy.posts = [...partOfStateCopy.posts, {
                 id: v1(),
-                message: partOfStateCopy.newPostText,
+                message: action.newPostBody,
                 likesCount: 0
             }];
-            partOfStateCopy.newPostText = "";
-            return partOfStateCopy;
-        }
-        case UPDATE_NEW_POST_TEXT: {
-            partOfStateCopy = {...partOfState};
-            if (action.newText) {
-                partOfStateCopy.newPostText = action.newText;
-            }
             return partOfStateCopy;
         }
         case SET_USER_PROFILE: {

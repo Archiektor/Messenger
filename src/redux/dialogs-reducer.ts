@@ -1,16 +1,12 @@
 import {v1} from "uuid";
 
 const ADD_MESSAGE = "ADD-MESSAGE";
-const UPDATE_NEW_MESSAGE_TEXT = "Update-New-Message-Text";
 
 type AddMessageAC = {
     type: typeof ADD_MESSAGE,
-};
-type UpdatenewMessageTextAC = {
-    type: typeof UPDATE_NEW_MESSAGE_TEXT,
     newMsg: string,
 };
-type DialogsReducerActionType = AddMessageAC | UpdatenewMessageTextAC;
+type DialogsReducerActionType = AddMessageAC;
 
 export type MessageType = {
     id: string,
@@ -25,14 +21,9 @@ export type DialogType = {
 export type DialogsPage = {
     messages: Array<MessageType>,
     dialogs: Array<DialogType>,
-    newMessageText: string,
 }
 
-export const AddMessageAC = (): AddMessageAC => ({type: ADD_MESSAGE});
-export const UpdatenewMessageTextAC = (message: string): UpdatenewMessageTextAC => ({
-    type: UPDATE_NEW_MESSAGE_TEXT,
-    newMsg: message
-});
+export const addNewMessageAC = (newMsg: string): AddMessageAC => ({type: ADD_MESSAGE, newMsg: newMsg});
 
 let initialState = {
     messages: [
@@ -50,7 +41,6 @@ let initialState = {
         {key: v1(), id: 5, name: "Timur"},
         {key: v1(), id: 6, name: "Roxenne"},
     ],
-    newMessageText: "",
 }
 
 const dialogsReducer = (partOfState: DialogsPage = initialState, action: DialogsReducerActionType): DialogsPage => {
@@ -58,15 +48,7 @@ const dialogsReducer = (partOfState: DialogsPage = initialState, action: Dialogs
     switch (action.type) {
         case ADD_MESSAGE: {
             partOfStateCopy = {...partOfState, messages: [...partOfState.messages],};
-            partOfStateCopy.messages = [...partOfStateCopy.messages, {id: v1(), text: partOfStateCopy.newMessageText,}];
-            partOfStateCopy.newMessageText = "";
-            return partOfStateCopy;
-        }
-        case UPDATE_NEW_MESSAGE_TEXT: {
-            partOfStateCopy = {...partOfState,}
-            if (action.newMsg) {
-                partOfStateCopy.newMessageText = action.newMsg;
-            }
+            partOfStateCopy.messages = [...partOfStateCopy.messages, {id: v1(), text: action.newMsg,}];
             return partOfStateCopy;
         }
         default:
