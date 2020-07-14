@@ -102,17 +102,16 @@ const profileReducer = (partOfState: ProfilePage = initialState, action: Profile
 
 type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ProfileReducerActionType>;
 
-export const showProfileThunkCreator = (userId: string): ThunkType => {
+export const showProfileThunkCreator = (userId: number): ThunkType => {
     return async (dispatch) => {
         let data = await ProfileApi.showProfile(userId)
         dispatch(setUserProfile(data));
     }
 }
 
-export const getStatusThunkCreator = (userId: string): ThunkType => {
+export const getStatusThunkCreator = (userId: number): ThunkType => {
     return async (dispatch) => {
         let data = await ProfileApi.getStatus(userId);
-        // debugger;
         dispatch(setStatus(data));
     }
 }
@@ -120,7 +119,6 @@ export const getStatusThunkCreator = (userId: string): ThunkType => {
 export const updateStatusThunkCreator = (status: string): ThunkType => {
     return async (dispatch) => {
         let data = await ProfileApi.updateStatus(status);
-        // debugger;
         if (data.resultCode === 0) {
             dispatch(setStatus(status));
         }

@@ -79,7 +79,7 @@ export const AuthAPI = {
             throw new Error(e);
         }
     },
-    loginMe: async (email: string, password: string, rememberMe?: boolean, captcha?: boolean) => {
+    loginMe: async (email: string, password: string, rememberMe: boolean = false, captcha?: boolean) => {
         try {
             const {data} = await instance.post(`auth/login`, {
                 email: email,
@@ -92,7 +92,7 @@ export const AuthAPI = {
             throw new Error(e);
         }
     },
-    unloginMe: async () => {
+    logoutMe: async () => {
         try {
             const {data} = await instance.delete(`auth/login`);
             return data;
@@ -103,16 +103,16 @@ export const AuthAPI = {
 }
 
 export const ProfileApi = {
-    showProfile: async (userId: string): Promise<UserProfileType> => {
+    showProfile: async (userId: number): Promise<UserProfileType> => {
         try {
-            const {data} = await instance.get(`profile/${userId ? userId : "9187"}`);
-            // debugger;
+            const {data} = await instance.get(`profile/${userId ? userId : 9187}`);
             return data;
         } catch (e) {
             throw new Error(e);
         }
     },
-    getStatus: async (userId: string): Promise<string> => {
+    getStatus: async (userId: number): Promise<string> => {
+        debugger;
         try {
             const {data} = await instance.get(`profile/status/${userId}`);
             return data;

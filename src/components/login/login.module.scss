@@ -13,3 +13,19 @@
     margin: 5px;
   }
 }
+
+.remember {
+  display: flex;
+  flex-flow: row nowrap;
+  text-align: left;
+
+  &__span {
+    margin-left: -135px;
+  }
+}
+
+.summaryError {
+  color: #7f2121;
+  border: 2px darkred solid;
+  padding: 5px;
+}
