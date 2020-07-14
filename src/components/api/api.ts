@@ -112,7 +112,6 @@ export const ProfileApi = {
         }
     },
     getStatus: async (userId: number): Promise<string> => {
-        debugger;
         try {
             const {data} = await instance.get(`profile/status/${userId}`);
             return data;
