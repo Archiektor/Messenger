@@ -28,8 +28,14 @@ class ProfileContainer extends Component<ProfileContainerType, {}> {
     componentDidMount() {
         let userId = this.props.match.params.userId
         if (!userId) {
-            // userId = this.props.authorizedUserId;
+            // Error
+            // @ts-ignore
             userId = '9187';
+            /*            userId = this.props.authorizedUserId;
+                        debugger;
+                        if (!userId) {
+                            this.props.history.push("/login")
+                        }*/
         }
         this.props.showProfileThunkCreator(Number(userId));
         this.props.getStatusThunkCreator(Number(userId));
@@ -56,7 +62,7 @@ let mapStateToProps = (state: AppStateType): MapStatePropsType => {
         profile: state.profilePage.profile,
         isAuth: state.auth.isAuth,
         status: state.profilePage.status,
-        authorizedUserId: state.auth.userId
+        authorizedUserId: state.auth.id
     }
 }
 

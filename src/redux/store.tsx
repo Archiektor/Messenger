@@ -9,20 +9,20 @@ import {UserType} from "./users-reducer";
 
 export type DialogType = {
     key: string,
-    userId: number,
+    id: number,
     name: string,
 }
 export type MessageType = {
-    userId: string,
+    id: string,
     text: string,
 }
 export type PostType = {
-    userId: string,
+    id: string,
     message: string,
     likesCount: number
 }
 export type FriendType = {
-    userId: string,
+    id: string,
     name: string,
     age?: number,
     picture: string,
@@ -48,40 +48,40 @@ let store: StoreType = {
     _state: {
         profilePage: {
             posts: [
-                {userId: v1(), message: `Hi, how are you ?`, likesCount: 12},
-                {userId: v1(), message: `Coffin dance ?`, likesCount: 5},
-                {userId: v1(), message: `I'm too bored`, likesCount: 2},
-                {userId: v1(), message: `Goint to night fish`, likesCount: 13},
-                {userId: v1(), message: `Courage`, likesCount: 0},
+                {id: v1(), message: `Hi, how are you ?`, likesCount: 12},
+                {id: v1(), message: `Coffin dance ?`, likesCount: 5},
+                {id: v1(), message: `I'm too bored`, likesCount: 2},
+                {id: v1(), message: `Goint to night fish`, likesCount: 13},
+                {id: v1(), message: `Courage`, likesCount: 0},
             ],
             newPostText: "",
         },
         dialogsPage: {
             messages: [
-                {userId: v1(), text: "Hello"},
-                {userId: v1(), text: `WTF i'm doing here...`},
-                {userId: v1(), text: `Alahabara`},
-                {userId: v1(), text: `For glory`},
-                {userId: v1(), text: `Soft kitty`},
+                {id: v1(), text: "Hello"},
+                {id: v1(), text: `WTF i'm doing here...`},
+                {id: v1(), text: `Alahabara`},
+                {id: v1(), text: `For glory`},
+                {id: v1(), text: `Soft kitty`},
             ],
             dialogs: [
-                {key: v1(), userId: 1, name: "Nikki"},
-                {key: v1(), userId: 2, name: "Dima"},
-                {key: v1(), userId: 3, name: "Ania"},
-                {key: v1(), userId: 4, name: "Tanya"},
-                {key: v1(), userId: 5, name: "Timur"},
-                {key: v1(), userId: 6, name: "Roxenne"},
+                {key: v1(), id: 1, name: "Nikki"},
+                {key: v1(), id: 2, name: "Dima"},
+                {key: v1(), id: 3, name: "Ania"},
+                {key: v1(), id: 4, name: "Tanya"},
+                {key: v1(), id: 5, name: "Timur"},
+                {key: v1(), id: 6, name: "Roxenne"},
             ],
             newMessageText: "",
         },
         friendsPage: {
             friends: [
-                {userId: v1(), name: "Nikki", age: 28, picture: "#"},
-                {userId: v1(), name: "Anna", age: 34, picture: "#"},
-                {userId: v1(), name: "Sveta", age: 15, picture: "#"},
-                {userId: v1(), name: "Marco", age: 28, picture: "#"},
-                {userId: v1(), name: "Greg", age: 34, picture: "#"},
-                {userId: v1(), name: "Agnes", age: 15, picture: "#"}],
+                {id: v1(), name: "Nikki", age: 28, picture: "#"},
+                {id: v1(), name: "Anna", age: 34, picture: "#"},
+                {id: v1(), name: "Sveta", age: 15, picture: "#"},
+                {id: v1(), name: "Marco", age: 28, picture: "#"},
+                {id: v1(), name: "Greg", age: 34, picture: "#"},
+                {id: v1(), name: "Agnes", age: 15, picture: "#"}],
         }
     },
     _callSubsriber(state: AppStateType2) {

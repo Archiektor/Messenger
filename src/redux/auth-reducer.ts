@@ -16,7 +16,7 @@ type setUserDataACType = {
 type AuthReducerActionType = setUserDataACType | FormAction;
 
 export type UserDataType = {
-    userId: number | null,
+    id: number | null,
     email: string | null,
     login: string | null,
     isAuth: boolean,
@@ -31,7 +31,7 @@ export const setAuthUserData = (id: number | null, email: string | null, login: 
 })
 
 let initialState: UserDataType = {
-    userId: null,
+    id: null,
     email: null,
     login: null,
     isAuth: false,
@@ -40,22 +40,29 @@ let initialState: UserDataType = {
 const authReducer = (partOfState: UserDataType = initialState, action: setUserDataACType): UserDataType => {
     switch (action.type) {
         case SET_USER_DATA: {
-            return {...partOfState, userId: action.userId, email: action.email, login: action.login, isAuth: action.isAuth}
+            return {...partOfState, id: action.userId, email: action.email, login: action.login, isAuth: action.isAuth}
         }
         default:
             return partOfState;
     }
 }
 
-type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, AuthReducerActionType>
+/*type resultType = {
+    data: Object
+    messages: [string]
+    resultCode: number
+}*/
+// ! types any
+type ThunkType = ThunkAction<Promise<any>, AppStateType, unknown, AuthReducerActionType>
 
 export const AuthMeThunkCreator = (): ThunkType => {
     return async (dispatch) => {
         let data = await AuthAPI.authMe()
         if (data.resultCode === 0) {
-            const {userId, email, login} = data.data;
-            dispatch(setAuthUserData(userId, email, login, true));
+            const {id, email, login} = data.data;
+            dispatch(setAuthUserData(id, email, login, true));
         }
+        return data;
     }
 }
 

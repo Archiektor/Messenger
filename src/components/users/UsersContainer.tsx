@@ -10,6 +10,14 @@ import {
 import React, {Component} from "react";
 import {Users} from "./Users";
 import {Preloader} from "../common/Preloader/Preloader";
+import {
+    getCurrentPage, getDisabledUsers,
+    getIsFetching,
+    getIsLoading,
+    getPageSize,
+    getTotalUsersCount,
+    getUsers
+} from "../../redux/users-selectors";
 
 
 type UserPropsType = {
@@ -24,7 +32,6 @@ type UserPropsType = {
     getUsersThunkCreator: (currentPage: number, pageSize: number) => void,
     followUserThunkCreator: (userId: string) => void,
     unfollowUserThunkCreator: (userId: string) => void,
-
 }
 
 class UsersContainer extends Component<UserPropsType, {}> {
@@ -59,24 +66,20 @@ class UsersContainer extends Component<UserPropsType, {}> {
 }
 
 // get state => throw state to props
-let mapStateToProps = (state: AppStateType) => {
-    // debugger;
-    return {
-        users: state.usersPage.users,
-        pageSize: state.usersPage.pageSize,
-        totalUsersCount: state.usersPage.totalUsersCount,
-        currentPage: state.usersPage.currentPage,
-        isFetching: state.usersPage.isFetching,
-        isLoading: state.usersPage.isLoading,
-        disabledUsers: state.usersPage.disabledUsers,
-    }
-}
+let mapStateToProps = (state: AppStateType) => ({
+    users: getUsers(state),
+    pageSize: getPageSize(state),
+    totalUsersCount: getTotalUsersCount(state),
+    currentPage: getCurrentPage(state),
+    isFetching: getIsFetching(state),
+    isLoading: getIsLoading(state),
+    disabledUsers: getDisabledUsers(state),
+})
 
 // export default compose(
 //     withRedirect,
 //     connect(mapStateToProps,
 //         {setCurrentPage, getUsersThunkCreator, unfollowUserThunkCreator, followUserThunkCreator})
 // )(UsersContainer)
-
 export default connect(mapStateToProps,
     {setCurrentPage, getUsersThunkCreator, unfollowUserThunkCreator, followUserThunkCreator})(UsersContainer);

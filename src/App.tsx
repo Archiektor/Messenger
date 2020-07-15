@@ -7,26 +7,32 @@ import Navbar from "./components/navbar";
 import News from "./components/news";
 import Music from "./components/music";
 import Settings from "./components/settings";
-import store from "./redux/redux-store";
+import store, {AppStateType} from "./redux/redux-store";
 import DialogsContainer from "./components/dialogs/dialogsContainer";
 import UsersContainer from "./components/users/UsersContainer";
 import ProfileContainer from "./components/profile/ProfileContainer";
 import Login from "./components/login/login";
 import {connect} from "react-redux";
-import {AuthMeThunkCreator} from "./redux/auth-reducer";
 import {compose} from "redux";
+import {initializeAppThunkCreator} from "./redux/app-reducer";
+import {Preloader} from "./components/common/Preloader/Preloader";
 
 type AppPropsType = {
-    AuthMeThunkCreator: () => void,
+    initializeAppThunkCreator: () => void,
+    initialized: boolean,
 }
 
 class App extends React.Component<AppPropsType, {}> {
 
     componentDidMount() {
-        this.props.AuthMeThunkCreator();
+        this.props.initializeAppThunkCreator();
     }
 
     render() {
+        if(!this.props.initialized){
+            return <Preloader/>
+        }
+
         const {friendsPage} = store.getState();
 
         return (
@@ -50,7 +56,15 @@ class App extends React.Component<AppPropsType, {}> {
     }
 }
 
+type MapStateToPropsType = {
+    initialized: boolean
+}
+
+const mapStateToProps = (state: AppStateType): MapStateToPropsType => ({
+    initialized: state.app.initialized
+})
+
 export default compose(
     withRouter,
-    connect(null, {AuthMeThunkCreator})
+    connect(mapStateToProps, {initializeAppThunkCreator})
 )(App) as React.ComponentClass;

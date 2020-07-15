@@ -152,10 +152,10 @@ const usersReducer = (partOfState: UsersPage = initialState, action: UsersReduce
 // type GetStateType = () => AppStateType;
 type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, UsersReducerActionsType>;
 
-export const getUsersThunkCreator = (currentPage: number, pageSize: number): ThunkType => {
+export const getUsersThunkCreator = (page: number, pageSize: number): ThunkType => {
     return async (dispatch) => { // getUsersThunk
         dispatch(switchIsFetching(true));
-        let data = await UserApi.getUsers(currentPage, pageSize);
+        let data = await UserApi.getUsers(page, pageSize);
         // debugger;
         dispatch(switchIsFetching(false));
         dispatch(setUsers(data.items));

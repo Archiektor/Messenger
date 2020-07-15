@@ -41,7 +41,6 @@ export const UserApi = {
     },
     unfollowUser: async (userId: string): Promise<FollowUserType> => {
         try {
-            // debugger;
             const {data} = await instance.delete(`follow/${userId}`);
             // debugger;
             return data;
@@ -50,7 +49,6 @@ export const UserApi = {
         }
     },
     followUser: async (userId: string): Promise<FollowUserType> => {
-        debugger;
         try {
             const {data} = await instance.post(`follow/${userId}`, {});
             // debugger;
