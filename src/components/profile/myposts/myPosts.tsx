@@ -13,29 +13,33 @@ type MyPostsType = {
 }
 
 
-const MyPosts: React.FC<MyPostsType> = ({posts, addPost}) => {
-    let postElements = posts.map((post) => {
+const MyPosts: React.FC<MyPostsType> = React.memo(({posts, addPost}) => {
+    console.log("render");
+    //shouldComponentUpdate
+
+        let postElements = posts.map((post) => {
+            return (
+                <Post message={post.message} likesCount={post.likesCount} key={post.id}/>
+            )
+        })
+
+        const onSubmitHandler = (formData: FormDataType) => {
+            addPost(formData.newPostMessage);
+        }
+
         return (
-            <Post message={post.message} likesCount={post.likesCount} key={post.id}/>
+            <div className={css.postsBlock}>
+                <div className={css.addPostBlock}>
+                    <h3>{`Create your post :`}</h3>
+                    <MyPostsReduxForm onSubmit={onSubmitHandler}/>
+                </div>
+                <div className={css.posts}>
+                    {postElements}
+                </div>
+            </div>
         )
-    })
-
-    const onSubmitHandler = (formData: FormDataType) => {
-        addPost(formData.newPostMessage);
     }
-
-    return (
-        <div className={css.postsBlock}>
-            <div className={css.addPostBlock}>
-                <h3>{`Create your post :`}</h3>
-                <MyPostsReduxForm onSubmit={onSubmitHandler}/>
-            </div>
-            <div className={css.posts}>
-                {postElements}
-            </div>
-        </div>
-    )
-}
+)
 
 type FormDataType = {
     newPostMessage: string,

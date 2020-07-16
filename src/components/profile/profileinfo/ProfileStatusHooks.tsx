@@ -10,7 +10,6 @@ const ProfileStatusHooks: React.FC<PropsType> = (props) => {
     const [status, setStatus] = useState<string>(props.status);
 
     useEffect(() => {
-        console.log(`#2 componentDidUpdate`);
         // setStatus(prev => props.status)
         setStatus(props.status)
     }, [props.status]);
