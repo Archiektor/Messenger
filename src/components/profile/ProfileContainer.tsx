@@ -27,17 +27,17 @@ type ProfileContainerType = RouteComponentProps<TParams> & {
 class ProfileContainer extends Component<ProfileContainerType, {}> {
     componentDidMount() {
         let userId: string | number | null = this.props.match.params.userId
+        // debugger;
         if (!userId) {
             userId = this.props.authorizedUserId;
-            // debugger;
             if (!userId) {
+                // debugger;
                 this.props.history.push("/login");
-                // return;
-            } else {
-                this.props.showProfileThunkCreator(Number(userId));
-                this.props.getStatusThunkCreator(Number(userId));
+                return;
             }
         }
+        this.props.showProfileThunkCreator(Number(userId));
+        this.props.getStatusThunkCreator(Number(userId));
     }
 
     render() {
