@@ -1,4 +1,5 @@
 import {AppStateType} from "./redux-store";
+import {createSelector} from "reselect";
 
 export const getUsers = (state: AppStateType) => {
     return state.usersPage.users;
@@ -26,3 +27,9 @@ export const getIsLoading = (state: AppStateType) => {
 export const getDisabledUsers = (state: AppStateType) => {
     return state.usersPage.disabledUsers;
 }
+// selectors
+export const getUsersSelector = createSelector(getUsers, getIsFetching,(users, isFetching) => {
+    return users.filter(u => true)
+})
+
+

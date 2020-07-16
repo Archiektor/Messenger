@@ -4,6 +4,7 @@ import css from "./profileinfo.module.css";
 import {UserProfileType} from "../../../redux/profile-reducer";
 import {Preloader} from "../../common/Preloader/Preloader";
 import ProfileStatus from "./ProfileStatus";
+import ProfileStatusHooks from "./ProfileStatusHooks";
 
 type ProfileInfoType = {
     profile: UserProfileType,
@@ -29,7 +30,7 @@ const ProfileInfo: React.FC<ProfileInfoType> = (props) => {
                          alt={""}/>
                     <div className={css.userInfo}>
                         <h2>{props.profile.fullName}</h2>
-                        <ProfileStatus status={props.status} updateStatus={props.updateStatusThunkCreator}/>
+                        <ProfileStatusHooks status={props.status} updateStatus={props.updateStatusThunkCreator}/>
                         <p>{props.profile.lookingForAJobDescription}</p>
                         <p>{props.profile.aboutMe ? props.profile.aboutMe : 'null'}</p>
                         <hr/>

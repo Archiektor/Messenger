@@ -11,7 +11,8 @@ import React, {Component} from "react";
 import {Users} from "./Users";
 import {Preloader} from "../common/Preloader/Preloader";
 import {
-    getCurrentPage, getDisabledUsers,
+    getCurrentPage,
+    getDisabledUsers,
     getIsFetching,
     getIsLoading,
     getPageSize,
@@ -68,6 +69,7 @@ class UsersContainer extends Component<UserPropsType, {}> {
 // get state => throw state to props
 let mapStateToProps = (state: AppStateType) => ({
     users: getUsers(state),
+    // users: getUsersSelector(state),
     pageSize: getPageSize(state),
     totalUsersCount: getTotalUsersCount(state),
     currentPage: getCurrentPage(state),
