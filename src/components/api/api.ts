@@ -1,7 +1,7 @@
-import axios from "axios";
-import {UserType} from "../../redux/users-reducer";
-import {UserDataType} from "../../redux/auth-reducer";
-import {UserProfileType} from "../../redux/profile-reducer";
+import axios from 'axios';
+import {UserType} from '../../redux/users-reducer';
+import {UserDataType} from '../../redux/auth-reducer';
+import {UserProfileType} from '../../redux/profile-reducer';
 
 type GetUsersPromiseType = {
     items: Array<UserType>,
@@ -9,7 +9,7 @@ type GetUsersPromiseType = {
     error: null
 }
 
-type FollowUserType = {
+export type FollowUserType = {
     data: Object,
     messages: Array<string>,
     resultCode: 0,
@@ -25,7 +25,7 @@ const instance = axios.create({
     baseURL: `https://social-network.samuraijs.com/api/1.0/`,
     withCredentials: true,
     headers: {
-        "API-KEY": "89761af2-b44e-410b-ac46-74e0e2e39976",
+        'API-KEY': '89761af2-b44e-410b-ac46-74e0e2e39976',
     }
 })
 
@@ -59,7 +59,7 @@ export const UserApi = {
     },
     showProfile: async (userId: string): Promise<UserProfileType> => {
         try {
-            const {data} = await instance.get(`profile/${userId ? userId : "9187"}`);
+            const {data} = await instance.get(`profile/${userId ? userId : '9187'}`);
             // debugger;
             return data;
         } catch (e) {

@@ -1,6 +1,6 @@
 import {v1} from "uuid";
 
-const ADD_MESSAGE = "ADD-MESSAGE";
+const ADD_MESSAGE = "network/dialogs/ADD-MESSAGE";
 
 type AddMessageAC = {
     type: typeof ADD_MESSAGE,

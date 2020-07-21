@@ -1,15 +1,15 @@
-import {AppStateType} from "../../redux/redux-store";
-import {connect} from "react-redux";
+import {AppStateType} from '../../redux/redux-store';
+import {connect} from 'react-redux';
 import {
     followUserThunkCreator,
     getUsersThunkCreator,
     setCurrentPage,
     unfollowUserThunkCreator,
     UserType
-} from "../../redux/users-reducer";
-import React, {Component} from "react";
-import {Users} from "./Users";
-import {Preloader} from "../common/Preloader/Preloader";
+} from '../../redux/users-reducer';
+import React, {PureComponent} from 'react';
+import {Users} from './Users';
+import {Preloader} from '../common/Preloader/Preloader';
 import {
     getCurrentPage,
     getDisabledUsers,
@@ -18,7 +18,7 @@ import {
     getPageSize,
     getTotalUsersCount,
     getUsers
-} from "../../redux/users-selectors";
+} from '../../redux/users-selectors';
 
 
 type UserPropsType = {
@@ -35,16 +35,17 @@ type UserPropsType = {
     unfollowUserThunkCreator: (userId: string) => void,
 }
 
-class UsersContainer extends Component<UserPropsType, {}> {
+class UsersContainer extends PureComponent<UserPropsType, {}> {
 
     componentDidMount() {
-        // debugger;
-        this.props.getUsersThunkCreator(this.props.currentPage, this.props.pageSize);
+        let {currentPage, pageSize, getUsersThunkCreator} = this.props;
+        getUsersThunkCreator(currentPage, pageSize);
     }
 
     onClickHandler = (pageNumber: number) => {
-        this.props.setCurrentPage(pageNumber);
-        this.props.getUsersThunkCreator(pageNumber, this.props.pageSize);
+        let {pageSize, getUsersThunkCreator, setCurrentPage} = this.props;
+        setCurrentPage(pageNumber);
+        getUsersThunkCreator(pageNumber, pageSize);
     }
 
     render() {
@@ -78,10 +79,5 @@ let mapStateToProps = (state: AppStateType) => ({
     disabledUsers: getDisabledUsers(state),
 })
 
-// export default compose(
-//     withRedirect,
-//     connect(mapStateToProps,
-//         {setCurrentPage, getUsersThunkCreator, unfollowUserThunkCreator, followUserThunkCreator})
-// )(UsersContainer)
 export default connect(mapStateToProps,
     {setCurrentPage, getUsersThunkCreator, unfollowUserThunkCreator, followUserThunkCreator})(UsersContainer);

@@ -2,7 +2,7 @@ import {AuthMeThunkCreator} from "./auth-reducer";
 import {ThunkAction} from "redux-thunk";
 import {AppStateType} from "./redux-store";
 
-const INITIALIZED_SUCCESS = "INITIALIZED_SUCCESS";
+const INITIALIZED_SUCCESS = "network/app/INITIALIZED_SUCCESS";
 
 type InitializedSuccessACType = {
     type: typeof INITIALIZED_SUCCESS,
@@ -22,7 +22,7 @@ let initialState: PartOfStateType = {
 
 const appReducer = (partOfState: PartOfStateType = initialState, action: AppActionsType): PartOfStateType => {
     switch (action.type) {
-        case "INITIALIZED_SUCCESS": {
+        case INITIALIZED_SUCCESS: {
             return {...partOfState, initialized: true}
         }
         default:
@@ -34,7 +34,6 @@ type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, AppActionsTyp
 
 export const initializeAppThunkCreator = (): ThunkType => {
     return async (dispatch) => {
-        // let result = await dispatch(AuthMeThunkCreator());
         await dispatch(AuthMeThunkCreator());
         // debugger;
         await dispatch(initializedSuccess());

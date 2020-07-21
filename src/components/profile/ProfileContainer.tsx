@@ -1,14 +1,14 @@
-import React, {Component} from "react";
-import Profile from "./profile";
-import {connect} from "react-redux";
-import {AppStateType} from "../../redux/redux-store";
+import React, {PureComponent} from 'react';
+import Profile from './profile';
+import {connect} from 'react-redux';
+import {AppStateType} from '../../redux/redux-store';
 import {
     getStatusThunkCreator,
     showProfileThunkCreator,
     updateStatusThunkCreator,
     UserProfileType
-} from "../../redux/profile-reducer";
-import {RouteComponentProps, withRouter} from "react-router-dom";
+} from '../../redux/profile-reducer';
+import {RouteComponentProps, withRouter} from 'react-router-dom';
 
 type TParams = {
     userId: string,
@@ -24,7 +24,7 @@ type ProfileContainerType = RouteComponentProps<TParams> & {
     updateStatusThunkCreator: (status: string) => void,
 };
 
-class ProfileContainer extends Component<ProfileContainerType, {}> {
+class ProfileContainer extends PureComponent<ProfileContainerType, {}> {
     componentDidMount() {
         let userId: string | number | null = this.props.match.params.userId
         // debugger;
@@ -32,7 +32,7 @@ class ProfileContainer extends Component<ProfileContainerType, {}> {
             userId = this.props.authorizedUserId;
             if (!userId) {
                 // debugger;
-                this.props.history.push("/login");
+                this.props.history.push('/login');
                 return;
             }
         }

@@ -1,0 +1,23 @@
+@import "./src/sass/variables/variables";
+
+.selectPage {
+  margin: 0 auto;
+  font-size: 1.5rem;
+  width: 100px;
+  color: wheat;
+
+  span {
+    margin: 2px 3px;
+    cursor: pointer;
+  }
+
+  &:hover {
+    text-shadow: 3px 3px 7px black;
+  }
+
+  &_chosen {
+    font-weight: getWeight(bbold);
+    font-size: 1.7rem;
+    color: $darkredcolor;
+  }
+}

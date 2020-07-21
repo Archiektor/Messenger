@@ -1,11 +1,12 @@
-import {v1} from "uuid";
-import {ThunkAction} from "redux-thunk";
-import {AppStateType} from "./redux-store";
-import {ProfileApi} from "../components/api/api";
+import {v1} from 'uuid';
+import {ThunkAction} from 'redux-thunk';
+import {AppStateType} from './redux-store';
+import {ProfileApi} from '../components/api/api';
 
-const ADD_POST = "ADD-POST";
-const SET_USER_PROFILE = "SET_USER_PROFILE";
-const SET_STATUS = "SET_STATUS";
+const ADD_POST = 'network/profile/ADD-POST';
+const SET_USER_PROFILE = 'network/profile/SET_USER_PROFILE';
+const SET_STATUS = 'network/profile/SET_STATUS';
+const DELETE_POST = `network/profile/DELETE_POST`;
 
 type addPostACType = {
     type: typeof ADD_POST,
@@ -19,7 +20,11 @@ type setStatusACType = {
     type: typeof SET_STATUS,
     status: string,
 }
-type ProfileReducerActionType = addPostACType | setUserProfileACType | setStatusACType;
+type deletePostACType = {
+    type: typeof DELETE_POST,
+    postId: string,
+}
+type ProfileReducerActionType = addPostACType | deletePostACType | setUserProfileACType | setStatusACType;
 
 export type PostType = {
     id: string,
@@ -63,6 +68,7 @@ export const setStatus = (status: string): setStatusACType => ({
     type: SET_STATUS,
     status: status,
 })
+export const deletePost = (postId: string): deletePostACType => ({type: DELETE_POST, postId})
 
 let initialState = {
     posts: [
@@ -72,9 +78,9 @@ let initialState = {
         {id: v1(), message: `Goint to night fish`, likesCount: 13},
         {id: v1(), message: `Courage`, likesCount: 0},
     ],
-    newPostText: "",
+    newPostText: '',
     profile: null,
-    status: "",
+    status: '',
 }
 
 const profileReducer = (partOfState: ProfilePage = initialState, action: ProfileReducerActionType): ProfilePage => {
@@ -94,6 +100,9 @@ const profileReducer = (partOfState: ProfilePage = initialState, action: Profile
         }
         case SET_STATUS: {
             return {...partOfState, status: action.status};
+        }
+        case DELETE_POST: {
+            return {...partOfState, posts: partOfState.posts.filter(p => p.id !== action.postId)}
         }
         default:
             return partOfState;

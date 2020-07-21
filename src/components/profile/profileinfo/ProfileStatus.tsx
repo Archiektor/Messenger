@@ -40,8 +40,6 @@ class ProfileStatus extends Component<PropsType, StateType> {
     }
 
     render() {
-        // const {status} = this.props;
-
         return (
             <div>
                 {

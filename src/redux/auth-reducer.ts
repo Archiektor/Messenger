@@ -3,7 +3,7 @@ import {AppStateType} from "./redux-store";
 import {AuthAPI} from "../components/api/api";
 import {FormAction, stopSubmit} from "redux-form";
 
-const SET_USER_DATA = "SET_USER_DATA";
+const SET_USER_DATA = "network/auth/SET_USER_DATA";
 
 type setUserDataACType = {
     type: typeof SET_USER_DATA,
@@ -47,11 +47,6 @@ const authReducer = (partOfState: UserDataType = initialState, action: setUserDa
     }
 }
 
-/*type resultType = {
-    data: Object
-    messages: [string]
-    resultCode: number
-}*/
 // ! types any
 type ThunkType = ThunkAction<Promise<any>, AppStateType, unknown, AuthReducerActionType>
 

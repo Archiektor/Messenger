@@ -1,10 +1,9 @@
-import React from "react";
+import React from 'react';
 
-import css from "./profileinfo.module.css";
-import {UserProfileType} from "../../../redux/profile-reducer";
-import {Preloader} from "../../common/Preloader/Preloader";
-import ProfileStatus from "./ProfileStatus";
-import ProfileStatusHooks from "./ProfileStatusHooks";
+import css from './profileinfo.module.css';
+import {UserProfileType} from '../../../redux/profile-reducer';
+import {Preloader} from '../../common/Preloader/Preloader';
+import ProfileStatusHooks from './ProfileStatusHooks';
 
 type ProfileInfoType = {
     profile: UserProfileType,

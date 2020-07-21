@@ -3,7 +3,7 @@ import React from "react";
 import s from "./login.module.scss";
 import {Field, InjectedFormProps, reduxForm} from 'redux-form'
 import {AppStateType} from "../../redux/redux-store";
-import {CustomInput} from "../common/FormsControl/FormsControl";
+import {createField, CustomInput} from '../common/FormsControl/FormsControl';
 import {maxLengthCreator, required} from "../utils/validators/validators";
 import {connect} from "react-redux";
 import {LoginMeThunkCreator, LoginOutThunkCreator} from "../../redux/auth-reducer";
@@ -25,7 +25,7 @@ type LoginType = {
     LoginOutThunkCreator: () => void,
 }
 
-const Login: React.FC<LoginType> = ({isAuth, LoginMeThunkCreator, LoginOutThunkCreator}) => {
+const Login: React.FC<LoginType> = ({isAuth, LoginMeThunkCreator}) => {
 
     const onSubmitHandler = (formData: FormData) => {
         if (!isAuth) {
@@ -48,22 +48,16 @@ const Login: React.FC<LoginType> = ({isAuth, LoginMeThunkCreator, LoginOutThunkC
 
 const maxLength30 = maxLengthCreator(30);
 
-const LoginForm: React.FC<InjectedFormProps<FormData, LoginFormType> & LoginFormType> = (props) => {
+const LoginForm: React.FC<InjectedFormProps<FormData, LoginFormType> & LoginFormType> = ({handleSubmit, error}) => {
     return (
-        <form onSubmit={props.handleSubmit} className={s.form}>
-            <div>
-                <Field name={"email"} type="text" placeholder={`Login:`} component={CustomInput}
-                       validate={[required, maxLength30]}/>
-            </div>
-            <div>
-                <Field name={"password"} type="password" placeholder={`Password:`} component={CustomInput}
-                       validate={[required, maxLength30]}/>
-            </div>
+        <form onSubmit={handleSubmit} className={s.form}>
+            {createField("email", `Login:`, "text", CustomInput, [required, maxLength30])}
+            {createField("password", `Password:`, "password", CustomInput, [required, maxLength30])}
             <div className={s.remember}>
                 <Field name={"rememberMe"} component={CustomInput} type="checkbox"/>
                 <span className={s.remember__span}>remember me</span>
             </div>
-            {props.error && <div className={s.summaryError}>{props.error}</div>}
+            {error && <div className={s.summaryError}>{error}</div>}
             <div>
                 <button>Login</button>
             </div>
