@@ -1,10 +1,9 @@
-import ReactDOM from "react-dom";
-import React from "react";
-import {BrowserRouter} from "react-router-dom";
+import ReactDOM from 'react-dom';
+import React from 'react';
+import {BrowserRouter} from 'react-router-dom';
 import store from './redux/redux-store';
-// import store from './redux/store';
-import App from "./App";
-import {Provider} from "react-redux";
+import App from './App';
+import {Provider} from 'react-redux';
 
 // const rerenderEntireTree = (state: AppStateType) => {
 
@@ -14,7 +13,6 @@ ReactDOM.render(
             <Provider store={store}>
                 <App/>
             </Provider>
-            {/*</StoreContext.Provider>*/}
         </BrowserRouter>
     </React.StrictMode>,
     document.getElementById('root')

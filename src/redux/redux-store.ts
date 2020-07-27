@@ -1,12 +1,12 @@
-import {applyMiddleware, combineReducers, createStore, Store} from "redux";
-import dialogsReducer from "./dialogs-reducer";
-import profileReducer from "./profile-reducer";
-import friendsReducer from "./friends-reducer";
-import usersReducer from "./users-reducer";
-import authReducer from "./auth-reducer";
-import thunkMiddleware from "redux-thunk";
-import { reducer as formReducer } from 'redux-form'
-import appReducer from "./app-reducer";
+import {applyMiddleware, combineReducers, compose, createStore, Store} from 'redux';
+import dialogsReducer from './dialogs-reducer';
+import profileReducer from './profile-reducer';
+import friendsReducer from './friends-reducer';
+import usersReducer from './users-reducer';
+import authReducer from './auth-reducer';
+import thunkMiddleware from 'redux-thunk';
+import {reducer as formReducer} from 'redux-form'
+import appReducer from './app-reducer';
 
 // наш reducers это фактически state = {profilePage: [data], dialogsPage: [data], friendsPage: [data]}
 let reducers = combineReducers({
@@ -22,7 +22,18 @@ let reducers = combineReducers({
 
 export type AppStateType = ReturnType<typeof reducers>
 
-let store: Store = createStore(reducers, applyMiddleware(thunkMiddleware));
+declare global {
+    interface Window {
+        __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
+    }
+}
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store: Store = createStore(reducers, /* preloadedState, */ composeEnhancers(
+    applyMiddleware(thunkMiddleware)
+));
+
+//let store: Store = createStore(reducers, applyMiddleware(thunkMiddleware));
 
 // @ts-ignore
 window.store = store;

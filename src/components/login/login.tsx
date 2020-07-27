@@ -29,6 +29,7 @@ const Login: React.FC<LoginType> = ({isAuth, LoginMeThunkCreator}) => {
 
     const onSubmitHandler = (formData: FormData) => {
         if (!isAuth) {
+            console.log(formData);
             const {email, password, rememberMe, captcha} = formData;
             LoginMeThunkCreator(email, password, rememberMe, captcha);
         }

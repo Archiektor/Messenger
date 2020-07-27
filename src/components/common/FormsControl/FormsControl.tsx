@@ -34,7 +34,7 @@ export const CustomInput: React.FC<FormControlType> = (props) => {
 
 export const createField = (name: string, placeholder: string, type: string, component: React.FC<FormControlType>, validators: any) => (
     <div>
-        <Field name={placeholder} type={type} placeholder={placeholder} component={component}
+        <Field name={name} type={type} placeholder={placeholder} component={component}
                validate={[...validators]}/>
     </div>
 )

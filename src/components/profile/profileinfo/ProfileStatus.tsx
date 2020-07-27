@@ -1,11 +1,11 @@
 import React, {ChangeEvent, Component} from "react";
 
-type PropsType = {
+export type PropsType = {
     status: string,
     updateStatus: (status: string) => void,
 }
 
-type StateType = {
+export type StateType = {
     editMode: boolean,
     status: string,
 }
