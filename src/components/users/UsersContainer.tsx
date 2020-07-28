@@ -50,7 +50,7 @@ class UsersContainer extends PureComponent<UserPropsType, {}> {
 
     render() {
         // debugger;
-        const {users, currentPage, isFetching, isLoading, disabledUsers} = this.props;
+        const {users, currentPage, isFetching, isLoading, disabledUsers, pageSize, totalUsersCount} = this.props;
 
         return (
             <React.Fragment>
@@ -61,7 +61,10 @@ class UsersContainer extends PureComponent<UserPropsType, {}> {
                                        currentPage={currentPage}
                                        isLoading={isLoading}
                                        disabledUsers={disabledUsers}
-                                       onClickHandler={this.onClickHandler}/>}
+                                       onClickHandler={this.onClickHandler}
+                                       pageSize={pageSize}
+                                       totalUsersCount={totalUsersCount}
+                />}
             </React.Fragment>
         )
     }

@@ -12,17 +12,19 @@ type UsersType = {
     disabledUsers: Array<string>,
     followUserThunkCreator: (userId: string) => void,
     unfollowUserThunkCreator: (userId: string) => void,
+    pageSize: number,
+    totalUsersCount: number,
 }
 
 export const Users: React.FC<UsersType> = React.memo(({
-                                                          users, currentPage,
+                                                          users, currentPage, pageSize, totalUsersCount,
                                                           onClickHandler, disabledUsers, followUserThunkCreator, unfollowUserThunkCreator
                                                       }) => {
 
     return (
         <div>
             <h3 className={s.title}>Users</h3>
-            <Paginator onClickHandler={onClickHandler} currentPage={currentPage}/>
+            <Paginator totalItemsCount={totalUsersCount} pageSize={pageSize} onClickHandler={onClickHandler} currentPage={currentPage}/>
             {
                 users.map(user =>
                     <User key={user.id} user={user} disabledUsers={disabledUsers}
