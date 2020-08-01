@@ -1,21 +1,23 @@
-import React from "react";
-import {Route, withRouter} from "react-router-dom"
+import React from 'react';
+import {Route, withRouter} from 'react-router-dom'
 
-import "./app.css";
-import HeaderContainer from "./components/header/HeaderContainer";
-import Navbar from "./components/navbar";
-import News from "./components/news";
-import Music from "./components/music";
-import Settings from "./components/settings";
-import store, {AppStateType} from "./redux/redux-store";
-import DialogsContainer from "./components/dialogs/dialogsContainer";
-import UsersContainer from "./components/users/UsersContainer";
-import ProfileContainer from "./components/profile/ProfileContainer";
-import Login from "./components/login/login";
-import {connect} from "react-redux";
-import {compose} from "redux";
-import {initializeAppThunkCreator} from "./redux/app-reducer";
-import {Preloader} from "./components/common/Preloader/Preloader";
+import './app.css';
+import HeaderContainer from './components/header/HeaderContainer';
+import Navbar from './components/navbar';
+import store, {AppStateType} from './redux/redux-store';
+import ProfileContainer from './components/profile/ProfileContainer';
+import Login from './components/login/login';
+import {connect} from 'react-redux';
+import {compose} from 'redux';
+import {initializeAppThunkCreator} from './redux/app-reducer';
+import {Preloader} from './components/common/Preloader/Preloader';
+import {withSuspense} from './components/hoc/withSuspense';
+
+const DialogsContainer = React.lazy(() => import('./components/dialogs/dialogsContainer'));
+const UsersContainer = React.lazy(() => import('./components/users/UsersContainer'));
+const News = React.lazy(() => import('./components/news'));
+const Music = React.lazy(() => import('./components/music'));
+const Settings = React.lazy(() => import('./components/settings'));
 
 type AppPropsType = {
     initializeAppThunkCreator: () => void,
@@ -29,7 +31,7 @@ class App extends React.Component<AppPropsType, {}> {
     }
 
     render() {
-        if(!this.props.initialized){
+        if (!this.props.initialized) {
             return <Preloader/>
         }
 
@@ -42,14 +44,14 @@ class App extends React.Component<AppPropsType, {}> {
                 <div className="app-wrapper-content">
                     <Route path='/profile/:userId?' render={() => <ProfileContainer/>}/>
 
-                    <Route path='/dialogs' render={() => <DialogsContainer/>}/>
+                    <Route path='/dialogs' render={withSuspense(DialogsContainer)}/>
 
-                    <Route path='/users' render={() => <UsersContainer/>}/>
+                    <Route path='/users' component={withSuspense(UsersContainer)}/>
                     <Route path='/login' render={() => <Login/>}/>
 
-                    <Route path='/news' render={() => <News/>}/>
-                    <Route path='/music' render={() => <Music/>}/>
-                    <Route path='/settings' render={() => <Settings/>}/>
+                    <Route path='/news' render={withSuspense(News)}/>
+                    <Route path='/music' render={withSuspense(Music)}/>
+                    <Route path='/settings' render={withSuspense(Settings)}/>
                 </div>
             </div>
         )

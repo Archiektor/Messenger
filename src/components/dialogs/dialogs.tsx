@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react';
 
-import css from "./dialogs.module.css";
-import DialogItem from "./dialogitem/dialogitem";
-import Message from "./message/message";
-import {DialogsPage} from "../../redux/dialogs-reducer";
-import {Field, InjectedFormProps, reduxForm} from "redux-form";
-import {CustomTextArea} from "../common/FormsControl/FormsControl";
-import {maxLengthCreator, required} from "../utils/validators/validators";
+import css from './dialogs.module.css';
+import DialogItem from './dialogitem/dialogitem';
+import Message from './message/message';
+import {DialogsPage} from '../../redux/dialogs-reducer';
+import {Field, InjectedFormProps, reduxForm} from 'redux-form';
+import {CustomTextArea} from '../common/FormsControl/FormsControl';
+import {maxLengthCreator, required} from '../utils/validators/validators';
 
 type PropsType = {
     dialogsPage: DialogsPage,

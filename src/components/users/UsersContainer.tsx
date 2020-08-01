@@ -49,7 +49,6 @@ class UsersContainer extends PureComponent<UserPropsType, {}> {
     }
 
     render() {
-        // debugger;
         const {users, currentPage, isFetching, isLoading, disabledUsers, pageSize, totalUsersCount} = this.props;
 
         return (
