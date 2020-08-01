@@ -1,35 +1,35 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "cabc8783869c8af132194b014760c37a",
+    "revision": "8766652d2dceeb73543944936aa82b2e",
     "url": "/Messenger/index.html"
   },
   {
-    "revision": "796d5f14eb3950986780",
+    "revision": "d01932ea8ffe4a68a713",
     "url": "/Messenger/static/css/3.f833f430.chunk.css"
   },
   {
-    "revision": "57c436dc05c13fb70dcf",
+    "revision": "941ed27147021b0b9ea3",
     "url": "/Messenger/static/css/4.0c71a092.chunk.css"
   },
   {
-    "revision": "700756862de1cc2006a5",
+    "revision": "bf85c40266031e0beea1",
     "url": "/Messenger/static/css/main.99c76ede.chunk.css"
   },
   {
-    "revision": "e8d6d674de56a5aaf1e8",
-    "url": "/Messenger/static/js/2.e03f226c.chunk.js"
+    "revision": "12cd012291540778c555",
+    "url": "/Messenger/static/js/2.1b29b60c.chunk.js"
   },
   {
     "revision": "c64c486544348f10a6d6c716950bc223",
-    "url": "/Messenger/static/js/2.e03f226c.chunk.js.LICENSE.txt"
+    "url": "/Messenger/static/js/2.1b29b60c.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "796d5f14eb3950986780",
-    "url": "/Messenger/static/js/3.d66aab7e.chunk.js"
+    "revision": "d01932ea8ffe4a68a713",
+    "url": "/Messenger/static/js/3.db3ae9a4.chunk.js"
   },
   {
-    "revision": "57c436dc05c13fb70dcf",
-    "url": "/Messenger/static/js/4.42f6b6fd.chunk.js"
+    "revision": "941ed27147021b0b9ea3",
+    "url": "/Messenger/static/js/4.5ecc2103.chunk.js"
   },
   {
     "revision": "58defb7b4cb8319894b4",
@@ -44,12 +44,12 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/Messenger/static/js/7.efdd8b2d.chunk.js"
   },
   {
-    "revision": "700756862de1cc2006a5",
-    "url": "/Messenger/static/js/main.c1443340.chunk.js"
+    "revision": "bf85c40266031e0beea1",
+    "url": "/Messenger/static/js/main.488599fb.chunk.js"
   },
   {
-    "revision": "44b3532c720ca26f8261",
-    "url": "/Messenger/static/js/runtime-main.fc3583f6.js"
+    "revision": "5d722ed445d07399372c",
+    "url": "/Messenger/static/js/runtime-main.6dc269e3.js"
   },
   {
     "revision": "f215c6c73ef373267acaa5218130fcf9",
