@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/Messenger/static/css/main.99c76ede.chunk.css",
-    "main.js": "/Messenger/static/js/main.18dfac36.chunk.js",
-    "main.js.map": "/Messenger/static/js/main.18dfac36.chunk.js.map",
+    "main.js": "/Messenger/static/js/main.c1443340.chunk.js",
+    "main.js.map": "/Messenger/static/js/main.c1443340.chunk.js.map",
     "runtime-main.js": "/Messenger/static/js/runtime-main.fc3583f6.js",
     "runtime-main.js.map": "/Messenger/static/js/runtime-main.fc3583f6.js.map",
     "static/js/2.e03f226c.chunk.js": "/Messenger/static/js/2.e03f226c.chunk.js",
@@ -20,7 +20,7 @@
     "static/js/7.efdd8b2d.chunk.js": "/Messenger/static/js/7.efdd8b2d.chunk.js",
     "static/js/7.efdd8b2d.chunk.js.map": "/Messenger/static/js/7.efdd8b2d.chunk.js.map",
     "index.html": "/Messenger/index.html",
-    "precache-manifest.5cc40408d0ac7d5e56da74fe2c484a1d.js": "/Messenger/precache-manifest.5cc40408d0ac7d5e56da74fe2c484a1d.js",
+    "precache-manifest.2c03b00bc731fe192baf9ff32b173773.js": "/Messenger/precache-manifest.2c03b00bc731fe192baf9ff32b173773.js",
     "service-worker.js": "/Messenger/service-worker.js",
     "static/css/3.f833f430.chunk.css.map": "/Messenger/static/css/3.f833f430.chunk.css.map",
     "static/css/4.0c71a092.chunk.css.map": "/Messenger/static/css/4.0c71a092.chunk.css.map",
@@ -34,6 +34,6 @@
     "static/js/runtime-main.fc3583f6.js",
     "static/js/2.e03f226c.chunk.js",
     "static/css/main.99c76ede.chunk.css",
-    "static/js/main.18dfac36.chunk.js"
+    "static/js/main.c1443340.chunk.js"
   ]
 }
