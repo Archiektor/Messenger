@@ -1,0 +1,72 @@
+.bgImg {
+    width: 100%;
+    height: 200px;
+    box-sizing: border-box;
+    box-shadow: -3px 3px 4px #343030;
+}
+
+.profImg {
+    width: 150px;
+    height: 150px;
+    border-radius: 75%;
+}
+
+.mainInfo {
+    display: flex;
+    flex-flow: nowrap row;
+    padding: 15px 30px 25px 30px;
+    border-bottom: 1px gray solid;
+    width: 90%;
+    margin: 0 auto;
+    position: relative;
+}
+
+.userInfo {
+    margin-left: 20px;
+}
+
+.userInfo > h2 {
+    font: 400 2.5rem 'Slabo 27px', 'Palatino Linotype', 'Times New Roman', serif;
+    color: #009d69;
+    margin: 0;
+    padding-top: 10px;
+}
+
+.userInfo > p {
+    font: 400 1.2rem 'Slabo 27px', 'Palatino Linotype', 'Times New Roman', serif;
+    color: #009d69;
+    margin: 0;
+}
+
+.textWrapper {
+    margin-top: 10px;
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.textWrapper > span {
+    font: 400 1.1rem 'Slabo 27px', 'Palatino Linotype', 'Times New Roman', serif;
+    color: wheat;
+    margin: 0;
+}
+
+p:nth-child(odd) {
+    padding-top: 5px;
+    color: whitesmoke;
+}
+
+.personImg {
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.personImg > input {
+    margin-top: 10px;
+}
+
+.btn {
+    position: absolute;
+    bottom: 15px;
+    left: 450px;
+}
+

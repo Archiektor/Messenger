@@ -1,0 +1,43 @@
+@import "src/sass/variables/variables";
+@import "src/sass/variables/extensions";
+
+%formStyle {
+  width: 100%;
+  max-height: 130px;
+  @include flexDirection(row);
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 5px;
+}
+
+.formWrapper {
+  width: 350px;
+  @include flexDirection(column);
+  justify-content: center;
+  align-items: flex-start;
+
+  &__btn {
+    margin: 20px;
+    align-self: center;
+  }
+
+  &__name {
+    @extend %formStyle;
+  }
+
+  &__job {
+    @extend %formStyle;
+  }
+
+  &__skills {
+    @extend %formStyle;
+  }
+
+  &__about {
+    @extend %formStyle;
+  }
+
+  &__error {
+    color: darkred;
+  }
+}

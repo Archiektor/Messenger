@@ -2,6 +2,7 @@ import axios from 'axios';
 import {UserType} from '../../redux/users-reducer';
 import {UserDataType} from '../../redux/auth-reducer';
 import {UserProfileType} from '../../redux/profile-reducer';
+import {ProfileDataForm} from '../profile/ProfileDataForm/ProfileDataForm';
 
 type GetUsersPromiseType = {
     items: Array<UserType>,
@@ -138,7 +139,16 @@ export const ProfileApi = {
         } catch (e) {
             throw new Error(e);
         }
+    },
+    saveProfile: async (formData: ProfileDataForm) => {
+        try {
+            const {data} = await instance.put(`profile`, {...formData});
+            return data;
+        } catch (e) {
+            throw new Error(e);
+        }
     }
+
 }
 
 

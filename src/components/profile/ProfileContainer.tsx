@@ -3,12 +3,13 @@ import Profile from './profile';
 import {connect} from 'react-redux';
 import {AppStateType} from '../../redux/redux-store';
 import {
-    getStatusThunkCreator, savePhotoThunkCreator,
+    getStatusThunkCreator, savePhotoThunkCreator, saveProfileThunkCreator,
     showProfileThunkCreator,
     updateStatusThunkCreator,
     UserProfileType
 } from '../../redux/profile-reducer';
 import {RouteComponentProps, withRouter} from 'react-router-dom';
+import {ProfileDataForm} from './ProfileDataForm/ProfileDataForm';
 
 type TParams = {
     userId: string,
@@ -23,6 +24,7 @@ type ProfileContainerType = RouteComponentProps<TParams> & {
     getStatusThunkCreator: (userId: number) => void,
     updateStatusThunkCreator: (status: string) => void,
     savePhotoThunkCreator: (file: File) => void,
+    saveProfileThunkCreator: (formData: ProfileDataForm) => void,
 };
 
 class ProfileContainer extends PureComponent<ProfileContainerType, {}> {
@@ -55,8 +57,9 @@ class ProfileContainer extends PureComponent<ProfileContainerType, {}> {
         return (
             <Profile {...this.props} profile={this.props.profile} status={this.props.status}
                      updateStatusThunkCreator={this.props.updateStatusThunkCreator}
-                        isOwner = {!this.props.match.params.userId}
-                     savePhoto = {this.props.savePhotoThunkCreator}
+                     isOwner={!this.props.match.params.userId}
+                     savePhoto={this.props.savePhotoThunkCreator}
+                     saveProfile={this.props.saveProfileThunkCreator}
             />
         )
     }
@@ -87,4 +90,5 @@ export default connect(mapStateToProps, {
     getStatusThunkCreator,
     updateStatusThunkCreator,
     savePhotoThunkCreator,
+    saveProfileThunkCreator,
 })(withUrlDataContainerComponent);

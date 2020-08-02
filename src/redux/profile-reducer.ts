@@ -2,6 +2,8 @@ import {v1} from 'uuid';
 import {ThunkAction} from 'redux-thunk';
 import {AppStateType} from './redux-store';
 import {ProfileApi} from '../components/api/api';
+import {ProfileDataForm} from '../components/profile/ProfileDataForm/ProfileDataForm';
+import {stopSubmit} from 'redux-form';
 
 const deepCopyFunction = (incomeObj: any) => {
     let returnedObj: any, key: any, value: any;
@@ -25,35 +27,17 @@ const SET_STATUS = 'network/profile/SET_STATUS';
 const DELETE_POST = `network/profile/DELETE_POST`;
 const SAVE_PHOTOS_SUCCESS = 'network/profile/SAVE_PHOTOS_SUCCESS';
 
-type addPostACType = {
-    type: typeof ADD_POST,
-    newPostBody: string,
-}
+type addPostACType = { type: typeof ADD_POST, newPostBody: string, }
 type setUserProfileACType = {
     type: typeof SET_USER_PROFILE,
     profile: UserProfileType,
 }
-type setStatusACType = {
-    type: typeof SET_STATUS,
-    status: string,
-}
-type deletePostACType = {
-    type: typeof DELETE_POST,
-    postId: string,
-}
-type savePhotoACType = {
-    type: typeof SAVE_PHOTOS_SUCCESS,
-    photos: {
-        small: string,
-        large: string,
-    }
-}
-type ProfileReducerActionType =
-    addPostACType
-    | deletePostACType
-    | setUserProfileACType
-    | setStatusACType
-    | savePhotoACType;
+type setStatusACType = { type: typeof SET_STATUS, status: string, }
+type deletePostACType = { type: typeof DELETE_POST, postId: string, }
+type savePhotoACType = { type: typeof SAVE_PHOTOS_SUCCESS, photos: { small: string, large: string, } }
+
+type ProfileReducerActionType = addPostACType | deletePostACType | setUserProfileACType |
+    setStatusACType | savePhotoACType;
 
 export type PostType = {
     id: string,
@@ -98,7 +82,7 @@ export const setStatus = (status: string): setStatusACType => ({
     status: status,
 })
 export const deletePost = (postId: string): deletePostACType => ({type: DELETE_POST, postId})
-export const savePhoto = (photos : {
+export const savePhoto = (photos: {
     small: string, large: string
 }): savePhotoACType => ({type: SAVE_PHOTOS_SUCCESS, photos})
 
@@ -152,21 +136,21 @@ type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ProfileReduce
 
 export const showProfileThunkCreator = (userId: number): ThunkType => {
     return async (dispatch) => {
-        let data = await ProfileApi.showProfile(userId)
+        const data = await ProfileApi.showProfile(userId)
         dispatch(setUserProfile(data));
     }
 }
 
 export const getStatusThunkCreator = (userId: number): ThunkType => {
     return async (dispatch) => {
-        let data = await ProfileApi.getStatus(userId);
+        const data = await ProfileApi.getStatus(userId);
         dispatch(setStatus(data));
     }
 }
 
 export const updateStatusThunkCreator = (status: string): ThunkType => {
     return async (dispatch) => {
-        let data = await ProfileApi.updateStatus(status);
+        const data = await ProfileApi.updateStatus(status);
         if (data.resultCode === 0) {
             dispatch(setStatus(status));
         }
@@ -175,9 +159,24 @@ export const updateStatusThunkCreator = (status: string): ThunkType => {
 
 export const savePhotoThunkCreator = (file: File): ThunkType => {
     return async (dispatch) => {
-        let data = await ProfileApi.savePhoto(file);
+        const data = await ProfileApi.savePhoto(file);
         if (data.resultCode === 0) {
             dispatch(savePhoto(data.data.photos));
+        }
+    }
+}
+
+export const saveProfileThunkCreator = (formData: ProfileDataForm): ThunkType => {
+    return async (dispatch, getState) => {
+        const userId = getState().auth.id;
+        //debugger;
+        const data = await ProfileApi.saveProfile(formData);
+        if (data.resultCode === 0) {
+            await dispatch(showProfileThunkCreator(userId!))
+        } else {
+            let errMsg = data.messages.length > 0 ? data.messages[0] : 'Unknown error';
+            // @ts-ignore
+            dispatch(stopSubmit('edit-profile', {_error: errMsg}))
         }
     }
 }
