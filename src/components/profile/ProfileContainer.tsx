@@ -3,7 +3,7 @@ import Profile from './profile';
 import {connect} from 'react-redux';
 import {AppStateType} from '../../redux/redux-store';
 import {
-    getStatusThunkCreator,
+    getStatusThunkCreator, savePhotoThunkCreator,
     showProfileThunkCreator,
     updateStatusThunkCreator,
     UserProfileType
@@ -22,16 +22,16 @@ type ProfileContainerType = RouteComponentProps<TParams> & {
     showProfileThunkCreator: (userId: number) => void,
     getStatusThunkCreator: (userId: number) => void,
     updateStatusThunkCreator: (status: string) => void,
+    savePhotoThunkCreator: (file: File) => void,
 };
 
 class ProfileContainer extends PureComponent<ProfileContainerType, {}> {
-    componentDidMount() {
+
+    refreshProfile() {
         let userId: string | number | null = this.props.match.params.userId
-        // debugger;
         if (!userId) {
             userId = this.props.authorizedUserId;
             if (!userId) {
-                // debugger;
                 this.props.history.push('/login');
                 return;
             }
@@ -40,10 +40,24 @@ class ProfileContainer extends PureComponent<ProfileContainerType, {}> {
         this.props.getStatusThunkCreator(Number(userId));
     }
 
+    componentDidMount() {
+        //debugger
+        this.refreshProfile();
+    }
+
+    componentDidUpdate(prevProps: Readonly<ProfileContainerType>, prevState: Readonly<{}>, snapshot?: any) {
+        if (this.props.match.params.userId !== prevProps.match.params.userId) {
+            this.refreshProfile();
+        }
+    }
+
     render() {
         return (
             <Profile {...this.props} profile={this.props.profile} status={this.props.status}
-                     updateStatusThunkCreator={this.props.updateStatusThunkCreator}/>
+                     updateStatusThunkCreator={this.props.updateStatusThunkCreator}
+                        isOwner = {!this.props.match.params.userId}
+                     savePhoto = {this.props.savePhotoThunkCreator}
+            />
         )
     }
 }
@@ -71,5 +85,6 @@ let withUrlDataContainerComponent = withRouter(ProfileContainer); // withRedirec
 export default connect(mapStateToProps, {
     showProfileThunkCreator,
     getStatusThunkCreator,
-    updateStatusThunkCreator
+    updateStatusThunkCreator,
+    savePhotoThunkCreator,
 })(withUrlDataContainerComponent);

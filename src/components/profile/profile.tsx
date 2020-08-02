@@ -7,12 +7,14 @@ type ProfileType = {
     profile: UserProfileType,
     status: string,
     updateStatusThunkCreator: (status: string) => void,
+    isOwner: boolean,
+    savePhoto: (file:File) => void,
 }
 
-const Profile: React.FC<ProfileType> = ({profile, status, updateStatusThunkCreator}) => {
+const Profile: React.FC<ProfileType> = ({savePhoto, isOwner, profile, status, updateStatusThunkCreator}) => {
     return (
         <div>
-            <ProfileInfo profile={profile} status={status} updateStatusThunkCreator = {updateStatusThunkCreator}/>
+            <ProfileInfo savePhoto={savePhoto} isOwner={isOwner} profile={profile} status={status} updateStatusThunkCreator = {updateStatusThunkCreator}/>
             <MyPostsContainer/>
         </div>
     )

@@ -124,6 +124,20 @@ export const ProfileApi = {
         } catch (e) {
             throw new Error(e);
         }
+    },
+    savePhoto: async (photoFile: File) => {
+        try {
+            const formData = new FormData();
+            formData.append('image', photoFile);
+            const {data} = await instance.put(`profile/photo`, formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                }
+            });
+            return data;
+        } catch (e) {
+            throw new Error(e);
+        }
     }
 }
 

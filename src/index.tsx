@@ -6,6 +6,7 @@ import App from './App';
 import {Provider} from 'react-redux';
 
 // const rerenderEntireTree = (state: AppStateType) => {
+//BrowserRouter basename= {}
 
 ReactDOM.render(
     <React.StrictMode>

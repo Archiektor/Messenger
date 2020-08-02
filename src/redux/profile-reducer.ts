@@ -3,10 +3,27 @@ import {ThunkAction} from 'redux-thunk';
 import {AppStateType} from './redux-store';
 import {ProfileApi} from '../components/api/api';
 
+const deepCopyFunction = (incomeObj: any) => {
+    let returnedObj: any, key: any, value: any;
+    if (typeof incomeObj !== 'object' || incomeObj === null) {
+        return incomeObj // Return the value if incomeObj is not an object
+    }
+    // Create an array or object to hold the values
+    returnedObj = Array.isArray(incomeObj) ? [] : {}
+
+    for (key in incomeObj) {
+        value = incomeObj[key]
+        // Recursively (deep) copy for nested objects, including arrays
+        returnedObj[key] = deepCopyFunction(value)
+    }
+    return returnedObj
+}
+
 const ADD_POST = 'network/profile/ADD-POST';
 const SET_USER_PROFILE = 'network/profile/SET_USER_PROFILE';
 const SET_STATUS = 'network/profile/SET_STATUS';
 const DELETE_POST = `network/profile/DELETE_POST`;
+const SAVE_PHOTOS_SUCCESS = 'network/profile/SAVE_PHOTOS_SUCCESS';
 
 type addPostACType = {
     type: typeof ADD_POST,
@@ -24,7 +41,19 @@ type deletePostACType = {
     type: typeof DELETE_POST,
     postId: string,
 }
-type ProfileReducerActionType = addPostACType | deletePostACType | setUserProfileACType | setStatusACType;
+type savePhotoACType = {
+    type: typeof SAVE_PHOTOS_SUCCESS,
+    photos: {
+        small: string,
+        large: string,
+    }
+}
+type ProfileReducerActionType =
+    addPostACType
+    | deletePostACType
+    | setUserProfileACType
+    | setStatusACType
+    | savePhotoACType;
 
 export type PostType = {
     id: string,
@@ -69,6 +98,9 @@ export const setStatus = (status: string): setStatusACType => ({
     status: status,
 })
 export const deletePost = (postId: string): deletePostACType => ({type: DELETE_POST, postId})
+export const savePhoto = (photos : {
+    small: string, large: string
+}): savePhotoACType => ({type: SAVE_PHOTOS_SUCCESS, photos})
 
 let initialState = {
     posts: [
@@ -104,6 +136,13 @@ const profileReducer = (partOfState: ProfilePage = initialState, action: Profile
         case DELETE_POST: {
             return {...partOfState, posts: partOfState.posts.filter(p => p.id !== action.postId)}
         }
+        case SAVE_PHOTOS_SUCCESS: {
+            //return {...partOfState, profile: {...partOfState.profile.photos.small === action.photo}}
+            let newCopyOfState = deepCopyFunction(partOfState);
+            newCopyOfState.profile.photos.small = action.photos.small;
+            newCopyOfState.profile.photos.large = action.photos.large;
+            return newCopyOfState;
+        }
         default:
             return partOfState;
     }
@@ -130,6 +169,15 @@ export const updateStatusThunkCreator = (status: string): ThunkType => {
         let data = await ProfileApi.updateStatus(status);
         if (data.resultCode === 0) {
             dispatch(setStatus(status));
+        }
+    }
+}
+
+export const savePhotoThunkCreator = (file: File): ThunkType => {
+    return async (dispatch) => {
+        let data = await ProfileApi.savePhoto(file);
+        if (data.resultCode === 0) {
+            dispatch(savePhoto(data.data.photos));
         }
     }
 }

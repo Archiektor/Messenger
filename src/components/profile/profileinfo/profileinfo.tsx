@@ -1,17 +1,26 @@
-import React from 'react';
+import React, {ChangeEvent} from 'react';
 
 import css from './profileinfo.module.css';
 import {UserProfileType} from '../../../redux/profile-reducer';
 import {Preloader} from '../../common/Preloader/Preloader';
 import ProfileStatusHooks from './ProfileStatusHooks';
+import saitama from '../../../assets/images/saitama.png';
 
 type ProfileInfoType = {
     profile: UserProfileType,
     status: string,
     updateStatusThunkCreator: (status: string) => void,
+    isOwner: boolean,
+    savePhoto: (file: File) => void,
 }
 
 const ProfileInfo: React.FC<ProfileInfoType> = (props) => {
+    const onMainPhotoSelected = (e:ChangeEvent<HTMLInputElement>) => {
+        if(e.currentTarget.files!.length) {
+            props.savePhoto(e.currentTarget.files![0]);
+        }
+    }
+
     // debugger;
     if (!props.profile) {
         return <Preloader/>
@@ -21,12 +30,16 @@ const ProfileInfo: React.FC<ProfileInfoType> = (props) => {
                 <div className={css.border}>
                     <img className={css.bgImg}
                          src="https://cdn57.androidauthority.net/wp-content/uploads/2015/11/00-best-backgrounds-and-wallpaper-apps-for-android.jpg"
-                         alt={"attractda"}/>
+                         alt={'attractda'}/>
+
                 </div>
                 <div className={css.mainInfo}>
-                    <img className={css.profImg}
-                         src={props.profile.photos === null ? "https://c7.hotpng.com/preview/483/187/617/one-punch-man-youtube-saitama-desktop-wallpaper-one-punch-man.jpg" : props.profile.photos.small}
-                         alt={""}/>
+                   <div className={css.personImg}>
+                       <img className={css.profImg}
+                            src={props.profile.photos.small || saitama}
+                            alt={''}/>
+                       {props.isOwner && <input onChange={onMainPhotoSelected} type={"file"}/>}
+                   </div>
                     <div className={css.userInfo}>
                         <h2>{props.profile.fullName}</h2>
                         <ProfileStatusHooks status={props.status} updateStatus={props.updateStatusThunkCreator}/>
