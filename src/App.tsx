@@ -1,5 +1,5 @@
 import React from 'react';
-import {Route, withRouter} from 'react-router-dom'
+import {Route, withRouter, Switch, Redirect} from 'react-router-dom'
 
 import './app.css';
 import HeaderContainer from './components/header/HeaderContainer';
@@ -42,16 +42,22 @@ class App extends React.Component<AppPropsType, {}> {
                 <HeaderContainer/>
                 <Navbar data={friendsPage}/>
                 <div className="app-wrapper-content">
-                    <Route path='/profile/:userId?' render={() => <ProfileContainer/>}/>
+                    <Switch>
+                        <Route exact path="/"><Redirect to="/profile"/>
+                        </Route>
 
-                    <Route path='/dialogs' render={withSuspense(DialogsContainer)}/>
+                        <Route path='/profile/:userId?' render={() => <ProfileContainer/>}/>
 
-                    <Route path='/users' component={withSuspense(UsersContainer)}/>
-                    <Route path='/login' render={() => <Login/>}/>
+                        <Route path='/dialogs' render={withSuspense(DialogsContainer)}/>
 
-                    <Route path='/news' render={withSuspense(News)}/>
-                    <Route path='/music' render={withSuspense(Music)}/>
-                    <Route path='/settings' render={withSuspense(Settings)}/>
+                        <Route path='/users' component={withSuspense(UsersContainer)}/>
+                        <Route path='/login' render={() => <Login/>}/>
+
+                        <Route path='/news' render={withSuspense(News)}/>
+                        <Route path='/music' render={withSuspense(Music)}/>
+                        <Route path='/settings' render={withSuspense(Settings)}/>
+                        <Route path='*' render={() => <div>{`404 Not Fount`}</div>}/>
+                    </Switch>
                 </div>
             </div>
         )

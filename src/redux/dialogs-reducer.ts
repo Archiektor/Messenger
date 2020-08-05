@@ -18,11 +18,6 @@ export type DialogType = {
     name: string,
 }
 
-export type DialogsPage = {
-    messages: Array<MessageType>,
-    dialogs: Array<DialogType>,
-}
-
 export const addNewMessageAC = (newMsg: string): AddMessageAC => ({type: ADD_MESSAGE, newMsg: newMsg});
 
 let initialState = {
@@ -32,7 +27,7 @@ let initialState = {
         {id: v1(), text: `Alahabara`},
         {id: v1(), text: `For glory`},
         {id: v1(), text: `Soft kitty`},
-    ],
+    ] as Array<MessageType>,
     dialogs: [
         {key: v1(), id: 1, name: "Nikki"},
         {key: v1(), id: 2, name: "Dima"},
@@ -40,10 +35,12 @@ let initialState = {
         {key: v1(), id: 4, name: "Tanya"},
         {key: v1(), id: 5, name: "Timur"},
         {key: v1(), id: 6, name: "Roxenne"},
-    ],
+    ] as Array<DialogType>,
 }
 
-const dialogsReducer = (partOfState: DialogsPage = initialState, action: DialogsReducerActionType): DialogsPage => {
+export type DialogsPage = typeof initialState;
+
+const dialogsReducer = (partOfState = initialState, action: DialogsReducerActionType): DialogsPage => {
     let partOfStateCopy: DialogsPage;
     switch (action.type) {
         case ADD_MESSAGE: {

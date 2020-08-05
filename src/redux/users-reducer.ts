@@ -59,16 +59,6 @@ export type UserType = {
     }
 }
 
-export type UsersPage = {
-    users: Array<UserType>,
-    pageSize: number,
-    totalUsersCount: number,
-    currentPage: number,
-    isFetching: boolean,
-    isLoading: boolean,
-    disabledUsers: Array<string>,
-}
-
 // Action Creator's
 export const followSuccess = (userId: string): FollowACType => ({type: FOLLOW, userId: userId});
 export const unfollowSuccess = (userId: string): UnFollowACType => ({type: UNFOLLOW, userId: userId});
@@ -88,6 +78,16 @@ export const switchIsLoading = (isLoading: boolean, userId: string): SwitchIsLoa
     userId
 });
 
+export type UsersPage = {
+    users: Array<UserType>,
+    pageSize: number,
+    totalUsersCount: number,
+    currentPage: number,
+    isFetching: boolean,
+    isLoading: boolean,
+    disabledUsers: Array<string>,
+}
+
 let initialState: UsersPage = {
     users: [],
     pageSize: 5,
@@ -98,7 +98,7 @@ let initialState: UsersPage = {
     disabledUsers: [],
 }
 
-const usersReducer = (partOfState: UsersPage = initialState, action: UsersReducerActionsType): UsersPage => {
+const usersReducer = (partOfState = initialState, action: UsersReducerActionsType): UsersPage => {
     switch (action.type) {
         case FOLLOW: {
             let partOfStateCopy = {

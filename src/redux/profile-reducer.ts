@@ -10,12 +10,10 @@ const deepCopyFunction = (incomeObj: any) => {
     if (typeof incomeObj !== 'object' || incomeObj === null) {
         return incomeObj // Return the value if incomeObj is not an object
     }
-    // Create an array or object to hold the values
     returnedObj = Array.isArray(incomeObj) ? [] : {}
 
     for (key in incomeObj) {
         value = incomeObj[key]
-        // Recursively (deep) copy for nested objects, including arrays
         returnedObj[key] = deepCopyFunction(value)
     }
     return returnedObj
@@ -44,24 +42,20 @@ export type PostType = {
     message: string,
     likesCount: number
 }
-export type ProfilePage = {
-    posts: Array<PostType>,
-    newPostText: string,
-    profile: UserProfileType,
-    status: string,
+type ContactsType = {
+    facebook: string,
+    website: null | string,
+    vk: string,
+    twitter: string,
+    instagram: string,
+    youtube: null | string,
+    github: string,
+    mainLink: null | string,
 }
+
 export type UserProfileType = null | {
     aboutMe: string,
-    contacts: {
-        facebook: string,
-        website: null | string,
-        vk: string,
-        twitter: string,
-        instagram: string,
-        youtube: null | string,
-        github: string,
-        mainLink: null | string,
-    },
+    contacts: ContactsType,
     lookingForAJob: boolean,
     lookingForAJobDescription: string,
     fullName: string,
@@ -86,6 +80,8 @@ export const savePhoto = (photos: {
     small: string, large: string
 }): savePhotoACType => ({type: SAVE_PHOTOS_SUCCESS, photos})
 
+type ProfilePageType = typeof initialState;
+
 let initialState = {
     posts: [
         {id: v1(), message: `Hi, how are you ?`, likesCount: 12},
@@ -93,14 +89,14 @@ let initialState = {
         {id: v1(), message: `I'm too bored`, likesCount: 2},
         {id: v1(), message: `Goint to night fish`, likesCount: 13},
         {id: v1(), message: `Courage`, likesCount: 0},
-    ],
+    ] as Array<PostType>,
     newPostText: '',
-    profile: null,
+    profile: null as UserProfileType | null,
     status: '',
 }
 
-const profileReducer = (partOfState: ProfilePage = initialState, action: ProfileReducerActionType): ProfilePage => {
-    let partOfStateCopy: ProfilePage;
+const profileReducer = (partOfState = initialState, action: ProfileReducerActionType): ProfilePageType => {
+    let partOfStateCopy: ProfilePageType;
     switch (action.type) {
         case ADD_POST: {
             partOfStateCopy = {...partOfState, posts: [...partOfState.posts],};
@@ -121,7 +117,6 @@ const profileReducer = (partOfState: ProfilePage = initialState, action: Profile
             return {...partOfState, posts: partOfState.posts.filter(p => p.id !== action.postId)}
         }
         case SAVE_PHOTOS_SUCCESS: {
-            //return {...partOfState, profile: {...partOfState.profile.photos.small === action.photo}}
             let newCopyOfState = deepCopyFunction(partOfState);
             newCopyOfState.profile.photos.small = action.photos.small;
             newCopyOfState.profile.photos.large = action.photos.large;
