@@ -7,7 +7,7 @@ import {
     unfollowUserThunkCreator,
     UserType
 } from '../../redux/users-reducer';
-import React, {PureComponent} from 'react';
+import React, {PureComponent, useCallback} from 'react';
 import {Users} from './Users';
 import {Preloader} from '../common/Preloader/Preloader';
 import {
@@ -42,11 +42,11 @@ class UsersContainer extends PureComponent<UserPropsType, {}> {
         getUsersThunkCreator(currentPage, pageSize);
     }
 
-    onClickHandler = (pageNumber: number) => {
+    onClickHandler = useCallback((pageNumber: number) => {
         let {pageSize, getUsersThunkCreator, setCurrentPage} = this.props;
         setCurrentPage(pageNumber);
         getUsersThunkCreator(pageNumber, pageSize);
-    }
+    }, [])
 
     render() {
         const {users, currentPage, isFetching, isLoading, disabledUsers, pageSize, totalUsersCount} = this.props;

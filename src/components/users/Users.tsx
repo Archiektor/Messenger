@@ -24,7 +24,7 @@ export const Users: React.FC<UsersType> = React.memo(({
     return (
         <div>
             <h3 className={s.title}>Users</h3>
-            <Paginator totalItemsCount={totalUsersCount} pageSize={pageSize} onClickHandler={onClickHandler} currentPage={currentPage}/>
+            <Paginator totalItemsCount={totalUsersCount} pageSize={pageSize } onClickHandler={onClickHandler} currentPage={currentPage}/>
             {
                 users.map(user =>
                     <User key={user.id} user={user} disabledUsers={disabledUsers}

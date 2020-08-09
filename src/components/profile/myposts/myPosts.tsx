@@ -14,8 +14,6 @@ type MyPostsType = {
 
 
 const MyPosts: React.FC<MyPostsType> = React.memo(({posts, addPost}) => {
-    console.log("render");
-    //shouldComponentUpdate
 
         let postElements = posts.map((post) => {
             return (
