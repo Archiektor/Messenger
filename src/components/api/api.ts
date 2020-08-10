@@ -19,16 +19,16 @@ type GetUsersPromiseType = {
     error: null
 }
 
-export type FollowUserType = {
+type CommonResponseType = {
     data: Object,
     messages: Array<string>,
-    resultCode: 0,
+    resultCode: ResultCodesEnum,
 }
 
 export type AuthMeType = {
     data: UserDataType,
     messages: Array<string>,
-    resultCode: 0,
+    resultCode: ResultCodesEnum,
 }
 
 const instance = axios.create({
@@ -49,7 +49,7 @@ export const UserApi = {
             throw new Error(e);
         }
     },
-    unfollowUser: async (userId: string): Promise<FollowUserType> => {
+    unfollowUser: async (userId: string): Promise<CommonResponseType> => {
         try {
             const {data} = await instance.delete(`follow/${userId}`);
             return data;
@@ -57,7 +57,7 @@ export const UserApi = {
             throw new Error(e);
         }
     },
-    followUser: async (userId: string): Promise<FollowUserType> => {
+    followUser: async (userId: string): Promise<CommonResponseType> => {
         try {
             const {data} = await instance.post(`follow/${userId}`, {});
             return data;
@@ -79,7 +79,6 @@ type LoginResponseType = {
     data: {userId: number},
     resultCode: ResultCodesEnum,
     messages: Array<string>,
-
 }
 
 export const AuthAPI = {
@@ -104,7 +103,7 @@ export const AuthAPI = {
             throw new Error(e);
         }
     },
-    logoutMe: async () => {
+    logoutMe: async (): Promise<CommonResponseType> => {
         try {
             const {data} = await instance.delete(`auth/login`);
             return data;
@@ -112,6 +111,17 @@ export const AuthAPI = {
             throw new Error(e);
         }
     },
+}
+
+type SavePhotoResponseType = {
+    resultCode: ResultCodesEnum
+    messages: Array<string>,
+    data: {
+        photos: {
+            small: string,
+            large: string,
+        }
+    }
 }
 
 export const ProfileApi = {
@@ -131,7 +141,7 @@ export const ProfileApi = {
             throw new Error(e);
         }
     },
-    updateStatus: async (status: string) => {
+    updateStatus: async (status: string): Promise<CommonResponseType> => {
         try {
             const {data} = await instance.put(`profile/status`, {status: status});
             return data;
@@ -139,7 +149,7 @@ export const ProfileApi = {
             throw new Error(e);
         }
     },
-    savePhoto: async (photoFile: File) => {
+    savePhoto: async (photoFile: File): Promise<SavePhotoResponseType>  => {
         try {
             const formData = new FormData();
             formData.append('image', photoFile);

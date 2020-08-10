@@ -155,6 +155,7 @@ export const updateStatusThunkCreator = (status: string): ThunkType => {
 export const savePhotoThunkCreator = (file: File): ThunkType => {
     return async (dispatch) => {
         const data = await ProfileApi.savePhoto(file);
+        console.log('photodata', data);
         if (data.resultCode === ResultCodesEnum.Success) {
             dispatch(savePhoto(data.data.photos));
         }
