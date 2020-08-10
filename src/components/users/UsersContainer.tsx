@@ -20,22 +20,26 @@ import {
     getUsers
 } from '../../redux/users-selectors';
 
-
-type UserPropsType = {
+type MapStatePropsType = {
     users: Array<UserType>,
+    disabledUsers: Array<string>,
     pageSize: number,
     totalUsersCount: number,
     currentPage: number,
     isFetching: boolean,
-    setCurrentPage: (currP: number) => void,
     isLoading: boolean,
-    disabledUsers: Array<string>,
+}
+
+type MapDispatchToProps = {
+    setCurrentPage: (currP: number) => void,
     getUsersThunkCreator: (currentPage: number, pageSize: number) => void,
     followUserThunkCreator: (userId: string) => void,
     unfollowUserThunkCreator: (userId: string) => void,
 }
 
-class UsersContainer extends PureComponent<UserPropsType, {}> {
+type UsersContainerPropsType = MapStatePropsType & MapDispatchToProps;
+
+class UsersContainer extends PureComponent<UsersContainerPropsType, {}> {
 
     componentDidMount() {
         let {currentPage, pageSize, getUsersThunkCreator} = this.props;
@@ -70,9 +74,8 @@ class UsersContainer extends PureComponent<UserPropsType, {}> {
 }
 
 // get state => throw state to props
-let mapStateToProps = (state: AppStateType) => ({
+let mapStateToProps = (state: AppStateType): MapStatePropsType => ({
     users: getUsers(state),
-    // users: getUsersSelector(state),
     pageSize: getPageSize(state),
     totalUsersCount: getTotalUsersCount(state),
     currentPage: getCurrentPage(state),
@@ -81,5 +84,6 @@ let mapStateToProps = (state: AppStateType) => ({
     disabledUsers: getDisabledUsers(state),
 })
 
-export default connect(mapStateToProps,
+// TStateProps = {}, TDispatchProps = {}, TOwnProps = {}, State
+export default connect<MapStatePropsType, MapDispatchToProps, {}, AppStateType>(mapStateToProps,
     {setCurrentPage, getUsersThunkCreator, unfollowUserThunkCreator, followUserThunkCreator})(UsersContainer);

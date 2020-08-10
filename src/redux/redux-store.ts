@@ -9,8 +9,8 @@ import {reducer as formReducer} from 'redux-form'
 import appReducer from './app-reducer';
 
 // наш reducers это фактически state = {profilePage: [data], dialogsPage: [data], friendsPage: [data]}
-let reducers = combineReducers({
-    //combinre all reducers in one object = state
+let rootReducer = combineReducers({
+    //combine all reducers in one object = state
     profilePage: profileReducer,
     dialogsPage: dialogsReducer,
     usersPage: usersReducer,
@@ -20,7 +20,7 @@ let reducers = combineReducers({
     app: appReducer,
 });
 
-export type AppStateType = ReturnType<typeof reducers>
+export type AppStateType = ReturnType<typeof rootReducer>
 
 declare global {
     interface Window {
@@ -29,9 +29,7 @@ declare global {
 }
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store: Store = createStore(reducers, /* preloadedState, */ composeEnhancers(
-    applyMiddleware(thunkMiddleware)
-));
+const store: Store = createStore(rootReducer, /* preloadedState, */ composeEnhancers(applyMiddleware(thunkMiddleware)  ));
 
 //let store: Store = createStore(reducers, applyMiddleware(thunkMiddleware));
 
