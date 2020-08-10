@@ -10,7 +10,7 @@ type HeaderType = {
     LoginOutThunkCreator: () => void,
 }
 
-const Header: React.FC<HeaderType> = (props) => {
+const Header: React.FC<HeaderType> = React.memo((props) => {
     return (
         <header className={s.header}>
             <img src={logo} alt="study logo"/>
@@ -22,6 +22,6 @@ const Header: React.FC<HeaderType> = (props) => {
             </div>
         </header>
     )
-}
+})
 
 export default Header;

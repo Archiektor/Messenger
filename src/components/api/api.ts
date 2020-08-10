@@ -4,6 +4,15 @@ import {UserDataType} from '../../redux/auth-reducer';
 import {UserProfileType} from '../../redux/profile-reducer';
 import {ProfileDataForm} from '../profile/ProfileDataForm/ProfileDataForm';
 
+export enum ResultCodesEnum {
+    Success = 0,
+    Error = 1,
+}
+
+export enum ResultCodeForCaptcha {
+    CaptchaIsRequired  = 10,
+}
+
 type GetUsersPromiseType = {
     items: Array<UserType>,
     totalCount: 5199,
@@ -16,7 +25,7 @@ export type FollowUserType = {
     resultCode: 0,
 }
 
-type AuthMeType = {
+export type AuthMeType = {
     data: UserDataType,
     messages: Array<string>,
     resultCode: 0,
@@ -43,7 +52,6 @@ export const UserApi = {
     unfollowUser: async (userId: string): Promise<FollowUserType> => {
         try {
             const {data} = await instance.delete(`follow/${userId}`);
-            // debugger;
             return data;
         } catch (e) {
             throw new Error(e);
@@ -52,7 +60,6 @@ export const UserApi = {
     followUser: async (userId: string): Promise<FollowUserType> => {
         try {
             const {data} = await instance.post(`follow/${userId}`, {});
-            // debugger;
             return data;
         } catch (e) {
             throw new Error(e);
@@ -61,12 +68,18 @@ export const UserApi = {
     showProfile: async (userId: string): Promise<UserProfileType> => {
         try {
             const {data} = await instance.get(`profile/${userId ? userId : '9187'}`);
-            // debugger;
             return data;
         } catch (e) {
             throw new Error(e);
         }
     }
+}
+
+type LoginResponseType = {
+    data: {userId: number},
+    resultCode: ResultCodesEnum,
+    messages: Array<string>,
+
 }
 
 export const AuthAPI = {
@@ -78,12 +91,12 @@ export const AuthAPI = {
             throw new Error(e);
         }
     },
-    loginMe: async (email: string, password: string, rememberMe: boolean = false, captcha?: boolean) => {
+    loginMe: async (email: string, password: string, rememberMe: boolean = false, captcha?: boolean) : Promise<LoginResponseType> => {
         try {
             const {data} = await instance.post(`auth/login`, {
                 email: email,
                 password: password,
-                remeberMe: rememberMe ? rememberMe : false,
+                rememberMe: rememberMe ? rememberMe : false,
                 captcha: captcha ? captcha : false,
             });
             return data;
@@ -150,7 +163,7 @@ export const ProfileApi = {
     }
 }
 
-type CaptchaUrl = {url: string}
+type CaptchaUrl = { url: string }
 
 export const securityApi = {
     getCaptchaUrl: async (): Promise<CaptchaUrl> => {

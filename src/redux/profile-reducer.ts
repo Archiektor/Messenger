@@ -1,7 +1,7 @@
 import {v1} from 'uuid';
 import {ThunkAction} from 'redux-thunk';
 import {AppStateType} from './redux-store';
-import {ProfileApi} from '../components/api/api';
+import {ProfileApi, ResultCodesEnum} from '../components/api/api';
 import {ProfileDataForm} from '../components/profile/ProfileDataForm/ProfileDataForm';
 import {stopSubmit} from 'redux-form';
 
@@ -80,7 +80,7 @@ export const savePhoto = (photos: {
     small: string, large: string
 }): savePhotoACType => ({type: SAVE_PHOTOS_SUCCESS, photos})
 
-type ProfilePageType = typeof initialState;
+export type ProfilePageType = typeof initialState;
 
 let initialState = {
     posts: [
@@ -146,7 +146,7 @@ export const getStatusThunkCreator = (userId: number): ThunkType => {
 export const updateStatusThunkCreator = (status: string): ThunkType => {
     return async (dispatch) => {
         const data = await ProfileApi.updateStatus(status);
-        if (data.resultCode === 0) {
+        if (data.resultCode === ResultCodesEnum.Success) {
             dispatch(setStatus(status));
         }
     }
@@ -155,7 +155,7 @@ export const updateStatusThunkCreator = (status: string): ThunkType => {
 export const savePhotoThunkCreator = (file: File): ThunkType => {
     return async (dispatch) => {
         const data = await ProfileApi.savePhoto(file);
-        if (data.resultCode === 0) {
+        if (data.resultCode === ResultCodesEnum.Success) {
             dispatch(savePhoto(data.data.photos));
         }
     }
@@ -166,7 +166,7 @@ export const saveProfileThunkCreator = (formData: ProfileDataForm): ThunkType =>
         const userId = getState().auth.id;
         //debugger;
         const data = await ProfileApi.saveProfile(formData);
-        if (data.resultCode === 0) {
+        if (data.resultCode === ResultCodesEnum.Success) {
             await dispatch(showProfileThunkCreator(userId!))
         } else {
             let errMsg = data.messages.length > 0 ? data.messages[0] : 'Unknown error';

@@ -1,4 +1,4 @@
-import {UserApi} from '../components/api/api';
+import {ResultCodesEnum, UserApi} from '../components/api/api';
 import {AppStateType} from './redux-store';
 import {ThunkAction, ThunkDispatch} from 'redux-thunk';
 import {updateObjectInArray} from '../components/utils/objects-helper';
@@ -101,18 +101,16 @@ let initialState: UsersPage = {
 const usersReducer = (partOfState = initialState, action: UsersReducerActionsType): UsersPage => {
     switch (action.type) {
         case FOLLOW: {
-            let partOfStateCopy = {
+            return {
                 ...partOfState,
                 users: updateObjectInArray(partOfState.users, action.userId, 'id', {followed: true})
             };
-            return partOfStateCopy;
         }
         case UNFOLLOW: {
-            let partOfStateCopy = {
+            return {
                 ...partOfState,
                 users: updateObjectInArray(partOfState.users, action.userId, 'id', {followed: false})
             };
-            return partOfStateCopy;
         }
         case SET_USERS: {
             return {...partOfState, users: action.users!}
@@ -147,7 +145,6 @@ export const getUsersThunkCreator = (page: number, pageSize: number): ThunkType 
     return async (dispatch) => { // getUsersThunk
         dispatch(switchIsFetching(true));
         let data = await UserApi.getUsers(page, pageSize);
-        // debugger;
         dispatch(switchIsFetching(false));
         dispatch(setUsers(data.items));
         dispatch(setTotalUsersCount(data.totalCount))
@@ -156,20 +153,20 @@ export const getUsersThunkCreator = (page: number, pageSize: number): ThunkType 
 
 type CombineFlowType = FollowACType | UnFollowACType;
 
-const followUnfollowFlow = async (dispatch: ThunkDispatch<AppStateType, unknown, UsersReducerActionsType>,
+const _followUnfollowFlow = async (dispatch: ThunkDispatch<AppStateType, unknown, UsersReducerActionsType>,
                                   userId: string,
-                                  fn: Function, flowSuccess: Function) => {
+                                  fn: Function, flowSuccess: (userId: string ) => CombineFlowType) => {
     dispatch(switchIsLoading(true, userId));
     let data = await fn(userId)
     dispatch(switchIsLoading(false, userId));
-    if (data.resultCode === 0) {
+    if (data.resultCode === ResultCodesEnum.Success) {
         dispatch(flowSuccess(userId));
     }
 }
 
 export const unfollowUserThunkCreator = (userId: string): ThunkType => {
     return async (dispatch) => {
-        followUnfollowFlow(dispatch, userId, UserApi.unfollowUser, unfollowSuccess)
+        _followUnfollowFlow(dispatch, userId, UserApi.unfollowUser, unfollowSuccess)
         /*        dispatch(switchIsLoading(true, userId));
                 let data = await UserApi.unfollowUser(userId)
                 dispatch(switchIsLoading(false, userId));
@@ -181,7 +178,7 @@ export const unfollowUserThunkCreator = (userId: string): ThunkType => {
 
 export const followUserThunkCreator = (userId: string): ThunkType => {
     return async (dispatch) => { // getFollowUserThunk
-        followUnfollowFlow(dispatch, userId, UserApi.followUser, followSuccess)
+        _followUnfollowFlow(dispatch, userId, UserApi.followUser, followSuccess)
         /*        dispatch(switchIsLoading(true, userId));
                 let data = await UserApi.followUser(userId);
                 dispatch(switchIsLoading(false, userId));

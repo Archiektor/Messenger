@@ -1,14 +1,19 @@
-import React, {Component} from "react";
-import Header from "./header";
-import {connect} from "react-redux";
-import {AppStateType} from "../../redux/redux-store";
-import {LoginOutThunkCreator} from "../../redux/auth-reducer";
+import React, {Component} from 'react';
+import Header from './header';
+import {connect} from 'react-redux';
+import {AppStateType} from '../../redux/redux-store';
+import {LoginOutThunkCreator} from '../../redux/auth-reducer';
 
-type HeaderContainerType = {
+type MapStateToProps = {
     login: string | null,
     isAuth: boolean,
+}
+
+type MapDispatchToProps = {
     LoginOutThunkCreator: () => void,
 }
+
+type HeaderContainerType = MapStateToProps & MapDispatchToProps;
 
 class HeaderContainer extends Component<HeaderContainerType, {}> {
 
@@ -26,4 +31,4 @@ const mapStateToProps = (state: AppStateType) => {
     }
 }
 
-export default connect(mapStateToProps, {LoginOutThunkCreator })(HeaderContainer);
+export default connect<MapStateToProps, MapDispatchToProps, {}, AppStateType>(mapStateToProps, {LoginOutThunkCreator})(HeaderContainer);

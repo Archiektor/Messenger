@@ -13,7 +13,7 @@ type PropsType = {
     addMessage: (text: string) => void,
     isAuth: boolean,
 }
-const Dialogs: React.FC<PropsType> = ({dialogsPage, addMessage, isAuth}) => {
+const Dialogs: React.FC<PropsType> = React.memo(({dialogsPage, addMessage, isAuth}) => {
     let dialogsElements = dialogsPage.dialogs.map((dialog) => {
         const {key, name, id} = dialog;
         return (<DialogItem name={name} id={id} key={key}/>)
@@ -40,7 +40,7 @@ const Dialogs: React.FC<PropsType> = ({dialogsPage, addMessage, isAuth}) => {
             </div>
         </div>
     )
-}
+})
 
 type FormDataType = {
     newMessageBody: string,

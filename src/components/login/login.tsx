@@ -20,12 +20,17 @@ type LoginFormType = {
     captcha: string | null,
 }
 
-type LoginType = {
+type MapStateToProps = {
     isAuth: boolean,
     captchaUrl: string | null,
+}
+
+type MapDispatchToProps = {
     LoginMeThunkCreator: (login: string, password: string, rememberMe?: boolean, captcha?: boolean) => void,
     LoginOutThunkCreator: () => void,
 }
+
+type LoginType = MapStateToProps & MapDispatchToProps;
 
 const Login: React.FC<LoginType> = ({isAuth, captchaUrl, LoginMeThunkCreator}) => {
 
@@ -76,10 +81,10 @@ const LoginReduxForm = reduxForm<FormData, LoginFormType>({
     form: 'login'
 })(LoginForm)
 
-type MapStateToProps = {
+/*type MapStateToProps = {
     isAuth: boolean,
     captchaUrl: string | null,
-}
+}*/
 
 let mapStateToProps = (state: AppStateType): MapStateToProps => {
     return {
@@ -88,4 +93,7 @@ let mapStateToProps = (state: AppStateType): MapStateToProps => {
     }
 }
 
-export default connect(mapStateToProps, {LoginMeThunkCreator, LoginOutThunkCreator})(Login);
+export default connect<MapStateToProps, MapDispatchToProps, {}, AppStateType>(mapStateToProps, {
+    LoginMeThunkCreator,
+    LoginOutThunkCreator
+})(Login);

@@ -1,6 +1,6 @@
 import {ThunkAction} from 'redux-thunk';
 import {AppStateType} from './redux-store';
-import {AuthAPI, securityApi} from '../components/api/api';
+import {AuthAPI, AuthMeType, ResultCodeForCaptcha, ResultCodesEnum, securityApi} from '../components/api/api';
 import {stopSubmit} from 'redux-form';
 
 const SET_USER_DATA = 'network/auth/SET_USER_DATA';
@@ -67,13 +67,12 @@ const authReducer = (partOfState = initialState, action: AuthReducerActionType):
     }
 }
 
-//TODO change type from any
-type ThunkType = ThunkAction<Promise<any>, AppStateType, unknown, AuthReducerActionType>
+type ThunkType = ThunkAction<Promise<void | AuthMeType>, AppStateType, unknown, AuthReducerActionType>
 
 export const AuthMeThunkCreator = (): ThunkType => {
     return async (dispatch) => {
         let data = await AuthAPI.authMe()
-        if (data.resultCode === 0) {
+        if (data.resultCode === ResultCodesEnum.Success) {
             const {id, email, login} = data.data;
             dispatch(setAuthUserData(id, email, login, true));
         }
@@ -88,7 +87,7 @@ export const LoginMeThunkCreator = (login: string, password: string, rememberMe?
             await dispatch(AuthMeThunkCreator());
             alert('Successfully logined');
         } else {
-            if (data.resultCode === 10) {
+            if (data.resultCode === ResultCodeForCaptcha) {
                 await dispatch(getCaptchaUrl());
             }
             let errMsg = data.messages.length > 0 ? data.messages[0] : 'Unknown error';

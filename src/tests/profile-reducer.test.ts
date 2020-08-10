@@ -1,10 +1,10 @@
-import profileReducer, {ProfilePage, addPostAC, deletePost} from '../redux/profile-reducer';
+import profileReducer, {addPostAC, deletePost, ProfilePageType} from '../redux/profile-reducer';
 import {v1} from 'uuid';
 
 
 describe("should work correct", () => {
     describe("adding post should work correctly", () => {
-        let startState: ProfilePage
+        let startState: ProfilePageType
         beforeEach(() => {
             startState = {
                 posts: [
@@ -28,7 +28,7 @@ describe("should work correct", () => {
     })
 
     describe("deleting post should work correctly", () => {
-        let startState: ProfilePage
+        let startState: ProfilePageType
         beforeEach(() => {
             startState = {
                 posts: [

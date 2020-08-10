@@ -13,7 +13,7 @@ export type DataType = {
     friends: Array<FriendType>
 }
 
-const Navbar: React.FC<NavbarType> = ({data}) => {
+const Navbar: React.FC<NavbarType> = React.memo(({data}) => {
     return (
 
         <nav className={cssClasses.nav}>
@@ -37,6 +37,6 @@ const Navbar: React.FC<NavbarType> = ({data}) => {
         </nav>
 
     )
-}
+})
 
 export default Navbar;

@@ -8,7 +8,7 @@ const inlineStyle = {
     margin: "0 auto",
 }
 
-export const Preloader = () => {
+export const Preloader: React.FC<{}> = () => {
     return (
         <img style={inlineStyle} src={preloader} alt="preloader"/>
     )

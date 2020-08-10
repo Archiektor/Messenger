@@ -6,7 +6,7 @@ type MessageType = {
     text: string,
 }
 
-const Message: React.FC<MessageType> = (props) => {
+const Message: React.FC<MessageType> = React.memo((props) => {
     const {text} = props;
     return (
         <div className={css.msgWrapper}>
@@ -14,6 +14,6 @@ const Message: React.FC<MessageType> = (props) => {
             <div className={css.message}>{text}</div>
         </div>
     )
-}
+})
 
 export default Message;
