@@ -1,17 +1,17 @@
 import {ResultCodesEnum, UserApi} from '../components/api/api';
-import {AppStateType} from './redux-store';
+import {AppStateType, InferActionsType} from './redux-store';
 import {ThunkAction, ThunkDispatch} from 'redux-thunk';
 import {updateObjectInArray} from '../components/utils/objects-helper';
 
-const FOLLOW = 'network/users/FOLLOW';
+/*const FOLLOW = 'network/users/FOLLOW';
 const UNFOLLOW = 'network/users/UNFOLLOW';
 const SET_USERS = 'network/users/SET_USERS';
 const SET_TOTAL_USERS_COUNT = 'network/users/SET_TOTAL_USERS_COUNT';
 const SET_CURRENT_PAGE = 'network/users/SET_CURRENT_PAGE';
 const SWITCH_IS_FETCHING = 'network/users/SWITCH_IS_FETCHING';
-const SWITCH_IS_LOADING = 'network/users/SWITCH_IS_LOADING';
+const SWITCH_IS_LOADING = 'network/users/SWITCH_IS_LOADING';*/
 
-type FollowACType = {
+/*type FollowACType = {
     type: typeof FOLLOW,
     userId: string,
 };
@@ -39,10 +39,12 @@ type SwitchIsLoadingACType = {
     type: typeof SWITCH_IS_LOADING,
     isLoading: boolean,
     userId: string,
-}
+}*/
 
-type UsersReducerActionsType = FollowACType | UnFollowACType | SetUsersACType | SetTotalUsersCountACType |
-    SetCurrentPageACType | SwitchIsFetchingACType | SwitchIsLoadingACType;
+/*type UsersReducerActionsType = FollowACType | UnFollowACType | SetUsersACType | SetTotalUsersCountACType |
+    SetCurrentPageACType | SwitchIsFetchingACType | SwitchIsLoadingACType;*/
+
+type UsersReducerActionsType = InferActionsType<typeof actions>;
 
 export type UserType = {
     id: string,
@@ -60,23 +62,42 @@ export type UserType = {
 }
 
 // Action Creator's
-export const followSuccess = (userId: string): FollowACType => ({type: FOLLOW, userId: userId});
-export const unfollowSuccess = (userId: string): UnFollowACType => ({type: UNFOLLOW, userId: userId});
-export const setUsers = (users: Array<UserType>): SetUsersACType => ({type: SET_USERS, users: users});
-export const setTotalUsersCount = (totalUsersCount: number): SetTotalUsersCountACType => ({
+export const actions = {
+    followSuccess: (userId: string) => ({type: `FOLLOW`, userId: userId} as const),
+    unfollowSuccess: (userId: string) => ({type: `UNFOLLOW`, userId: userId} as const),
+    setUsers: (users: Array<UserType>) => ({type: `SET_USERS`, users: users} as const),
+    setTotalUsersCount: (totalUsersCount: number) => ({
+        type: `SET_TOTAL_USERS_COUNT`,
+        totalUsersCount: totalUsersCount
+    } as const),
+    setCurrentPage: (currentPage: number) => ({type: `SET_CURRENT_PAGE`, currentPage} as const),
+    switchIsFetching: (isFetching: boolean) => ({
+        type: `SWITCH_IS_FETCHING`,
+        isFetching
+    } as const),
+    switchIsLoading: (isLoading: boolean, userId: string) => ({
+        type: `SWITCH_IS_LOADING`,
+        isLoading,
+        userId
+    } as const),
+}
+/*export const followSuccess = (userId: string) => ({type: FOLLOW, userId: userId});
+export const unfollowSuccess = (userId: string) => ({type: UNFOLLOW, userId: userId});
+export const setUsers = (users: Array<UserType>) => ({type: SET_USERS, users: users});
+export const setTotalUsersCount = (totalUsersCount: number) => ({
     type: SET_TOTAL_USERS_COUNT,
     totalUsersCount: totalUsersCount
 });
-export const setCurrentPage = (currentPage: number): SetCurrentPageACType => ({type: SET_CURRENT_PAGE, currentPage});
-export const switchIsFetching = (isFetching: boolean): SwitchIsFetchingACType => ({
+export const setCurrentPage = (currentPage: number) => ({type: SET_CURRENT_PAGE, currentPage});
+export const switchIsFetching = (isFetching: boolean) => ({
     type: SWITCH_IS_FETCHING,
     isFetching
 });
-export const switchIsLoading = (isLoading: boolean, userId: string): SwitchIsLoadingACType => ({
+export const switchIsLoading = (isLoading: boolean, userId: string) => ({
     type: SWITCH_IS_LOADING,
     isLoading,
     userId
-});
+});*/
 
 export type UsersPage = {
     users: Array<UserType>,
@@ -100,31 +121,31 @@ let initialState: UsersPage = {
 
 const usersReducer = (partOfState = initialState, action: UsersReducerActionsType): UsersPage => {
     switch (action.type) {
-        case FOLLOW: {
+        case `FOLLOW`: {
             return {
                 ...partOfState,
                 users: updateObjectInArray(partOfState.users, action.userId, 'id', {followed: true})
             };
         }
-        case UNFOLLOW: {
+        case `UNFOLLOW`: {
             return {
                 ...partOfState,
                 users: updateObjectInArray(partOfState.users, action.userId, 'id', {followed: false})
             };
         }
-        case SET_USERS: {
+        case `SET_USERS`: {
             return {...partOfState, users: action.users!}
         }
-        case SET_TOTAL_USERS_COUNT: {
+        case `SET_TOTAL_USERS_COUNT`: {
             return {...partOfState, totalUsersCount: action.totalUsersCount}
         }
-        case SET_CURRENT_PAGE: {
+        case `SET_CURRENT_PAGE`: {
             return {...partOfState, currentPage: action.currentPage}
         }
-        case SWITCH_IS_FETCHING: {
+        case `SWITCH_IS_FETCHING`: {
             return {...partOfState, isFetching: action.isFetching}
         }
-        case SWITCH_IS_LOADING: {
+        case `SWITCH_IS_LOADING`: {
             return {
                 ...partOfState,
                 disabledUsers: action.isLoading ?
@@ -143,22 +164,21 @@ type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, UsersReducerA
 
 export const getUsersThunkCreator = (page: number, pageSize: number): ThunkType => {
     return async (dispatch) => { // getUsersThunk
-        dispatch(switchIsFetching(true));
+        dispatch(actions.switchIsFetching(true));
         let data = await UserApi.getUsers(page, pageSize);
-        dispatch(switchIsFetching(false));
-        dispatch(setUsers(data.items));
-        dispatch(setTotalUsersCount(data.totalCount))
+        dispatch(actions.switchIsFetching(false));
+        dispatch(actions.setUsers(data.items));
+        dispatch(actions.setTotalUsersCount(data.totalCount))
     }
 }
 
-type CombineFlowType = FollowACType | UnFollowACType;
 
 const _followUnfollowFlow = async (dispatch: ThunkDispatch<AppStateType, unknown, UsersReducerActionsType>,
-                                  userId: string,
-                                  fn: Function, flowSuccess: (userId: string ) => CombineFlowType) => {
-    dispatch(switchIsLoading(true, userId));
+                                   userId: string,
+                                   fn: Function, flowSuccess: (userId: string) => UsersReducerActionsType) => {
+    dispatch(actions.switchIsLoading(true, userId));
     let data = await fn(userId)
-    dispatch(switchIsLoading(false, userId));
+    dispatch(actions.switchIsLoading(false, userId));
     if (data.resultCode === ResultCodesEnum.Success) {
         dispatch(flowSuccess(userId));
     }
@@ -166,7 +186,7 @@ const _followUnfollowFlow = async (dispatch: ThunkDispatch<AppStateType, unknown
 
 export const unfollowUserThunkCreator = (userId: string): ThunkType => {
     return async (dispatch) => {
-        _followUnfollowFlow(dispatch, userId, UserApi.unfollowUser, unfollowSuccess)
+        _followUnfollowFlow(dispatch, userId, UserApi.unfollowUser, actions.unfollowSuccess)
         /*        dispatch(switchIsLoading(true, userId));
                 let data = await UserApi.unfollowUser(userId)
                 dispatch(switchIsLoading(false, userId));
@@ -178,7 +198,7 @@ export const unfollowUserThunkCreator = (userId: string): ThunkType => {
 
 export const followUserThunkCreator = (userId: string): ThunkType => {
     return async (dispatch) => { // getFollowUserThunk
-        _followUnfollowFlow(dispatch, userId, UserApi.followUser, followSuccess)
+        _followUnfollowFlow(dispatch, userId, UserApi.followUser, actions.followSuccess)
         /*        dispatch(switchIsLoading(true, userId));
                 let data = await UserApi.followUser(userId);
                 dispatch(switchIsLoading(false, userId));

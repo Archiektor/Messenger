@@ -3,10 +3,10 @@ import {connect} from 'react-redux';
 import {
     followUserThunkCreator,
     getUsersThunkCreator,
-    setCurrentPage,
     unfollowUserThunkCreator,
     UserType
 } from '../../redux/users-reducer';
+import {actions} from '../../redux/users-reducer';
 import React, {PureComponent} from 'react';
 import {Users} from './Users';
 import {Preloader} from '../common/Preloader/Preloader';
@@ -83,6 +83,8 @@ let mapStateToProps = (state: AppStateType): MapStatePropsType => ({
     isLoading: getIsLoading(state),
     disabledUsers: getDisabledUsers(state),
 })
+
+const {setCurrentPage} = actions;
 
 // TStateProps = {}, TDispatchProps = {}, TOwnProps = {}, State
 export default connect<MapStatePropsType, MapDispatchToProps, {}, AppStateType>(mapStateToProps,
