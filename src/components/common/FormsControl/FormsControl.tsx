@@ -2,13 +2,14 @@ import React from 'react';
 import s from './FormsControl.module.scss';
 import {WrappedFieldInputProps, WrappedFieldMetaProps} from 'redux-form/lib/Field';
 import {Field} from 'redux-form';
+import {FieldValidatorType} from '../../utils/validators/validators';
 
-type FormControlType = {
+type FormControlPropsType = {
     input: WrappedFieldInputProps;
     meta: WrappedFieldMetaProps;
 }
 
-const FormControl: React.FC<FormControlType> = ({input, meta: {touched, error}, children}) => {
+const FormControl: React.FC<FormControlPropsType> = ({input, meta: {touched, error}, children}) => {
     const hasError = touched && error;
     return (
         <div className={hasError ? `${s.textarea} ${s.textarea_error}` : `${s.textarea}`}>
@@ -18,24 +19,27 @@ const FormControl: React.FC<FormControlType> = ({input, meta: {touched, error}, 
     )
 }
 
-export const CustomTextArea: React.FC<FormControlType> = (props) => {
+export const CustomTextArea: React.FC<FormControlPropsType> = (props) => {
     const {input, meta, ...restProps} = props;
     return (
         <FormControl {...props}><textarea {...input} {...restProps}/></FormControl>
     )
 }
 
-export const CustomInput: React.FC<FormControlType> = (props) => {
+export const CustomInput: React.FC<FormControlPropsType> = (props) => {
     const {input, meta, ...restProps} = props;
     return (
         <FormControl {...props}><input {...input} {...restProps}/></FormControl>
     )
 }
 
-export const createField = (name: string, placeholder: string, type: string, component: React.FC<FormControlType>, validators: any) => (
-    <div>
+export function createField<FormsKeyType extends string>(name: FormsKeyType,
+                            placeholder: string, type: string,
+                            component: string | React.FC<FormControlPropsType>,
+                            validators: Array<FieldValidatorType>) {
+    return <div>
         <Field name={name} type={type} placeholder={placeholder} component={component}
                validate={[...validators]}/>
     </div>
-)
+}
 
