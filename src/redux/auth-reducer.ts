@@ -1,7 +1,9 @@
 import {ThunkAction} from 'redux-thunk';
 import {AppStateType} from './redux-store';
-import {AuthAPI, AuthMeType, ResultCodeForCaptcha, ResultCodesEnum, securityApi} from '../components/api/api';
+import {CommonResponseType, ResultCodeForCaptcha, ResultCodesEnum} from '../components/api/api';
 import {stopSubmit} from 'redux-form';
+import {AuthAPI} from '../components/api/auth-api';
+import {securityApi} from '../components/api/security-api';
 
 const SET_USER_DATA = 'network/auth/SET_USER_DATA';
 const GET_CAPTCHA_URL_SUCCESS = 'network/auth/GET_CAPTCHA_URL_SUCCESS';
@@ -67,7 +69,7 @@ const authReducer = (partOfState = initialState, action: AuthReducerActionType):
     }
 }
 
-type ThunkType = ThunkAction<Promise<void | AuthMeType>, AppStateType, unknown, AuthReducerActionType>
+type ThunkType = ThunkAction<Promise<void | CommonResponseType<UserDataType>>, AppStateType, unknown, AuthReducerActionType>
 
 export const AuthMeThunkCreator = (): ThunkType => {
     return async (dispatch) => {

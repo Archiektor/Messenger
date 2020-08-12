@@ -1,9 +1,10 @@
 import {v1} from 'uuid';
 import {ThunkAction} from 'redux-thunk';
 import {AppStateType} from './redux-store';
-import {ProfileApi, ResultCodesEnum} from '../components/api/api';
+import {ResultCodesEnum} from '../components/api/api';
 import {ProfileDataForm} from '../components/profile/ProfileDataForm/ProfileDataForm';
 import {stopSubmit} from 'redux-form';
+import {ProfileApi} from '../components/api/profile-api';
 
 const deepCopyFunction = (incomeObj: any) => {
     let returnedObj: any, key: any, value: any;

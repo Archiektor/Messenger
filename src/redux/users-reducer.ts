@@ -1,7 +1,8 @@
-import {ResultCodesEnum, UserApi} from '../components/api/api';
+import {ResultCodesEnum} from '../components/api/api';
 import {AppStateType, InferActionsType} from './redux-store';
 import {ThunkAction, ThunkDispatch} from 'redux-thunk';
 import {updateObjectInArray} from '../components/utils/objects-helper';
+import {UserApi} from '../components/api/users-api';
 
 /*const FOLLOW = 'network/users/FOLLOW';
 const UNFOLLOW = 'network/users/UNFOLLOW';
