@@ -1,4 +1,4 @@
-import {ResultCodesEnum} from '../components/api/api';
+import {CommonResponseType, ResultCodesEnum} from '../components/api/api';
 import {AppStateType, InferActionsType} from './redux-store';
 import {ThunkAction, ThunkDispatch} from 'redux-thunk';
 import {updateObjectInArray} from '../components/utils/objects-helper';
@@ -118,7 +118,7 @@ export const getUsersThunkCreator = (page: number, pageSize: number): ThunkType 
 
 const _followUnfollowFlow = async (dispatch: ThunkDispatch<AppStateType, unknown, UsersReducerActionsType>,
                                    userId: string,
-                                   fn: Function, flowSuccess: (userId: string) => UsersReducerActionsType) => {
+                                   fn: (userId: string) => Promise<CommonResponseType>, flowSuccess: (userId: string) => UsersReducerActionsType) => {
     dispatch(actions.switchIsLoading(true, userId));
     let data = await fn(userId)
     dispatch(actions.switchIsLoading(false, userId));
@@ -129,7 +129,7 @@ const _followUnfollowFlow = async (dispatch: ThunkDispatch<AppStateType, unknown
 
 export const unfollowUserThunkCreator = (userId: string): ThunkType => {
     return async (dispatch) => {
-        _followUnfollowFlow(dispatch, userId, UserApi.unfollowUser, actions.unfollowSuccess)
+        await _followUnfollowFlow(dispatch, userId, UserApi.unfollowUser, actions.unfollowSuccess)
         /*        dispatch(switchIsLoading(true, userId));
                 let data = await UserApi.unfollowUser(userId)
                 dispatch(switchIsLoading(false, userId));
@@ -141,7 +141,7 @@ export const unfollowUserThunkCreator = (userId: string): ThunkType => {
 
 export const followUserThunkCreator = (userId: string): ThunkType => {
     return async (dispatch) => { // getFollowUserThunk
-        _followUnfollowFlow(dispatch, userId, UserApi.followUser, actions.followSuccess)
+        await _followUnfollowFlow(dispatch, userId, UserApi.followUser, actions.followSuccess)
         /*        dispatch(switchIsLoading(true, userId));
                 let data = await UserApi.followUser(userId);
                 dispatch(switchIsLoading(false, userId));

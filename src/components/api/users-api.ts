@@ -1,7 +1,7 @@
 import {CommonResponseType, instance} from './api';
 import {UserType} from '../../redux/users-reducer';
 
-type GetUsersPromiseType = {
+export type GetUsersPromiseType = {
     items: Array<UserType>,
     totalCount: 5199,
     error: null

@@ -23,7 +23,7 @@ describe('ProfileStatusHooksComponent', () => {
             }}/>, container);
         });
         const span = container.getElementsByTagName('span')[0];
-        expect(span.textContent).toBe('wtf');
+        expect(span.textContent).toBe("Status: wtf");
     });
 
     test('span exist', () => {
