@@ -4,13 +4,13 @@ import s from "./header.module.css";
 import logo from "../icons/whatsapp.png"
 import {NavLink} from "react-router-dom";
 
-type HeaderType = {
+type PropsType = {
     login: string | null,
     isAuth: boolean,
     LoginOutThunkCreator: () => void,
 }
 
-const Header: React.FC<HeaderType> = React.memo((props) => {
+const Header: React.FC<PropsType> = React.memo((props) => {
     return (
         <header className={s.header}>
             <img src={logo} alt="study logo"/>

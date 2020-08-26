@@ -32,7 +32,7 @@ const ProfileDataForm: React.FC<InjectedFormProps<ProfileDataForm, ProfileDataFo
                     skills:</b>{createField('lookingForAJobDescription', 'my skills:', '', CustomTextArea, [])}
             </div>
             <div className={s.formWrapper__about}>
-                <b>About me:</b>{createField('aboutMe', 'About me:', 'tex', CustomTextArea, [])}
+                <b>About me:</b>{createField('aboutMe', 'About me:', 'text', CustomTextArea, [])}
             </div>
         </form>
     )

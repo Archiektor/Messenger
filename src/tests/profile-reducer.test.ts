@@ -1,4 +1,4 @@
-import profileReducer, {addPostAC, deletePost, ProfilePageType} from '../redux/profile-reducer';
+import profileReducer, {profileActions, ProfilePageType} from '../redux/profile-reducer';
 import {v1} from 'uuid';
 
 
@@ -20,7 +20,7 @@ describe("should work correct", () => {
             }
         })
         test("should successfully adding post", () => {
-            let endState = profileReducer(startState, addPostAC(`psyduck`))
+            let endState = profileReducer(startState, profileActions.addPostAC(`psyduck`))
 
             expect(endState.posts.length).toBe(6);
             expect(endState.posts[5].message).toBe(`psyduck`);
@@ -45,7 +45,7 @@ describe("should work correct", () => {
         })
         test("should successfully delete post", () => {
 
-            let endState = profileReducer(startState, deletePost(`4234-re3v-3131`));
+            let endState = profileReducer(startState, profileActions.deletePost(`4234-re3v-3131`));
 
             expect(endState.posts.length).toBe(4);
             expect(endState.posts.find(p => p.id === `4234-re3v-3131`)).toBe(undefined);
@@ -53,7 +53,7 @@ describe("should work correct", () => {
 
         test(`shouldn't be change arr.length if passed incorrect id`, () => {
 
-            let endState = profileReducer(startState, deletePost(`123`));
+            let endState = profileReducer(startState, profileActions.deletePost(`123`));
 
             expect(endState.posts.length).toBe(5);
         })

@@ -69,7 +69,7 @@ const authReducer = (partOfState = initialState, action: AuthReducerActionType):
     }
 }
 
-type ThunkType = ThunkAction<Promise<void | CommonResponseType<UserDataType>>, AppStateType, unknown, AuthReducerActionType>
+type ThunkType = ThunkAction<Promise<void | CommonResponseType<UserDataType>>, AppStateType, unknown, AuthReducerActionType | ReturnType<typeof stopSubmit>>
 
 export const AuthMeThunkCreator = (): ThunkType => {
     return async (dispatch) => {
@@ -92,10 +92,8 @@ export const LoginMeThunkCreator = (login: string, password: string, rememberMe?
             if (data.resultCode === ResultCodeForCaptcha) {
                 await dispatch(getCaptchaUrl());
             }
-            let errMsg = data.messages.length > 0 ? data.messages[0] : 'Unknown error';
-            //TODO change type from ignore
-            // @ts-ignore
-            dispatch(stopSubmit('login', {_error: errMsg}))
+            let errMsg = data.messages.length > 0 ? data.messages[0] : 'Unfknown error';
+            dispatch(stopSubmit('login', {_error: errMsg}));
         }
     }
 }

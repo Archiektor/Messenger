@@ -1,6 +1,6 @@
 import {v1} from 'uuid';
 import {ThunkAction} from 'redux-thunk';
-import {AppStateType} from './redux-store';
+import {AppStateType, InferActionsType} from './redux-store';
 import {ResultCodesEnum} from '../components/api/api';
 import {ProfileDataForm} from '../components/profile/ProfileDataForm/ProfileDataForm';
 import {stopSubmit} from 'redux-form';
@@ -20,23 +20,13 @@ const deepCopyFunction = (incomeObj: any) => {
     return returnedObj
 }
 
-const ADD_POST = 'network/profile/ADD-POST';
-const SET_USER_PROFILE = 'network/profile/SET_USER_PROFILE';
-const SET_STATUS = 'network/profile/SET_STATUS';
-const DELETE_POST = `network/profile/DELETE_POST`;
-const SAVE_PHOTOS_SUCCESS = 'network/profile/SAVE_PHOTOS_SUCCESS';
-
-type addPostACType = { type: typeof ADD_POST, newPostBody: string, }
-type setUserProfileACType = {
-    type: typeof SET_USER_PROFILE,
-    profile: UserProfileType,
+enum ProfileConst {
+    ADD_POST = 'network/profile/ADD_POST',
+    SET_USER_PROFILE = 'network/profile/SET_USER_PROFILE',
+    SET_STATUS = 'network/profile/SET_STATUS',
+    DELETE_POST = `network/profile/DELETE_POST`,
+    SAVE_PHOTOS_SUCCESS = 'network/profile/SAVE_PHOTOS_SUCCESS'
 }
-type setStatusACType = { type: typeof SET_STATUS, status: string, }
-type deletePostACType = { type: typeof DELETE_POST, postId: string, }
-type savePhotoACType = { type: typeof SAVE_PHOTOS_SUCCESS, photos: { small: string, large: string, } }
-
-type ProfileReducerActionType = addPostACType | deletePostACType | setUserProfileACType |
-    setStatusACType | savePhotoACType;
 
 export type PostType = {
     id: string,
@@ -66,20 +56,23 @@ export type UserProfileType = null | {
         large: string,
     }
 }
+export const profileActions = {
+    addPostAC: (text: string) => ({type: ProfileConst.ADD_POST, newPostBody: text} as const),
+    setUserProfile: (profile: UserProfileType) => ({
+        type: ProfileConst.SET_USER_PROFILE,
+        profile: profile,
+    } as const),
+    setStatus: (status: string) => ({
+        type: ProfileConst.SET_STATUS,
+        status: status,
+    } as const),
+    deletePost: (postId: string) => ({type: ProfileConst.DELETE_POST, postId}),
+    savePhoto: (photos: {
+        small: string, large: string
+    }) => ({type: ProfileConst.SAVE_PHOTOS_SUCCESS, photos} as const),
+}
 
-export const addPostAC = (text: string): addPostACType => ({type: ADD_POST, newPostBody: text});
-export const setUserProfile = (profile: UserProfileType): setUserProfileACType => ({
-    type: SET_USER_PROFILE,
-    profile: profile,
-})
-export const setStatus = (status: string): setStatusACType => ({
-    type: SET_STATUS,
-    status: status,
-})
-export const deletePost = (postId: string): deletePostACType => ({type: DELETE_POST, postId})
-export const savePhoto = (photos: {
-    small: string, large: string
-}): savePhotoACType => ({type: SAVE_PHOTOS_SUCCESS, photos})
+type ProfileReducerActionType = InferActionsType<typeof profileActions>;
 
 export type ProfilePageType = typeof initialState;
 
@@ -96,10 +89,10 @@ let initialState = {
     status: '',
 }
 
-const profileReducer = (partOfState = initialState, action: ProfileReducerActionType): ProfilePageType => {
+const profileReducer = (partOfState = initialState, action: any): ProfilePageType => {
     let partOfStateCopy: ProfilePageType;
     switch (action.type) {
-        case ADD_POST: {
+        case ProfileConst.ADD_POST: {
             partOfStateCopy = {...partOfState, posts: [...partOfState.posts],};
             partOfStateCopy.posts = [...partOfStateCopy.posts, {
                 id: v1(),
@@ -108,16 +101,16 @@ const profileReducer = (partOfState = initialState, action: ProfileReducerAction
             }];
             return partOfStateCopy;
         }
-        case SET_USER_PROFILE: {
+        case ProfileConst.SET_USER_PROFILE: {
             return {...partOfState, profile: action.profile};
         }
-        case SET_STATUS: {
+        case ProfileConst.SET_STATUS: {
             return {...partOfState, status: action.status};
         }
-        case DELETE_POST: {
+        case ProfileConst.DELETE_POST: {
             return {...partOfState, posts: partOfState.posts.filter(p => p.id !== action.postId)}
         }
-        case SAVE_PHOTOS_SUCCESS: {
+        case ProfileConst.SAVE_PHOTOS_SUCCESS: {
             let newCopyOfState = deepCopyFunction(partOfState);
             newCopyOfState.profile.photos.small = action.photos.small;
             newCopyOfState.profile.photos.large = action.photos.large;
@@ -133,14 +126,14 @@ type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ProfileReduce
 export const showProfileThunkCreator = (userId: number): ThunkType => {
     return async (dispatch) => {
         const data = await ProfileApi.showProfile(userId)
-        dispatch(setUserProfile(data));
+        dispatch(profileActions.setUserProfile(data));
     }
 }
 
 export const getStatusThunkCreator = (userId: number): ThunkType => {
     return async (dispatch) => {
         const data = await ProfileApi.getStatus(userId);
-        dispatch(setStatus(data));
+        dispatch(profileActions.setStatus(data));
     }
 }
 
@@ -148,7 +141,7 @@ export const updateStatusThunkCreator = (status: string): ThunkType => {
     return async (dispatch) => {
         const data = await ProfileApi.updateStatus(status);
         if (data.resultCode === ResultCodesEnum.Success) {
-            dispatch(setStatus(status));
+            dispatch(profileActions.setStatus(status));
         }
     }
 }
@@ -158,7 +151,7 @@ export const savePhotoThunkCreator = (file: File): ThunkType => {
         const data = await ProfileApi.savePhoto(file);
         console.log('photodata', data);
         if (data.resultCode === ResultCodesEnum.Success) {
-            dispatch(savePhoto(data.data.photos));
+            dispatch(profileActions.savePhoto(data.data.photos));
         }
     }
 }

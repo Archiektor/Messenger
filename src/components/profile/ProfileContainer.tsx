@@ -3,24 +3,20 @@ import Profile from './profile';
 import {connect} from 'react-redux';
 import {AppStateType} from '../../redux/redux-store';
 import {
-    getStatusThunkCreator, savePhotoThunkCreator, saveProfileThunkCreator,
+    getStatusThunkCreator,
+    savePhotoThunkCreator,
+    saveProfileThunkCreator,
     showProfileThunkCreator,
-    updateStatusThunkCreator,
-    UserProfileType
+    updateStatusThunkCreator
 } from '../../redux/profile-reducer';
 import {RouteComponentProps, withRouter} from 'react-router-dom';
 import {ProfileDataForm} from './ProfileDataForm/ProfileDataForm';
 
-type TParams = {
+type PathParamsType = {
     userId: string,
 }
 
-type MapStateToPropsType = {
-    profile: UserProfileType,
-    isAuth: boolean,
-    status: string,
-    authorizedUserId: number | null,
-}
+type MapPropsType = ReturnType<typeof mapStateToProps>
 
 type MapDispatchToPropsType = {
     showProfileThunkCreator: (userId: number) => void,
@@ -30,7 +26,7 @@ type MapDispatchToPropsType = {
     saveProfileThunkCreator: (formData: ProfileDataForm) => void,
 }
 
-type ProfileContainerType = RouteComponentProps<TParams> & MapStateToPropsType & MapDispatchToPropsType;
+type ProfileContainerType = RouteComponentProps<PathParamsType> & MapPropsType & MapDispatchToPropsType;
 
 class ProfileContainer extends PureComponent<ProfileContainerType, {}> {
 
@@ -48,11 +44,10 @@ class ProfileContainer extends PureComponent<ProfileContainerType, {}> {
     }
 
     componentDidMount() {
-        //debugger
         this.refreshProfile();
     }
 
-    componentDidUpdate(prevProps: Readonly<ProfileContainerType>, prevState: Readonly<{}>, snapshot?: any) {
+    componentDidUpdate(prevProps: Readonly<ProfileContainerType>, prevState: Readonly<{}>) {
         if (this.props.match.params.userId !== prevProps.match.params.userId) {
             this.refreshProfile();
         }
@@ -71,7 +66,7 @@ class ProfileContainer extends PureComponent<ProfileContainerType, {}> {
 }
 
 // get state => throw state to props
-let mapStateToProps = (state: AppStateType): MapStateToPropsType => {
+let mapStateToProps = (state: AppStateType) => {
     return {
         profile: state.profilePage.profile,
         isAuth: state.auth.isAuth,
@@ -83,7 +78,7 @@ let mapStateToProps = (state: AppStateType): MapStateToPropsType => {
 // return component with RoutePath
 let withUrlDataContainerComponent = withRouter(ProfileContainer); // withRedirect()
 
-export default connect<MapStateToPropsType, MapDispatchToPropsType, {}, AppStateType>(mapStateToProps, {
+export default connect<MapPropsType, MapDispatchToPropsType, {}, AppStateType>(mapStateToProps, {
     showProfileThunkCreator,
     getStatusThunkCreator,
     updateStatusThunkCreator,

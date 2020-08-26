@@ -1,8 +1,8 @@
 import {instance} from './api';
 
-type CaptchaUrl = { url: string }
+type GetCaptchaUrlResponseType = { url: string }
 export const securityApi = {
-    getCaptchaUrl: async (): Promise<CaptchaUrl> => {
+    getCaptchaUrl: async (): Promise<GetCaptchaUrlResponseType> => {
         try {
             const {data} = await instance.get(`security/get-captcha-url`);
             return data;

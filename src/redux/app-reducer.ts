@@ -1,16 +1,14 @@
 import {AuthMeThunkCreator} from './auth-reducer';
 import {ThunkAction} from 'redux-thunk';
-import {AppStateType} from './redux-store';
+import {AppStateType, InferActionsType} from './redux-store';
 
 const INITIALIZED_SUCCESS = 'network/app/INITIALIZED_SUCCESS';
 
-type InitializedSuccessACType = {
-    type: typeof INITIALIZED_SUCCESS,
+const actions = {
+    initializedSuccess: () => ({type: INITIALIZED_SUCCESS} as const)
 }
 
-type AppActionsType = InitializedSuccessACType;
-
-export const initializedSuccess = (): InitializedSuccessACType => ({type: INITIALIZED_SUCCESS})
+type AppActionsType = InferActionsType<typeof actions>;
 
 let initialState = {
     initialized: false as boolean
@@ -34,7 +32,7 @@ type ThunkType = ThunkAction<Promise<void>, AppStateType, unknown, AppActionsTyp
 export const initializeAppThunkCreator = (): ThunkType => {
     return async (dispatch) => {
         await dispatch(AuthMeThunkCreator());
-        await dispatch(initializedSuccess());
+        await dispatch(actions.initializedSuccess());
     }
 }
 
